@@ -42,6 +42,7 @@
     import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
     import MainLogo from "@/components/MainLogo.vue";
 
+    import Car from '@/models/Car';
     import CarApi from '@/api/CarApi';
 
     @Component({
