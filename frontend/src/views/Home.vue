@@ -22,7 +22,13 @@
       <div class="row">
         <div class="col header-text">
           <h1>Buy your dream car today!</h1>
-          <p class="text-center"><a href="#" class="btn btn-lg btn-outline">Explore</a></p>
+          <h4>Choose from 4 exclusive cars.</h4>
+          <p class="text-center">
+            <a href="#" class="btn btn-lg btn-outline">
+              <span>Explore</span>
+              <i class="far fa-map"></i>
+            </a>
+            </p>
         </div>
       </div>
     </div>
