@@ -1,0 +1,11 @@
+.logo {
+    svg {
+        height: 3rem; 
+    }
+
+    &--white {
+        svg {
+            fill: #fff;
+        }
+    }
+}
