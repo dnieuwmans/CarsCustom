@@ -11,4 +11,8 @@ export default class CarApi {
   public static findOneById(id: number) {
     return axios.get(`${route}/${id}`);
   }
+
+  public static countAll() {
+      return axios.get(`${route}/total`);
+  }
 }

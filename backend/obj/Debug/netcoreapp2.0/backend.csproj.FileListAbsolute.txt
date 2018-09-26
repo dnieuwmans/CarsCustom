@@ -8,3 +8,4 @@ C:\Users\Danny\projects\CarsCustom\backend\obj\Debug\netcoreapp2.0\backend.Assem
 C:\Users\Danny\projects\CarsCustom\backend\obj\Debug\netcoreapp2.0\backend.AssemblyInfo.cs
 C:\Users\Danny\projects\CarsCustom\backend\obj\Debug\netcoreapp2.0\backend.dll
 C:\Users\Danny\projects\CarsCustom\backend\obj\Debug\netcoreapp2.0\backend.pdb
+C:\Users\Danny\projects\CarsCustom\backend\obj\Debug\netcoreapp2.0\backend.csprojResolveAssemblyReference.cache

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Cors;
 
 namespace backend.Controllers 
 {
@@ -11,9 +11,15 @@ namespace backend.Controllers
     public class CarsController : Controller 
     {
         [HttpGet]
+        public ActionResult getAll()
+        {
+            return Ok(CarsDataStore.Current.Cars);
+        }
+        
+        [HttpGet("total")]
         public ActionResult getTotal()
         {
-            return Ok(10);
+            return Ok(CarsDataStore.Current.Cars.Count);
         }
     }
 }
