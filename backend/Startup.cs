@@ -24,7 +24,7 @@ namespace backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => {
-                options.AddPolicy("AllowSpecificOrigin", builder => builder.WithOrigins("http://localhost:8000").AllowAnyOrigin());
+                options.AddPolicy("AllowSpecificOrigin", builder => builder.WithOrigins("http://localhost:8080").AllowAnyOrigin());
             });
             
             services.AddMvc();

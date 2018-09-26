@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Cors;
 namespace backend.Controllers 
 {
     [Route("api/[controller]")]
-    [EnableCors("AllowSpecificOrigin")]
     public class CarsController : Controller 
     {
         [HttpGet]
