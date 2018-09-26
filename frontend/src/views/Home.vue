@@ -11,8 +11,12 @@
 
                         <div class="header-nav__menu">
                             <ul class="list-unstyled">
-                                <li class="active"><a href="#">Home</a></li>
-                                <li><a href="#">Explore Cars</a></li>
+                                <li class="active">
+                                    <router-link :to="{name: 'home'}">Home</router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{name: 'explore-cars'}">Explore Cars</router-link>
+                                </li>
                                 <li><a href="#"><i class="far fa-user"></i></a></li>
                             </ul>
                         </div>
@@ -39,15 +43,11 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-    import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
     import MainLogo from "@/components/MainLogo.vue";
-
-    import Car from '@/models/Car';
     import CarApi from '@/api/CarApi';
 
     @Component({
         components: {
-            HelloWorld,
             MainLogo
         }
     })
