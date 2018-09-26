@@ -22,7 +22,7 @@
       <div class="row">
         <div class="col header-text">
           <h1>Buy your dream car today!</h1>
-          <h4>Choose from 4 exclusive cars.</h4>
+          <h4>Choose from {{ totalCars }} exclusive cars.</h4>
           <p class="text-center">
             <a href="#" class="btn btn-lg btn-outline">
               <span>Explore</span>
@@ -58,7 +58,7 @@ export default class Home extends Vue {
 
 
     CarApi.findAll().then((response) => {
-      console.log(response);
+      this.totalCars = response.data;
     })
   }
 }

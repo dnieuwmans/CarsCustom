@@ -13,7 +13,7 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult getTotal()
         {
-            return Ok(4);
+            return Ok(10);
         }
     }
 }
