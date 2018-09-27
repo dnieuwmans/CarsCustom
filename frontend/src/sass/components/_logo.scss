@@ -8,4 +8,10 @@
             fill: #fff;
         }
     }
+
+    &--smaller {
+        svg {
+            height: 2.5rem;
+        }
+    }
 }

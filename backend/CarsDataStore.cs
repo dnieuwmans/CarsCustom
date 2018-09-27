@@ -20,6 +20,11 @@ namespace backend
                     Id = 1,
                     Name = "BMW I3",
                     Description = "A BMW",
+                    Colors = new List<string>
+                    {
+                        "#ffffff",
+                        "#222222",
+                    }
                 },
                 
                 new CarDto()
@@ -27,6 +32,10 @@ namespace backend
                     Id = 2,
                     Name = "BMW X5",
                     Description = "Another BMW",
+                    Colors = new List<string>
+                    {
+                        "#ffffff",
+                    }
                 },
                 
                 new CarDto()
@@ -34,6 +43,12 @@ namespace backend
                     Id = 3,
                     Name = "Jaguar XE",
                     Description = "Big cat",
+                    Colors = new List<string>
+                    {
+                        "#ffffff",
+                        "#f44336",
+                        "#2196f3",
+                    }
                 }
             };
         }
