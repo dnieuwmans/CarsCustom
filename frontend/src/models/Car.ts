@@ -9,7 +9,7 @@ export default class Car implements CarInterface {
     public brand: string;
     public type: string;
     public price: number;
-    public color: string; // Available colors []
+    public color: string[];
 
     constructor(params: CarInterface) {
         this.id = params.id;

@@ -1,3 +1,17 @@
 .car-card {
   flex-direction: column;
 }
+
+.car-info{
+  list-style: none;
+  padding: 0;
+}
+
+.car-color {
+  display: inline-block;
+  border: 1px solid #dbdbdb;
+  width: 1rem;
+  height: 1rem;
+  background-color: red;
+  border-radius: 9999px;
+}
