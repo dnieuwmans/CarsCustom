@@ -29,37 +29,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 card-padding" v-for="car in cars" :key="car.id">
-                    <div class="box car-card">
-                        <div class="car-card__header">
-                            <figure>
-                                <img :src="`img/${car.image}`" class="img-fluid" alt="">
-                            </figure>
-                        </div>
-                        <div class="car-card__body">
-                            <div class="car-card__body-top">
-                                
-                                <span class="car-price">€{{ car.price }},-</span>
-                                <ul class="car-colors">
-                                    <li v-for="color in car.colors" :key="color" class="car-colors__item">
-                                        <span :style="{ background: color }"></span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="car-card__body-middle">
-                                <span class="car-brand">{{ car.brand }} {{ car.type }}</span>
-                                <span class="car-description">{{ car.description }}</span>
-                            </div>
-
-                            <div class="car-card__body-footer">
-                                <button class="btn btn-primary">
-                                    <span>Customize</span>
-                                    <i class="fas fa-wrench"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-lg-4 col-md-6 mb-4" v-for="car in cars" :key="car.id">
+                    <car-card
+                            :car="car"
+                            @CarCard:Customize="customizeCar(car)"
+                    />
                 </div>
             </div>
         </div>
@@ -68,18 +42,25 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import MainLogo from "@/components/MainLogo.vue";
+    import MainLogo from '@/components/MainLogo.vue';
+    import CarCard from '@/components/CarCard.vue';
+
     import Car from '@/models/Car';
     import CarApi from '@/api/CarApi';
 
     @Component({
         name: 'ExploreCars',
         components: {
+            CarCard,
             MainLogo
         }
     })
     export default class ExploreCars extends Vue {
         public cars: Car[] = [];
+
+        public customizeCar(car) {
+            console.log(car);
+        }
 
         public mounted() {
             CarApi.findAll().then((response) => {
