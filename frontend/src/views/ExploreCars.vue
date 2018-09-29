@@ -1,10 +1,22 @@
 <template>
-    <div>
+    <div class="explore-cars">
         <nav class="main-nav">
             <div class="container">
                 <div class="row">
                     <div class="col logo logo--white logo--smaller">
                         <main-logo />
+                    </div>
+
+                    <div class="header-nav__menu">
+                        <ul class="list-unstyled">
+                            <li>
+                                <router-link :to="{name: 'home'}">Home</router-link>
+                            </li>
+                            <li class="active">
+                                <router-link :to="{name: 'explore-cars'}">Explore Cars</router-link>
+                            </li>
+                            <li><a href="#"><i class="far fa-user"></i></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -17,27 +29,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4" v-for="car in cars" :key="car.id">
-                    <div class="box car-card">
-                        <div class="car-card__header">
-                            <figure>
-                                <img src="https://via.placeholder.com/400x400/" class="img-fluid" alt="">
-                            </figure>
-                        </div>
-                        <div class="car-card__body">
-                            <div class="car-card__body-top">
-                                <span class="car-price">€100,-</span>
-                                <ul class="car-colors">
-                                    <li v-for="color in car.colors" :key="color" class="car-colors__item">
-                                        <span :style="{ background: color }"></span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        {{ car.name }}
-                        <!--{{ car.description }}-->
-                    </div>
+                <div class="col-lg-4 col-md-6 mb-4" v-for="car in cars" :key="car.id">
+                    <car-card
+                            :car="car"
+                            @CarCard:Customize="customizeCar(car)"
+                    />
                 </div>
             </div>
         </div>
@@ -46,18 +42,25 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import MainLogo from "@/components/MainLogo.vue";
+    import MainLogo from '@/components/MainLogo.vue';
+    import CarCard from '@/components/CarCard.vue';
+
     import Car from '@/models/Car';
     import CarApi from '@/api/CarApi';
 
     @Component({
         name: 'ExploreCars',
         components: {
+            CarCard,
             MainLogo
         }
     })
     export default class ExploreCars extends Vue {
         public cars: Car[] = [];
+
+        public customizeCar(car) {
+            console.log(car);
+        }
 
         public mounted() {
             CarApi.findAll().then((response) => {

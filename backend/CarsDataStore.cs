@@ -18,20 +18,27 @@ namespace backend
                 new CarDto()
                 {
                     Id = 1,
-                    Name = "BMW I3",
-                    Description = "A BMW",
+                    Brand = "BMW",
+                    Type = "7 series",
+                    Description = "Sedan - Driving Luxery",
+                    Price = 25400.00,
+                    Image = "bmw-7-red.png",
                     Colors = new List<string>
                     {
                         "#ffffff",
-                        "#222222",
+                        "#f44336",
+                        "#2196f3",
                     }
                 },
                 
                 new CarDto()
                 {
                     Id = 2,
-                    Name = "BMW X5",
-                    Description = "Another BMW",
+                    Brand = "BMW",
+                    Type = "i8",
+                    Description = "Awesome car",
+                    Price = 61100.00,
+                    Image = "bmw-i8-white.png",
                     Colors = new List<string>
                     {
                         "#ffffff",
@@ -41,13 +48,15 @@ namespace backend
                 new CarDto()
                 {
                     Id = 3,
-                    Name = "Jaguar XE",
+                    Brand = "Jaguar",
+                    Type = "XE",
                     Description = "Big cat",
+                    Price = 55120.00,
+                    Image = "jaguar-xe-black.png",
                     Colors = new List<string>
                     {
                         "#ffffff",
-                        "#f44336",
-                        "#2196f3",
+                        "#222222",
                     }
                 }
             };
