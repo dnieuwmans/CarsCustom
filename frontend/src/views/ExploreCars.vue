@@ -1,31 +1,13 @@
 <template>
     <div class="explore-cars">
-        <nav class="main-nav">
-            <div class="container">
-                <div class="row">
-                    <div class="col logo logo--white logo--smaller">
-                        <main-logo />
-                    </div>
-
-                    <div class="header-nav__menu">
-                        <ul class="list-unstyled">
-                            <li>
-                                <router-link :to="{name: 'home'}">Home</router-link>
-                            </li>
-                            <li class="active">
-                                <router-link :to="{name: 'explore-cars'}">Explore Cars</router-link>
-                            </li>
-                            <li><a href="#"><i class="far fa-user"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <main-nav />
 
         <div class="container">
             <div class="row">
                 <div class="col">
                     <h3>Explore Cars</h3>
+
+                    <div class="alert alert-danger mb-4" v-if="showErrorMessage">Oops, you didn't select a car yet!</div>
                 </div>
             </div>
             <div class="row">
@@ -42,7 +24,7 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import MainLogo from '@/components/MainLogo.vue';
+    import MainNav from '@/components/MainNav.vue';
     import CarCard from '@/components/CarCard.vue';
 
     import Car from '@/models/Car';
@@ -52,30 +34,25 @@
         name: 'ExploreCars',
         components: {
             CarCard,
-            MainLogo
+            MainNav,
         }
     })
     export default class ExploreCars extends Vue {
         public cars: Car[] = [];
+        public showErrorMessage: boolean = false;
 
-        public customizeCar(car) {
-            console.log(car);
+        public customizeCar(car: Car) {
+            this.$store.commit('Order/setSelectedCar', car);
+            this.$router.push({name: 'order'});
         }
 
         public mounted() {
+            this.showErrorMessage = !!parseInt(this.$route.query.state) || false;
+
             CarApi.findAll().then((response) => {
                 // TODO: map data
-                this.cars = response.data;
-            })
-
-            this.$store.commit('Order/setSelectedCar', new Car({
-                    id: 1,
-                    brand: 'test',
-                    color: ['#fff'],
-                    price: 100,
-                    type: 'something',
-                }
-            ));
+                this.cars = response.data.map(Car.fromJson);
+            });
         }
     }
 </script>

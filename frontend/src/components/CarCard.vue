@@ -8,7 +8,7 @@
         <div class="car-card__body">
             <div class="car-card__body-top">
 
-                <span class="car-price">€{{ car.price }},-</span>
+                <span class="car-price">{{ car.formattedPrice }}</span>
                 <ul class="car-colors">
                     <li v-for="color in car.colors" :key="color" class="car-colors__item">
                         <span :style="{ background: color }"></span>

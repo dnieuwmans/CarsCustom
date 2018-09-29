@@ -5,5 +5,5 @@ export default interface CarInterface {
     description: string;
     price: number;
     image: string;
-    color: string[];
+    colors: string[];
 }

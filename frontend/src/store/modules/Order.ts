@@ -2,7 +2,7 @@ import Car from '@/models/Car';
 
 // Interfaces
 interface State {
-    selectedCar?: Car;
+    selectedCar: Car | null;
 }
 
 interface Getters {
@@ -15,7 +15,7 @@ interface Mutations {
 
 // Actions
 const state: State = {
-    selectedCar: undefined,
+    selectedCar: null,
 };
 
 const getters: Getters = {
