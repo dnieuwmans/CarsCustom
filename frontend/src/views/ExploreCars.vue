@@ -67,6 +67,15 @@
                 // TODO: map data
                 this.cars = response.data;
             })
+
+            this.$store.commit('Order/setSelectedCar', new Car({
+                    id: 1,
+                    brand: 'test',
+                    color: ['#fff'],
+                    price: 100,
+                    type: 'something',
+                }
+            ));
         }
     }
 </script>

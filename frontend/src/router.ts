@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Home from './views/Home.vue';
 import ExploreCars from './views/ExploreCars.vue';
+import Order from './views/Order.vue';
 
 Vue.use(Router);
 
@@ -18,5 +19,10 @@ export default new Router({
             name: 'explore-cars',
             component: ExploreCars,
         },
+        {
+            path: '/order',
+            name: 'order',
+            component: Order
+        }
     ],
 });
