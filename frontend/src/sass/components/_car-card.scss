@@ -1,5 +1,18 @@
+.card-padding {
+  margin-bottom: 2rem;
+}
+
 .car-card {
   flex-direction: column;
+}
+
+.car-card__header {
+  figure {
+    flex-direction: column;
+    display: flex;
+    min-height: 10rem;
+    justify-content: center;
+  }
 }
 
 .car-card__body-top {
@@ -7,7 +20,7 @@
 
   .car-price {
     flex-grow: 1;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 1px;
     font-style: italic;
   }
@@ -33,6 +46,18 @@
         display: inline-block;
       }
     }
+  }
+}
+
+.car-card__body-middle {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  .car-brand {
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: block;
   }
 }
 
