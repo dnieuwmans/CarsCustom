@@ -14,7 +14,7 @@
                 <div class="col-lg-4 col-md-6 mb-4" v-for="car in cars" :key="car.id">
                     <car-card
                             :car="car"
-                            @CarCard:Customize="customizeCar(car)"
+                            @CarCard:Customize="customizeCar"
                     />
                 </div>
             </div>
@@ -41,8 +41,9 @@
         public cars: Car[] = [];
         public showErrorMessage: boolean = false;
 
-        public customizeCar(car: Car) {
+        public customizeCar(car: Car, color: string) {
             this.$store.commit('Order/setSelectedCar', car);
+            this.$store.commit('Order/setSelectedColor', color);
             this.$router.push({name: 'order'});
         }
 

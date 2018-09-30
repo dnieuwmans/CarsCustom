@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="order-car">
         <main-nav />
 
-        <ul>
+        <!--<ul>
             <li v-for="(step, key) in steps" :class="{'active': key === activeStep }">
                 {{ step.id }}{{ step.name }}
             </li>
@@ -12,9 +12,21 @@
             <h2>{{ order.selectedCar.brand }} {{ order.selectedCar.type }}</h2>
             <h4>{{ order.selectedCar.description }}</h4>
             <figure>
-                <img :src="`img/${order.selectedCar.image}`" alt="">
+                <img :src="`img/${image}`" alt="">
             </figure>
-        </div>
+        </div>-->
+
+        <header class="order-car-header" v-if="order != null">
+               <div class="order-detail">
+                   <div class="order-detail__info">
+                       <h2>{{ order.selectedCar.brand }} {{ order.selectedCar.type }}</h2>
+                       <h4>{{ order.selectedCar.description }}</h4>
+                   </div>
+                   <figure class="order-detail__image">
+                       <img :src="`img/${image}`" alt="">
+                   </figure>
+               </div>
+        </header>
     </div>
 </template>
 
@@ -47,8 +59,16 @@
 
         public order: Order | null = null;
 
+        get selectedColor() {
+            return this.$store.getters['Order/getSelectedColor'];
+        }
+
         get selectedCar() {
             return this.$store.getters['Order/getSelectedCar'];
+        }
+
+        get image() {
+            return this.order.selectedCar.images[this.selectedColor];
         }
 
         public mounted() {

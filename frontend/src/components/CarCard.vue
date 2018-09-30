@@ -29,7 +29,7 @@
             </div>
 
             <div class="car-card__body-footer">
-                <button class="btn btn-primary btn-block" @click="$emit('CarCard:Customize')">
+                <button class="btn btn-primary btn-block" @click="$emit('CarCard:Customize', car, selectedColor)">
                     <span>Customize</span>
                     <i class="fas fa-wrench"></i>
                 </button>
