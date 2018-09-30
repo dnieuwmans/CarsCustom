@@ -2,7 +2,7 @@
     <div class="box car-card">
         <div class="car-card__header">
             <figure>
-                <img :src="`img/${car.image}`" class="img-fluid" alt="">
+                <img :src="`img/${image}`" class="img-fluid" alt="">
             </figure>
         </div>
         <div class="car-card__body">
@@ -10,8 +10,15 @@
 
                 <span class="car-price">{{ car.formattedPrice }}</span>
                 <ul class="car-colors">
-                    <li v-for="color in car.colors" :key="color" class="car-colors__item">
-                        <span :style="{ background: color }"></span>
+                    <li
+                            v-for="(color, key) in car.colors"
+                            :key="color.id"
+                            :title="color.name"
+                            :class="{'car-colors__item--active': key === selectedColor}"
+                            class="car-colors__item"
+                            @click="selectColor(key)"
+                    >
+                        <span :style="{ background: color.hex }"></span>
                     </li>
                 </ul>
             </div>
@@ -44,5 +51,14 @@
         }
     })
     export default class CarCard extends Vue {
+        public selectedColor: number = 0;
+
+        get image() {
+            return this.$props.car.images[this.selectedColor];
+        }
+
+        public selectColor(key: number) {
+            this.selectedColor = key;
+        }
     }
 </script>

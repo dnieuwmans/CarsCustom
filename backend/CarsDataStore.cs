@@ -22,12 +22,27 @@ namespace backend
                     Type = "7 series",
                     Description = "Sedan - Driving Luxery",
                     Price = 25400.00,
-                    Image = "bmw-7-red.png",
-                    Colors = new List<string>
+                    ImageTemplate = "bmw-7-%color%.png",
+                    Colors = new List<ColorDto>
                     {
-                        "#ffffff",
-                        "#f44336",
-                        "#2196f3",
+                        new ColorDto
+                        {
+                            Id = 1,
+                            Name = "silver",
+                            Hex = "#f0f0f0",
+                        },
+                        new ColorDto
+                        {
+                            Id = 2,
+                            Name = "red",
+                            Hex = "#f44336",
+                        },
+                        new ColorDto
+                        {
+                            Id = 3,
+                            Name = "blue",
+                            Hex = "#2196f3",
+                        }
                     }
                 },
                 
@@ -38,10 +53,21 @@ namespace backend
                     Type = "i8",
                     Description = "Awesome car",
                     Price = 61100.00,
-                    Image = "bmw-i8-white.png",
-                    Colors = new List<string>
+                    ImageTemplate = "bmw-i8-%color%.png",
+                    Colors = new List<ColorDto>
                     {
-                        "#ffffff",
+                        new ColorDto
+                        {
+                            Id = 1,
+                            Name = "white",
+                            Hex = "#fff",
+                        },
+                        new ColorDto
+                        {
+                            Id = 4,
+                            Name = "black",
+                            Hex = "#222",
+                        },
                     }
                 },
                 
@@ -52,11 +78,15 @@ namespace backend
                     Type = "XE",
                     Description = "Big cat",
                     Price = 55120.00,
-                    Image = "jaguar-xe-black.png",
-                    Colors = new List<string>
+                    ImageTemplate = "jaguar-xe-%color%.png",
+                    Colors = new List<ColorDto>
                     {
-                        "#ffffff",
-                        "#222222",
+                        new ColorDto
+                        {
+                            Id = 4,
+                            Name = "black",
+                            Hex = "#222",
+                        },
                     }
                 }
             };

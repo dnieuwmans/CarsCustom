@@ -1,11 +1,13 @@
 <template>
     <div>
         <main-nav />
+
         <ul>
             <li v-for="(step, key) in steps" :class="{'active': key === activeStep }">
                 {{ step.id }}{{ step.name }}
             </li>
         </ul>
+
         <div v-if="order != null">
             <h2>{{ order.selectedCar.brand }} {{ order.selectedCar.type }}</h2>
             <h4>{{ order.selectedCar.description }}</h4>
@@ -18,7 +20,7 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import MainNav from "@/components/MainNav.vue";
+    import MainNav from '@/components/MainNav.vue';
     import Order from '@/models/Order';
 
     const namespace: string = 'Order';
