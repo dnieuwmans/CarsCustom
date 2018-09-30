@@ -17,7 +17,7 @@
         </div>-->
 
         <header class="order-car-header" v-if="order != null">
-               <div class="order-detail">
+               <div class="order-detail" v-if="order.selectedCar != null">
                    <div class="order-detail__info">
                        <h2>{{ order.selectedCar.brand }} {{ order.selectedCar.type }}</h2>
                        <h4>{{ order.selectedCar.description }}</h4>
@@ -57,7 +57,7 @@
 
         public activeStep: number = 0;
 
-        public order: Order | null = null;
+        public order: Order | {} = {};
 
         get selectedColor() {
             return this.$store.getters['Order/getSelectedColor'];
@@ -68,7 +68,11 @@
         }
 
         get image() {
-            return this.order.selectedCar.images[this.selectedColor];
+            if ('selectedCar' in this.order) {
+                return this.order.selectedCar.images[this.selectedColor];
+            }
+
+            return '';
         }
 
         public mounted() {
