@@ -102,15 +102,15 @@ namespace backend
                     {
                         new ColorDto
                         {
-                            Id = 2,
-                            Name = "red",
-                            Hex = "#f44336",
-                        },
-                        new ColorDto
-                        {
                             Id = 5,
                             Name = "yellow",
                             Hex = "#ffeb3b",
+                        },
+                        new ColorDto
+                        {
+                            Id = 2,
+                            Name = "red",
+                            Hex = "#f44336",
                         },
                     }
                 },
