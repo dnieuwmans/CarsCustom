@@ -28,10 +28,10 @@
                         <h1>Buy your dream car today!</h1>
                         <h4>Choose from {{ totalCars }} exclusive cars.</h4>
                         <p class="text-center">
-                            <a href="#" class="btn btn-lg btn-outline">
+                            <router-link class="btn btn-lg btn-outline" :to="{name: 'explore-cars'}">
                                 <span>Explore</span>
                                 <i class="far fa-map"></i>
-                            </a>
+                            </router-link>
                         </p>
                     </div>
                 </div>
