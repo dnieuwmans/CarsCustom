@@ -2,7 +2,15 @@
     <div class="box car-card">
         <div class="car-card__header">
             <figure>
-                <img :src="`img/${image}`" class="img-fluid" alt="">
+                <transition name="slide-fade" mode="out-in">
+                    <img :src="`img/${image}`"
+                         class="img-fluid"
+                         alt=""
+                         v-for="(image, key) in car.images"
+                         :key="key"
+                         v-if="key === selectedColor"
+                    />
+                </transition>
             </figure>
         </div>
         <div class="car-card__body">

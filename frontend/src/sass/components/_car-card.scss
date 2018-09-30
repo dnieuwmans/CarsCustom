@@ -43,7 +43,7 @@
       line-height: 0;
       cursor: pointer;
 
-      +.car-colors__item {
+      + .car-colors__item {
         margin-left: 0.5rem;
       }
 
@@ -80,4 +80,17 @@
   .btn {
     padding: 0.75rem
   }
+}
+
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: all 0.5s;
+}
+.slide-fade-enter, .slide-fade-leave-active {
+  opacity: 0;
+}
+.slide-fade-enter {
+  transform: translateX(2rem);
+}
+.slide-fade-leave-active {
+  transform: translateX(-2rem);
 }
