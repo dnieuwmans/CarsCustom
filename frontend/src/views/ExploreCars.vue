@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4" v-for="car in cars" :key="car.id">
+                <div class="col-lg-4 col-md-6 explore-cars-spacing" v-for="car in cars" :key="car.id">
                     <car-card
                             :car="car"
                             @CarCard:Customize="customizeCar"

@@ -21,7 +21,7 @@ namespace backend
                     Brand = "BMW",
                     Type = "7 series",
                     Description = "Sedan - Driving Luxery",
-                    Price = 25400.00,
+                    Price = 105695,
                     ImageTemplate = "bmw-7-%color%.png",
                     Colors = new List<ColorDto>
                     {
@@ -52,7 +52,7 @@ namespace backend
                     Brand = "BMW",
                     Type = "i8",
                     Description = "Awesome car",
-                    Price = 61100.00,
+                    Price = 145000,
                     ImageTemplate = "bmw-i8-%color%.png",
                     Colors = new List<ColorDto>
                     {
@@ -77,8 +77,90 @@ namespace backend
                     Brand = "Jaguar",
                     Type = "XE",
                     Description = "Big cat",
-                    Price = 55120.00,
+                    Price = 65000,
                     ImageTemplate = "jaguar-xe-%color%.png",
+                    Colors = new List<ColorDto>
+                    {
+                        new ColorDto
+                        {
+                            Id = 4,
+                            Name = "black",
+                            Hex = "#222",
+                        },
+                    }
+                },
+
+                new CarDto()
+                {
+                    Id = 4,
+                    Brand = "Dodge",
+                    Type = "Viper SRT Coupe",
+                    Description = "Viper Coupe model 2017",
+                    Price = 93477.00,
+                    ImageTemplate = "dodge-viper-%color%.png",
+                    Colors = new List<ColorDto>
+                    {
+                        new ColorDto
+                        {
+                            Id = 2,
+                            Name = "red",
+                            Hex = "#f44336",
+                        },
+                        new ColorDto
+                        {
+                            Id = 5,
+                            Name = "yellow",
+                            Hex = "#ffeb3b",
+                        },
+                    }
+                },
+
+                new CarDto()
+                {
+                    Id = 5,
+                    Brand = "Ford",
+                    Type = "Mustang",
+                    Description = "Ford Mustang model 2015",
+                    Price = 42425,
+                    ImageTemplate = "ford-mustang-%color%.png",
+                    Colors = new List<ColorDto>
+                    {
+                        new ColorDto
+                        {
+                            Id = 2,
+                            Name = "red",
+                            Hex = "#f44336",
+                        },
+                    }
+                },
+
+                new CarDto()
+                {
+                    Id = 6,
+                    Brand = "Lamborghini",
+                    Type = "Huracan",
+                    Description = "Lamborghini Huracan model 2018",
+                    Price = 258423,
+                    ImageTemplate = "lamborghini-huracan-%color%.png",
+                    Colors = new List<ColorDto>
+                    {
+                        new ColorDto
+                        {
+                            Id = 6,
+                            Name = "orange",
+                            Hex = "#ff9800",
+                        },
+                    }
+                },
+
+                new CarDto()
+                {
+                    Id = 7,
+                    Brand = "Lamborghini",
+                    Type = "Centenario",
+                    Description = "Lamborghini Centenario Holy Sh*t Edition",
+                    Price = 1800000,
+                    ImageTemplate = "lamborghini-centenario-%color%.png",
                     Colors = new List<ColorDto>
                     {
                         new ColorDto
