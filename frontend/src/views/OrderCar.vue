@@ -34,6 +34,7 @@
     import {Component, Vue} from 'vue-property-decorator';
     import MainNav from '@/components/MainNav.vue';
     import Order from '@/models/Order';
+    import Car from '@/models/Car';
 
     const namespace: string = 'Order';
 
@@ -57,7 +58,7 @@
 
         public activeStep: number = 0;
 
-        public order: Order | {} = {};
+        public order: Order | any = {};
 
         get selectedColor() {
             return this.$store.getters['Order/getSelectedColor'];
@@ -69,24 +70,45 @@
 
         get image() {
             if ('selectedCar' in this.order) {
-                return this.order.selectedCar.images[this.selectedColor];
+                return this.order.selectedCar.images[this.order.selectedColor];
             }
 
             return '';
         }
 
         public mounted() {
-            // Check if we got a car selected
-            if (this.selectedCar == null) {
-                this.$router.push({name: 'explore-cars', query: {state: '1'}})
+            // TODO: check if we got an order stored.
+            let storedOrder: any = null; // TODO: Should we add an interface for order?
+            if (localStorage.getItem('order') != null) {
+                // Yes I know what I am doing!
+                // @ts-ignore-line
+                storedOrder = JSON.parse(localStorage.getItem('order'));
             }
 
-            // Creates the order instance
-            this.order = new Order({
-                id: 0,
-                selectedCar: this.selectedCar,
-                selectedColor: '',
-            });
+            // Check if we got a car selected
+            if (this.selectedCar == null && storedOrder == null) {
+                this.$router.push({name: 'explore-cars', query: {state: '1'}});
+                return;
+            }
+
+            // Store the order in localStorage
+            // TODO: make an util who will watch for changes, maybe in the order model
+            if (localStorage.getItem('order') == null) {
+                // Creates the order instance
+                this.order = new Order({
+                    id: 0,
+                    selectedCar: this.selectedCar,
+                    selectedColor: this.selectedColor,
+                });
+
+
+                localStorage.setItem('order', JSON.stringify(this.order));
+            } else {
+                // Let's restore it! make sure to map the objects again
+                this.order = storedOrder;
+                this.order.selectedCar = Car.fromJson(storedOrder.selectedCar);
+            }
+
         }
     }
 </script>

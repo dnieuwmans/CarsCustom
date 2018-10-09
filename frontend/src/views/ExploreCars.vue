@@ -42,8 +42,10 @@
         public showErrorMessage: boolean = false;
 
         public customizeCar(car: Car, color: string) {
+            // Add it to the store
             this.$store.commit('Order/setSelectedCar', car);
             this.$store.commit('Order/setSelectedColor', color);
+
             this.$router.push({name: 'order'});
         }
 
