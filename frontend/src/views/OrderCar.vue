@@ -1,31 +1,28 @@
 <template>
     <div class="order-car">
-        <main-nav />
-
-        <!--<ul>
-            <li v-for="(step, key) in steps" :class="{'active': key === activeStep }">
-                {{ step.id }}{{ step.name }}
-            </li>
-        </ul>
-
-        <div v-if="order != null">
-            <h2>{{ order.selectedCar.brand }} {{ order.selectedCar.type }}</h2>
-            <h4>{{ order.selectedCar.description }}</h4>
-            <figure>
-                <img :src="`img/${image}`" alt="">
-            </figure>
-        </div>-->
+        <main-nav/>
 
         <header class="order-car-header" v-if="order != null">
-               <div class="order-detail" v-if="order.selectedCar != null">
-                   <div class="order-detail__info">
-                       <h2>{{ order.selectedCar.brand }} {{ order.selectedCar.type }}</h2>
-                       <h4>{{ order.selectedCar.description }}</h4>
-                   </div>
-                   <figure class="order-detail__image">
-                       <img :src="`img/${image}`" alt="">
-                   </figure>
-               </div>
+            <div class="container">
+                <ul class="order-steps">
+                    <li v-for="(step, key) in steps" :class="{'is-active': (key + 1) === activeStep, 'is-completed': step.completed === 100 }">
+                        <span class="order-steps__indicator" v-text="step.id"></span>
+                        <span class="order-steps__info" v-text="step.name"></span>
+
+                        <div class="order-steps__progress" :style="{'width': `calc(${step.completed}% - 3rem)`}"></div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="order-detail" v-if="order.selectedCar != null">
+                <div class="order-detail__info">
+                    <h2>{{ order.selectedCar.brand }} {{ order.selectedCar.type }}</h2>
+                    <h4>{{ order.selectedCar.description }}</h4>
+                </div>
+                <figure class="order-detail__image">
+                    <img :src="`img/${image}`" alt="">
+                </figure>
+            </div>
         </header>
     </div>
 </template>
@@ -38,6 +35,12 @@
 
     const namespace: string = 'Order';
 
+    enum steps {
+        COLOR = 1,
+        ACCESSORY,
+        SUMMARY,
+    }
+
     @Component({
         name: 'OrderCar',
         components: {
@@ -47,16 +50,23 @@
     export default class OrderCar extends Vue {
         public steps: object[] = [
             {
-                id: 1,
+                id: steps.COLOR,
                 name: 'Color',
+                completed: 100,
             },
             {
-                id: 2,
-                name: 'Summary'
+                id: steps.ACCESSORY,
+                name: 'Accessory',
+                completed: 0,
+            },
+            {
+                id: steps.SUMMARY,
+                name: 'Summary',
+                completed: 0,
             }
         ];
 
-        public activeStep: number = 0;
+        public activeStep: number = steps.COLOR;
 
         public order: Order | any = {};
 
@@ -92,7 +102,6 @@
             }
 
             // Store the order in localStorage
-            // TODO: make an util who will watch for changes, maybe in the order model
             if (localStorage.getItem('order') == null) {
                 // Creates the order instance
                 this.order = new Order({
@@ -100,15 +109,11 @@
                     selectedCar: this.selectedCar,
                     selectedColor: this.selectedColor,
                 });
-
-
-                localStorage.setItem('order', JSON.stringify(this.order));
             } else {
                 // Let's restore it! make sure to map the objects again
-                this.order = storedOrder;
-                this.order.selectedCar = Car.fromJson(storedOrder.selectedCar);
+                storedOrder.selectedCar = Car.fromJson(storedOrder.selectedCar);
+                this.order = new Order(storedOrder);
             }
-
         }
     }
 </script>
