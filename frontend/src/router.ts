@@ -1,10 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Home from './views/Home.vue';
-import ExploreCars from './views/ExploreCars.vue';
-import OrderCar from './views/OrderCar.vue';
-
 Vue.use(Router);
 
 export default new Router({
@@ -12,17 +8,17 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: Home,
+            component: () => import( '@/views/Home.vue' ),
         },
         {
             path: '/explore-cars',
             name: 'explore-cars',
-            component: ExploreCars,
+            component: () => import( '@/views/ExploreCars.vue' ),
         },
         {
             path: '/order',
             name: 'order',
-            component: OrderCar
+            component: () => import( '@/views/OrderCar.vue' ),
         }
     ],
 });
