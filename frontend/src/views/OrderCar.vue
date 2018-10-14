@@ -5,7 +5,8 @@
         <header class="order-car-header" v-if="order != null">
             <div class="container">
                 <ul class="order-steps">
-                    <li v-for="(step, key) in steps" :class="{'is-active': (key + 1) === activeStep, 'is-completed': step.completed === 100 }">
+                    <li v-for="(step, key) in order.steps"
+                        :class="{'is-active': (key + 1) === order.activeStep, 'is-completed': step.completed === 100 }">
                         <span class="order-steps__indicator" v-text="step.id"></span>
                         <span class="order-steps__info" v-text="step.name"></span>
 
@@ -24,51 +25,41 @@
                 </figure>
             </div>
         </header>
+
+        <transition name="modal">
+            <main-modal v-if="continueOrderModal">
+                <h5 slot="header">You are about to change the order</h5>
+                <p slot="body">
+                    You are about to change the order, this action will overwrite the existing order. Are you sure?
+                </p>
+                <div slot="footer">
+                    <button type="button" class="btn btn-primary" @click="continueOrderModalPositive()">
+                        Yes, I am sure
+                    </button>
+                    <button type="button" class="btn btn-secondary" @click="continueOrderModalNegative()">Close</button>
+                </div>
+            </main-modal>
+        </transition>
     </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
     import MainNav from '@/components/MainNav.vue';
-    import Order from '@/models/Order';
+    import {Order, stepsEnum} from '@/models/Order';
     import Car from '@/models/Car';
-
-    const namespace: string = 'Order';
-
-    enum steps {
-        COLOR = 1,
-        ACCESSORY,
-        SUMMARY,
-    }
+    import MainModal from '@/components/MainModal.vue';
 
     @Component({
         name: 'OrderCar',
         components: {
+            MainModal,
             MainNav,
         }
     })
     export default class OrderCar extends Vue {
-        public steps: object[] = [
-            {
-                id: steps.COLOR,
-                name: 'Color',
-                completed: 100,
-            },
-            {
-                id: steps.ACCESSORY,
-                name: 'Accessory',
-                completed: 0,
-            },
-            {
-                id: steps.SUMMARY,
-                name: 'Summary',
-                completed: 0,
-            }
-        ];
-
-        public activeStep: number = steps.COLOR;
-
         public order: Order | any = {};
+        public continueOrderModal: boolean = false;
 
         get selectedColor() {
             return this.$store.getters['Order/getSelectedColor'];
@@ -87,8 +78,14 @@
         }
 
         public mounted() {
-            // TODO: check if we got an order stored.
-            let storedOrder: any = null; // TODO: Should we add an interface for order?
+            // Check if the customer wants to start a new order
+            if (localStorage.getItem('previous-route') === 'explore-cars') {
+                this.continueOrderModal = true;
+                document.body.className = 'modal-open';
+            }
+
+            let storedOrder: any = null;
+
             if (localStorage.getItem('order') != null) {
                 // Yes I know what I am doing!
                 // @ts-ignore-line
@@ -108,12 +105,36 @@
                     id: 0,
                     selectedCar: this.selectedCar,
                     selectedColor: this.selectedColor,
+                    activeStep: stepsEnum.COLOR,
                 });
             } else {
                 // Let's restore it! make sure to map the objects again
                 storedOrder.selectedCar = Car.fromJson(storedOrder.selectedCar);
                 this.order = new Order(storedOrder);
             }
+
+            // Testing
+            setTimeout(() => {
+                this.order.nextStep();
+            }, 2000)
+
+        }
+
+        public continueOrderModalNegative() {
+            // Now hide the modal again
+            this.continueOrderModal = false;
+            document.body.className = '';
+        }
+
+        public continueOrderModalPositive() {
+            this.order = new Order({
+                id: 0,
+                selectedCar: this.selectedCar,
+                selectedColor: this.selectedColor,
+                activeStep: stepsEnum.COLOR,
+            });
+
+            this.continueOrderModalNegative();
         }
     }
 </script>

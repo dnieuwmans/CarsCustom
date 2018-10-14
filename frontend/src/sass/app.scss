@@ -10,7 +10,8 @@
 @import "overrides";
 
 // Utils
-@import "utils";
+@import "utils/general";
+@import "utils/transitions";
 
 // Components
 @import "components/nav";
