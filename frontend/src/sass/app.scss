@@ -13,11 +13,15 @@
 @import "utils/general";
 @import "utils/transitions";
 
+// Layout
+@import "layout";
+
 // Components
 @import "components/nav";
 @import "components/logo";
 @import "components/box";
 @import "components/car-card";
+@import "components/car-colors";
 
 // Pages
 @import "pages/home";

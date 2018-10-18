@@ -1,4 +1,5 @@
 .order-car {
+  margin-bottom: 5rem;
   .main-nav {
     margin: 0;
   }
@@ -6,8 +7,8 @@
 
 .order-car-header {
   width: 100%;
-  height: 720px;
-  background: url("../assets/car-select-background.jpg") center;
+  height: 40rem;
+  background: url("../assets/car-select-background.jpg") bottom center;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -21,6 +22,33 @@
     left: 0;
     z-index: 9;
     position: absolute;
+  }
+}
+
+.scroll-down-icon {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 1.25rem;
+  height: 2rem;
+  border-radius: 9999px;
+  border: 1px solid #fff;
+  overflow: hidden;
+  z-index: 10;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: #fff;
+    display: block;
+    border-radius: 9999px;
+    left: 50%;
+    top: 4px;
+    transform: translate3d(-50%, 0, 0);
+    animation: scroll-indication 1.5s infinite;
   }
 }
 
@@ -54,7 +82,7 @@
 // TODO: do the css/sass correctly
 .order-detail__image {
   position: absolute;
-  bottom: 0;
+  bottom: 2rem;
   transform: translate3d(-50%, 0, 0);
   left: 50%;
 }
@@ -139,4 +167,94 @@
   margin-top: -1px;
   z-index: 99;
   transition: all 0.5s ease-in-out;
+}
+
+.order-bar {
+  width: 100%;
+  height: 5rem; /* TODO: padding instead of height, this is temp */
+  position: fixed;
+  bottom: 0;
+  background: #f0f0f0;
+  display: flex;
+  padding: 0 2rem;
+  align-items: center;
+
+  &__price {
+    padding-right: 1rem;
+    margin-right: 1rem;
+    border-right: 1px solid #cdcdcd;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  &__step {
+    font-style: italic;
+    flex-grow: 1;
+  }
+}
+
+.order-progress {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  margin: 0;
+
+  .order-progress__item {
+    position: relative;
+    width: 5rem;
+    height: 2px;
+    background: darken(#f0f0f0, 20%);
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+
+    &:last-child {
+      width: inherit;
+    }
+
+    &::after {
+      content: '';
+      width: 1rem;
+      height: 1rem;
+      border-radius: 9999px;
+      background: darken(#f0f0f0, 20%);
+      display: block;
+      border: 4px solid #f0f0f0;
+      position: absolute;
+      top: -7px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &.is-completed {
+      background: $primary-color;
+    }
+
+    &.is-active,
+    &.is-completed {
+      &::after {
+        background: $primary-color;
+      }
+    }
+  }
+
+}
+
+.order-panels {
+  margin-top: 6rem;
+  margin-bottom: 10rem;
+
+  h2 {
+    margin-bottom: 2rem;
+  }
+}
+
+@keyframes scroll-indication {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(-50%, 1rem, 0);
+    opacity: 0;
+  }
 }

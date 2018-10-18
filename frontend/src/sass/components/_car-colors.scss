@@ -1,0 +1,43 @@
+.car-colors {
+  margin: 0;
+  padding: 0;
+  &__item {
+    display: inline-block;
+    border: 1px solid #dbdbdb;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 9999px;
+    line-height: 0;
+    cursor: pointer;
+
+    + .car-colors__item {
+      margin-left: 0.5rem;
+    }
+
+    span {
+      border: 2px solid #fff;
+      border-radius: 9999px;
+      height: 100%;
+      width: 100%;
+      display: inline-block;
+    }
+
+    &--active,
+    &:hover {
+      border-color: $primary-color;
+    }
+  }
+
+  &--lg {
+    margin-top: 2rem;
+
+    .car-colors__item {
+      width: 2rem;
+      height: 2rem;
+
+      span {
+        border: 3px solid #fff;
+      }
+    }
+  }
+}
