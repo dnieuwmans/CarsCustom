@@ -1,5 +1,6 @@
 import Car from '@/models/Car';
 import OrderInterface from '@/interfaces/OrderInterface';
+import OrderUser from "@/models/OrderUser";
 
 export enum stepsEnum {
     COLOR = 1,
@@ -36,11 +37,12 @@ export class Order implements OrderInterface{
         return new Order(json);
     }
 
-    public steps: any[];
     public id: number;
     public selectedCar: Car;
     public selectedColor: string;
+    public orderUser: OrderUser;
     public activeStep: number;
+    public steps: any[];
 
     get activeStepName() {
         return this.steps[this.activeStep - 1].name;
@@ -63,41 +65,8 @@ export class Order implements OrderInterface{
         this.id = params.id;
         this.selectedCar = params.selectedCar;
         this.selectedColor = params.selectedColor;
+        this.orderUser = params.orderUser || OrderUser.init();
         this.activeStep = params.activeStep || stepsEnum.COLOR;
         this.steps = params.steps || stepsDef;
-
-        this.store();
-    }
-
-    // Every change will be stored in localStorage
-    private store() {
-        localStorage.setItem('order', JSON.stringify(this));
-    }
-
-    // Every changes should be done with a setter because of the localStorage updating action
-    public setSelectedColor(color: string): void {
-        this.selectedColor = color;
-
-        this.store();
-    }
-
-    public nextStep() {
-        this.steps[this.activeStep - 1].completed = 100;
-
-        if (this.activeStep !== stepsEnum.SUMMARY) {
-            this.activeStep += 1;
-        }
-
-        this.store();
-    }
-
-    public previousStep() {
-        this.steps[this.activeStep - 2].completed = 0;
-
-        if (this.activeStep !== stepsEnum.COLOR) {
-            this.activeStep -= 1;
-        }
-
-        this.store();
     }
 }

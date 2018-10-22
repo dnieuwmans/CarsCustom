@@ -8,27 +8,19 @@ const router = new Router({
         {
             path: '/',
             name: 'home',
-            component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue' ),
+            component: () => import(/* webpackChunkName: "home" */ '@/views/Home/Home.vue' ),
         },
         {
             path: '/explore-cars',
             name: 'explore-cars',
-            component: () => import(/* webpackChunkName: "explore-cars" */ '@/views/ExploreCars.vue' ),
+            component: () => import(/* webpackChunkName: "explore-cars" */ '@/views/ExploreCars/ExploreCars.vue' ),
         },
         {
             path: '/order',
             name: 'order',
-            component: () => import(/* webpackChunkName: "order" */ '@/views/OrderCar.vue' ),
+            component: () => import(/* webpackChunkName: "order" */ '@/views/OrderCar/OrderCar.vue' ),
         }
     ],
-});
-
-router.beforeEach((to, from, next) => {
-    const previousRoute: string = from.name || '';
-
-    // So we can watch from which route we came from
-    localStorage.setItem('previous-route', previousRoute);
-    next();
 });
 
 export default router;
