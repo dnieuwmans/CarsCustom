@@ -8,14 +8,33 @@
         </ul>-->
         <div class="order-bar__navigation">
             <div class="btn-group">
-                <button class="btn btn-primary" @click="$emit('order-bar:previous')"
-                        v-if="order.activeStep !== stepsEnum.COLOR">Previous Step
+                <button class="btn btn-outline-primary"
+                        @click="$emit('order-bar:previous')"
+                        v-if="order.activeStep !== stepsEnum.COLOR"
+                >
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Previous Step</span>
                 </button>
-                <button class="btn btn-primary" @click="$emit('order-bar:next')"
-                        v-if="order.activeStep !== stepsEnum.SUMMARY">
-                    Next Step
+                <button class="btn btn-primary order-bar-btn__same-size"
+                        @click="$emit('order-bar:next')"
+                        v-if="!(order.activeStep === stepsEnum.SUMMARY || order.activeStep === stepsEnum.USER_INFO)"
+                >
+                    <span>Next Step</span>
+                    <i class="fas fa-chevron-right"></i>
                 </button>
-                <button class="btn btn-success" v-if="order.activeStep === stepsEnum.SUMMARY">Place Order</button>
+                <button class="btn btn-primary order-bar-btn__same-size"
+                        v-if="order.activeStep === stepsEnum.USER_INFO"
+                        @click="$emit('order-bar:next-from-user')"
+                >
+                    <span>Order Overview</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <button class="btn btn-success order-bar-btn__same-size"
+                        v-if="order.activeStep === stepsEnum.SUMMARY"
+                >
+                    <span>Place Order</span>
+                    <i class="fas fa-check"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -24,12 +43,17 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import {Order, stepsEnum} from "../../../models/Order";
+    import Validation from "../../../utils/Validation";
 
     @Component({
         name: 'OrderBar',
         props: {
             order: {
                 type: Order,
+                required: true,
+            },
+            validation: {
+                type: Validation,
                 required: true,
             }
         }

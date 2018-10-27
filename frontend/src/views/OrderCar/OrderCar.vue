@@ -98,6 +98,7 @@
                                        id="zip-code"
                                        class="form-control"
                                        :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.ZIPCODE)}"
+                                       placeholder="1234AB"
                                        v-model="orderUser.zipCode"
                                        @change="updateAddress()"
                                 >
@@ -112,6 +113,7 @@
                                        id="number"
                                        class="form-control"
                                        :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.STREETNUMBER)}"
+                                       placeholder="1234"
                                        v-model="orderUser.streetNumber"
                                        @change="updateAddress()">
                                 <div class="invalid-feedback"
@@ -122,7 +124,7 @@
                             <div class="col">
                                 <label for="address">Address <i class="fas fa-info-circle"></i></label>
                                 <p id="address" style="margin-top: 0.375rem; color: rgba(0,0,0,0.5)"> <!-- TODO: get rid of the inline style -->
-                                    <em v-text="`${orderUser.street} ${orderUser.streetNumber}, ${orderUser.city}`"></em>
+                                    <em v-text="`${orderUser.street} ${orderUser.streetNumber}, ${orderUser.city}`" v-if="orderUser.city !== ''"></em>
                                 </p>
                             </div>
                         </div>
@@ -138,6 +140,7 @@
                                        id="phone"
                                        class="form-control"
                                        :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.PHONE)}"
+                                       placeholder="+31 6 12 23 45 67"
                                        v-model="orderUser.phone"
                                        @change="updateOrderUser(fieldsEnum.PHONE)"
                                 >
@@ -152,6 +155,7 @@
                                        id="email"
                                        class="form-control"
                                        :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.EMAIL)}"
+                                       placeholder="john.doe@email.com"
                                        v-model="orderUser.email"
                                        @change="updateOrderUser(fieldsEnum.EMAIL)"
                                 >
@@ -182,13 +186,14 @@
                                     <strong>Selected color:</strong> {{ order.selectedColorObject }} <br>
                                     <strong>Selected Accessories</strong>
                                 </p>
-                                <ul>
+                                <p><em>Nothing selected.</em></p>
+                                <!--<ul>
                                     <li>Lorem ipsum dolor sit amet.</li>
                                     <li>Deserunt eligendi et illo ipsa.</li>
                                     <li>Aliquid commodi cumque porro soluta?</li>
                                     <li>Animi eveniet neque voluptas voluptates!</li>
                                     <li>Architecto incidunt odio vero voluptas.</li>
-                                </ul>
+                                </ul>-->
                             </div>
 
                             <div class="col">
@@ -196,10 +201,10 @@
                                 <hr>
 
                                 <p>
-                                    <strong>Name:</strong> Danny Nieuwmans <br>
-                                    <strong>Address:</strong> Gravin Aleidisstraat 26, 's-Gravenzande - 2691ZZ <br>
-                                    <strong>Phone:</strong> 06 12345678 <br>
-                                    <strong>Email:</strong> dannynieuwmans@gmail.com
+                                    <strong>Name:</strong> {{ order.orderUser.firstName }} {{ order.orderUser.lastName }} <br>
+                                    <strong>Address:</strong> {{ order.orderUser.street }} {{ order.orderUser.streetNumber }}, {{ order.orderUser.city }} - {{ order.orderUser.zipCode }}<br>
+                                    <strong>Phone:</strong> {{ order.orderUser.phone }} <br>
+                                    <strong>Email:</strong> {{ order.orderUser.email }}
                                 </p>
                             </div>
                         </div>
@@ -207,8 +212,13 @@
                 </transition>
             </div>
 
-            <order-bar :order="order" @order-bar:next="nextStep()"
-                       @order-bar:previous="previousStep()"></order-bar>
+            <order-bar
+                    :order="order"
+                    :validation="fieldsValidation"
+                    @order-bar:next="nextStep()"
+                    @order-bar:previous="previousStep()"
+                    @order-bar:next-from-user="continueToSummary()"
+            />
         </div>
     </div>
 </template>
@@ -352,6 +362,23 @@
             const clonedOrderUser = cloneDeep(this.orderUser);
 
             this.$store.commit('Order/updateOrderUser', clonedOrderUser);
+        }
+
+        public continueToSummary() {
+            // Recheck the fields
+            this.fieldsValidation.string(fieldsEnum.FIRSTNAME, this.orderUser[fieldsEnum.FIRSTNAME], 2, 100);
+            this.fieldsValidation.string(fieldsEnum.LASTNAME, this.orderUser[fieldsEnum.LASTNAME], 2, 100);
+            this.fieldsValidation.string(fieldsEnum.ZIPCODE, this.orderUser[fieldsEnum.ZIPCODE], 6, 6);
+            this.fieldsValidation.string(fieldsEnum.STREETNUMBER, this.orderUser[fieldsEnum.STREETNUMBER], 1, 6);
+            this.fieldsValidation.phone(fieldsEnum.PHONE, this.orderUser[fieldsEnum.PHONE]);
+            this.fieldsValidation.email(fieldsEnum.EMAIL, this.orderUser[fieldsEnum.EMAIL]);
+
+            // Don't do anything whenever we got errors...
+            if(this.fieldsValidation.hasErrors()) {
+                return;
+            }
+
+            this.$store.commit('Order/nextStep');
         }
     }
 </script>
