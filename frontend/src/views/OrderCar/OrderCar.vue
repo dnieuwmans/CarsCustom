@@ -246,7 +246,7 @@
         public stepsEnum = stepsEnum;
         public fieldsEnum = fieldsEnum;
         public orderUser = OrderUser.init(); // Because we are lazy ;)
-        public fieldsValidation: Validation | null = null;
+        public fieldsValidation: Validation = new Validation({});
 
         get order() {
             return this.$store.getters['Order/getOrder'];
