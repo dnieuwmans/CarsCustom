@@ -7,6 +7,8 @@ export default interface CarInterface {
     description: string;
     price: number;
     images: string[];
-    image_template: string;
+    imageTemplate: string;
     colors: Color[];
+
+    image_template?: string;
 }
