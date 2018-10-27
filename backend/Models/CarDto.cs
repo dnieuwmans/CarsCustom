@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace backend.Models
 {
@@ -11,8 +8,9 @@ namespace backend.Models
         public string Brand { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
-        public string ImageTemplate { get; set; }
+        public decimal Price { get; set; }
+        public string Image_template { get; set; }
         public IEnumerable<ColorDto> Colors { get; set; }
+        public bool Disabled { get; set; }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.BusinessObjects;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,13 +14,13 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult getAll()
         {
-            return Ok(CarsDataStore.Current.Cars);
+            return Ok(CarBO.GetAll());
         }
         
         [HttpGet("total")]
         public ActionResult getTotal()
         {
-            return Ok(CarsDataStore.Current.Cars.Count);
+            return Ok(CarBO.GetAll().Count);
         }
     }
 }
