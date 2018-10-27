@@ -12,7 +12,7 @@
     @Component({
         name: 'App',
     })
-    export default class OrderBar extends Vue {
+    export default class App extends Vue {
         public beforeCreate() {
             // Let's load the order which is store in the localStorage
             // Yes I know what I am doing!

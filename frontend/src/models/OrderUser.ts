@@ -10,7 +10,8 @@ export default class OrderUser implements OrderUserInterface {
             id: -1,
             firstName: '',
             lastName: '',
-            address: '',
+            street: '',
+            streetNumber: '',
             city: '',
             zipCode: '',
             phone: '',
@@ -21,7 +22,8 @@ export default class OrderUser implements OrderUserInterface {
     public id: number;
     public firstName: string;
     public lastName: string;
-    public address: string;
+    public street: string;
+    public streetNumber: string;
     public city: string;
     public zipCode: string;
     public phone: string;
@@ -31,7 +33,8 @@ export default class OrderUser implements OrderUserInterface {
         this.id = params.id;
         this.firstName = params.firstName;
         this.lastName = params.lastName;
-        this.address = params.address;
+        this.street = params.street;
+        this.streetNumber = params.streetNumber;
         this.city = params.city;
         this.zipCode = params.zipCode;
         this.phone = params.phone;
