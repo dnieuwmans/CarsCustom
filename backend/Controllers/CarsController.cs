@@ -22,7 +22,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult> getAll()
         {
-            var values = await _dataContext.Cars.ToListAsync(); 
+            var values = await _dataContext.Cars.Include(c => c.Colors).ToListAsync(); 
             
             return Ok(values);
         }

@@ -9,7 +9,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181029171052_Initial")]
+    [Migration("20181029184927_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,11 +45,15 @@ namespace backend.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("CarId");
+
                     b.Property<string>("Hex");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarId");
 
                     b.ToTable("Colors");
                 });
@@ -82,6 +86,13 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("backend.Models.Color", b =>
+                {
+                    b.HasOne("backend.Models.Car")
+                        .WithMany("Colors")
+                        .HasForeignKey("CarId");
                 });
 #pragma warning restore 612, 618
         }

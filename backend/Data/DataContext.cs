@@ -15,5 +15,7 @@ namespace backend.Data
         public DbSet<Car> Cars { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {}
     }
 }
