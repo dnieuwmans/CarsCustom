@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using backend.Data;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,15 +24,26 @@ namespace backend
                 options.AddPolicy("AllowSpecificOrigin", builder => builder.WithOrigins("http://localhost:8080"));
             });
 
+            
+            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("TestConnection")));
+            // services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                // app.UseHsts();
+            }
 
-            app.UseCors("AllowSpecificOrigin");
+            // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

@@ -1,5 +1,4 @@
-﻿using backend.BusinessObjects;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
@@ -9,11 +8,11 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-            return Ok(UserBO.GetAll());
+            return Ok("");
         }
 
-        [HttpGet("GetById")]
-        public ActionResult GetById()
+        [HttpGet("{id}")]
+        public ActionResult GetById(int id)
         {
             return Ok();
         }
