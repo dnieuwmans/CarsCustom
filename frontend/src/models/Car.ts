@@ -2,7 +2,9 @@ import CarInterface from '@/interfaces/CarInterface';
 import Color from '@/models/Color';
 
 export default class Car implements CarInterface {
-    public static fromJson(json: CarInterface) {
+    public static fromJson(json: any) {
+        json.imageTemplate = json.image_template || json.imageTemplate; // because of data mapping
+
         return new Car(json);
     }
 

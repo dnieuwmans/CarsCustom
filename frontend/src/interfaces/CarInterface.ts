@@ -9,4 +9,6 @@ export default interface CarInterface {
     images: string[];
     imageTemplate: string;
     colors: Color[];
+
+    image_template?: string;
 }
