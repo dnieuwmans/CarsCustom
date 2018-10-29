@@ -11,7 +11,8 @@ namespace backend.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         // TODO: it is not wise to call something RoleId when it is just business logic
         public RoleEnum Role { get; set; }
         public bool disabled { get; set; }

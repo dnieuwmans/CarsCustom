@@ -28,9 +28,11 @@ namespace backend.Controllers
         }
         
         [HttpGet("total")]
-        public ActionResult getTotal()
+        public async Task<ActionResult> getTotal()
         {
-            return Ok(0);
+            var values = await _dataContext.Cars.ToListAsync(); 
+            
+            return Ok(values.Count);
         }
     }
 }

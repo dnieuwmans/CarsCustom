@@ -14,6 +14,6 @@ namespace backend.Data
         // The models will be added here.
         public DbSet<Car> Cars { get; set; }
         public DbSet<Color> Colors { get; set; }
-        public DbSet<User> users { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

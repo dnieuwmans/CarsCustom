@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace backend.Migrations
 {
@@ -39,7 +40,7 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "users",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -50,13 +51,14 @@ namespace backend.Migrations
                     Phone = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Username = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
                     Role = table.Column<int>(nullable: false),
                     disabled = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
         }
 
@@ -69,7 +71,7 @@ namespace backend.Migrations
                 name: "Colors");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "Users");
         }
     }
 }

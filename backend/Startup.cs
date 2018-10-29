@@ -1,9 +1,13 @@
-﻿using backend.Data;
+﻿using System.Text;
+using backend.Authentication;
+using backend.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace backend
 {
@@ -27,6 +31,18 @@ namespace backend
             
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("TestConnection")));
             // services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateIssuer = false, // TODO: read about this
+                        ValidateAudience = false, // TODO: read about this
+                    };
+            });
 
             services.AddMvc();
         }
