@@ -38,6 +38,7 @@
   &__menu {
     display: flex;
     align-items: center;
+    margin-right: 1rem;
 
     li {
       display: inline-block;
@@ -50,6 +51,7 @@
         color: rgba(255, 255, 255, 0.6);
         font-weight: 600;
         font-style: italic;
+        font-size: 0.9rem;
       }
 
       &:hover,

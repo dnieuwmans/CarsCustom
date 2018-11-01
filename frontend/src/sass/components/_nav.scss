@@ -1,5 +1,15 @@
 .main-nav {
-    background-color: $dark-color;
-    padding: 1rem 0;
-    margin-bottom: 2rem;
+  background-color: $dark-color;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  height: 4.5rem;
+  max-height: 4.5rem;
+  position: fixed;
+  z-index: 90;
+  width: 100%;
+  top: 0;
+
+  .list-unstyled {
+    margin-bottom: 0;
+  }
 }

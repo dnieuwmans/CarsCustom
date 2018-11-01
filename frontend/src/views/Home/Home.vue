@@ -18,6 +18,11 @@
                                     <router-link :to="{name: 'explore-cars'}">Explore Cars</router-link>
                                 </li>
                                 <li><a href="#"><i class="far fa-user"></i></a></li>
+                                <li>
+                                    <router-link :to="{name: 'order'}">
+                                        <i class="fas fa-shopping-basket"></i>
+                                    </router-link>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -28,10 +33,10 @@
                         <h1>Buy your dream car today!</h1>
                         <h4>Choose from {{ totalCars }} exclusive cars.</h4>
                         <p class="text-center">
-                            <a href="#" class="btn btn-lg btn-outline">
+                            <router-link class="btn btn-lg btn-outline" :to="{name: 'explore-cars'}">
                                 <span>Explore</span>
                                 <i class="far fa-map"></i>
-                            </a>
+                            </router-link>
                         </p>
                     </div>
                 </div>
@@ -43,8 +48,8 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-    import MainLogo from "@/components/MainLogo.vue";
-    import CarApi from '@/api/CarApi';
+    import MainLogo from "../../components/MainLogo.vue";
+    import CarApi from '../../api/CarApi';
 
     @Component({
         components: {
@@ -53,6 +58,10 @@
     })
     export default class Home extends Vue {
         public totalCars: Number = 0;
+
+        get order() {
+            return this.$store.getters['Order/getOrder'];
+        }
 
         public mounted() {
             CarApi.countAll().then((response) => {

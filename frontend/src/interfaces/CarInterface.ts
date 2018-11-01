@@ -1,9 +1,14 @@
+import Color from '@/models/Color';
+
 export default interface CarInterface {
     id: number;
     brand: string;
     type: string;
     description: string;
     price: number;
-    image: string;
-    color: string[];
+    images: string[];
+    imageTemplate: string;
+    colors: Color[];
+
+    image_template?: string;
 }

@@ -1,22 +1,26 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Home from './views/Home.vue';
-import ExploreCars from './views/ExploreCars.vue';
-
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
             name: 'home',
-            component: Home,
+            component: () => import(/* webpackChunkName: "home" */ '@/views/Home/Home.vue' ),
         },
         {
             path: '/explore-cars',
             name: 'explore-cars',
-            component: ExploreCars,
+            component: () => import(/* webpackChunkName: "explore-cars" */ '@/views/ExploreCars/ExploreCars.vue' ),
         },
+        {
+            path: '/order',
+            name: 'order',
+            component: () => import(/* webpackChunkName: "order" */ '@/views/OrderCar/OrderCar.vue' ),
+        }
     ],
 });
+
+export default router;
