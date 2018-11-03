@@ -231,7 +231,7 @@
     import OrderUser from "../../models/OrderUser";
     import { cloneDeep } from 'lodash';
     import Validation from "../../utils/Validation";
-    import AddressApi from "../../api/AddressApi";
+    import Api from "@/api/Api";
 
     enum fieldsEnum {
         FIRSTNAME = 'firstName',
@@ -320,7 +320,7 @@
                 return;
             }
 
-            AddressApi.getAddress(zipCode, parsedStreetNumber).then((response) => {
+            Api.address.getAddress(zipCode, parsedStreetNumber).then((response) => {
                 let data = response.data._embedded.addresses[0];
 
                 this.orderUser.street = data.street;

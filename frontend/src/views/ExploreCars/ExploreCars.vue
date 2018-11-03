@@ -47,7 +47,7 @@
 
     import Car from '../../models/Car';
     import {Order, stepsEnum} from '../../models/Order';
-    import CarApi from '../../api/CarApi';
+    import Api from '@/api/Api';
     import MainModal from "../../components/MainModal.vue";
 
     @Component({
@@ -82,7 +82,7 @@
         public mounted() {
             this.showErrorMessage = !!parseInt(this.$route.query.state) || false;
 
-            CarApi.findAll().then((response) => {
+            Api.car.findAll().then((response) => {
                 // TODO: map data
                 this.cars = response.data.map(Car.fromJson);
             });

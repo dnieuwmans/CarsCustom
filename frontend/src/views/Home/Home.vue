@@ -49,7 +49,7 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import MainLogo from "../../components/MainLogo.vue";
-    import CarApi from '../../api/CarApi';
+    import Api from '@/api/Api';
 
     @Component({
         components: {
@@ -64,7 +64,7 @@
         }
 
         public mounted() {
-            CarApi.countAll().then((response) => {
+            Api.car.countAll().then((response) => {
                 this.totalCars = response.data;
             })
         }
