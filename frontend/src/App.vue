@@ -27,5 +27,11 @@
             }
 
         }
+
+        mounted() {
+            this.$auth.login('danny', 'danny').then((response) => {
+                console.log(response);
+            })
+        }
     }
 </script>
