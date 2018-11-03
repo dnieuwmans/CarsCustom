@@ -16,6 +16,11 @@ const router = new Router({
             component: () => import(/* webpackChunkName: "explore-cars" */ '@/views/ExploreCars/ExploreCars.vue' ),
         },
         {
+            path: '/user',
+            name: 'user',
+            component: () => import(/* webpackChunkName: "user" */ '@/views/User/RegisterUser.vue' ),
+        },
+        {
             path: '/order',
             name: 'order',
             component: () => import(/* webpackChunkName: "order" */ '@/views/OrderCar/OrderCar.vue' ),
