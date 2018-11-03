@@ -1,9 +1,7 @@
 import User from '@/models/User';
 import axios, { AxiosPromise } from 'axios';
 import Vue from 'vue';
-
-// TODO: maybe we need an auth api service
-const loginUrl = 'http://localhost:5000/api/auth/login';
+import Api from './api/Api';
 
 interface IAuth {
     isAuthenticated() : boolean;
@@ -43,10 +41,7 @@ class Auth implements IAuth {
      */
     login(username: string, password: string) {
         // TODO: We need to process the JWT and get the user data.
-        return axios.post(loginUrl, {
-            username,
-            password,
-        });
+        return Api.auth.login(username, password);
     }
 
     logout() {
