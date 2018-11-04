@@ -1,6 +1,7 @@
 import Car from '@/models/Car';
 import OrderInterface from '@/interfaces/OrderInterface';
 import OrderUser from "@/models/OrderUser";
+import { cloneDeep } from 'lodash';
 
 export enum stepsEnum {
     COLOR = 1,
@@ -68,5 +69,23 @@ export class Order implements OrderInterface{
         this.orderUser = params.orderUser || OrderUser.init();
         this.activeStep = params.activeStep || stepsEnum.COLOR;
         this.steps = params.steps || stepsDef;
+    }
+
+    public toJson() {
+        // Make sure to remove all the references...
+        const order = cloneDeep(this);
+
+        let selectedColor = order.selectedCar.colors[order.selectedColor as any];
+    
+        // We don't need the id's
+        delete order.selectedCar.id;
+        delete order.orderUser.id;
+        delete selectedColor.id;
+
+        return {
+            car: order.selectedCar,
+            user: order.orderUser,
+            selectedColor,
+        }
     }
 }

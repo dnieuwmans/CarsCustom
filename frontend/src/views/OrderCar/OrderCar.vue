@@ -218,6 +218,7 @@
                     @order-bar:next="nextStep()"
                     @order-bar:previous="previousStep()"
                     @order-bar:next-from-user="continueToSummary()"
+                    @order-bar:place-order="placeOrder()"
             />
         </div>
     </div>
@@ -379,6 +380,18 @@
             }
 
             this.$store.commit('Order/nextStep');
+        }
+
+        public placeOrder() {
+            // Don't do anything whenever we got errors...
+            if(this.fieldsValidation.hasErrors()) {
+                return;
+            }
+
+             // This will make sure that there will be no reference
+            const clonedOrder = cloneDeep(this.order);
+
+            Api.order.addOrder(clonedOrder.toJson());
         }
     }
 </script>

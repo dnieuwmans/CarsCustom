@@ -1,6 +1,7 @@
 import CarApi from './sections/CarApi';
 import AddressApi from './sections/AddressApi';
 import AuthApi from './sections/AuthApi';
+import OrderApi from './sections/OrderApi';
 
 const route: string = 'http://localhost:5000/api';
 
@@ -19,4 +20,7 @@ export default class Api {
 
     // Authenticate related api methods.
     public static auth = new AuthApi(route, 'auth');
+
+    // Order related api methods.
+    public static order = new OrderApi(route, 'orders');
 }

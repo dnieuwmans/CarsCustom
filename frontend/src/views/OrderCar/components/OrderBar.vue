@@ -31,6 +31,7 @@
                 </button>
                 <button class="btn btn-success order-bar-btn__same-size"
                         v-if="order.activeStep === stepsEnum.SUMMARY"
+                        @click="$emit('order-bar:place-order')"
                 >
                     <span>Place Order</span>
                     <i class="fas fa-check"></i>
