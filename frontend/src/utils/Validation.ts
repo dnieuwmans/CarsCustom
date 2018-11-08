@@ -34,6 +34,7 @@ export default class Validation {
     }
 
     public string(field: string, value: string, min: number = 1, max: number = 100) {
+        console.log(field, value);
         const val = value.trim();
 
         this.errors[field] = '';
@@ -48,7 +49,7 @@ export default class Validation {
 
         this.errors[field] = '';
 
-        if(!val.match(regexes.email)) {
+        if (!val.match(regexes.email)) {
             this.errors[field] = 'The value is not a valid email address.';
         }
     }
@@ -60,6 +61,12 @@ export default class Validation {
 
         if(!val.match(regexes.phone)) {
             this.errors[field] = 'The value is not a valid phone number.';
+        }
+    }
+
+    public confirmPassword(field: string, password: string, confirmPassword: string) {
+        if (password.trim() !== confirmPassword.trim()){
+            this.errors[field] = 'Password and confirmation password do not match.';
         }
     }
 }

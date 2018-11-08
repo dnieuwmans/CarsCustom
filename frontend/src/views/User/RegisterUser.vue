@@ -14,6 +14,7 @@
                                 class="form-control"
                                 placeholder="User"
                                 :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.USERNAME)}"
+                                v-model="user.username"
                         >
                         <div class="invalid-feedback"
                                 v-text="fieldsValidation.errors[fieldsEnum.USERNAME]"
@@ -28,7 +29,6 @@
                                 :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.EMAIL)}"
                                 placeholder="john.doe@email.com"
                                 v-model="user.email"
-                                @change="validateUser(fieldsEnum.EMAIL)"
                         >
                         <div class="invalid-feedback"
                                 v-text="fieldsValidation.errors[fieldsEnum.EMAIL]"
@@ -40,31 +40,31 @@
                     <div class="col form-group">
                         <label for="password">Password</label>
                         <input
-                                type="text"
+                                type="password"
                                 id="password"
                                 class="form-control"
                                 placeholder="********"
-                                v-model="user.lastName"
-                                :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.LASTNAME)}"
+                                :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.PASSWORD)}"
+                                v-model="user.password"
                         >
                         <div class="invalid-feedback"
-                                v-text="fieldsValidation.errors[fieldsEnum.LASTNAME]"
-                                v-if="fieldsValidation.hasError(fieldsEnum.LASTNAME)"
+                                v-text="fieldsValidation.errors[fieldsEnum.PASSWORD]"
+                                v-if="fieldsValidation.hasError(fieldsEnum.PASSWORD)"
                         ></div>
                     </div>
                     <div class="col form-group">
-                        <label for="password">Confirm password</label>
+                        <label for="confirmPassword">Confirm password</label>
                         <input
-                                type="text"
-                                id="password"
+                                type="password"
+                                id="confirmPassword"
                                 class="form-control"
                                 placeholder="********"
-                                v-model="user.lastName"
-                                :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.LASTNAME)}"
+                                v-model="user.confirmPassword"
+                                :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.CONFIRMPASSWORD)}"
                         >
                         <div class="invalid-feedback"
-                                v-text="fieldsValidation.errors[fieldsEnum.LASTNAME]"
-                                v-if="fieldsValidation.hasError(fieldsEnum.LASTNAME)"
+                                v-text="fieldsValidation.errors[fieldsEnum.CONFIRMPASSWORD]"
+                                v-if="fieldsValidation.hasError(fieldsEnum.CONFIRMPASSWORD)"
                         ></div>
                     </div>
                 </div>
@@ -113,6 +113,7 @@
                                 :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.ZIPCODE)}"
                                 placeholder="1234AB"
                                 v-model="user.zipCode"
+                                @change="updateAddress()"
                         >
                         <div class="invalid-feedback"
                                 v-text="fieldsValidation.errors[fieldsEnum.ZIPCODE]"
@@ -127,6 +128,7 @@
                                 :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.STREETNUMBER)}"
                                 placeholder="1234"
                                 v-model="user.streetNumber"
+                                @change="updateAddress()"
                         >
                         <div class="invalid-feedback"
                                 v-text="fieldsValidation.errors[fieldsEnum.STREETNUMBER]"
@@ -141,11 +143,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <hr>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col form-group">
                         <label for="phone">Phone</label>
                         <input type="text"
@@ -154,7 +151,6 @@
                                 :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.PHONE)}"
                                 placeholder="+31 6 12 23 45 67"
                                 v-model="user.phone"
-                                @change="validateUser(fieldsEnum.PHONE)"
                         >
                         <div class="invalid-feedback"
                                 v-text="fieldsValidation.errors[fieldsEnum.PHONE]"
@@ -162,6 +158,17 @@
                         ></div>
                     </div>
                     <div class="col" />
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary"
+                        @click="registerUserOnClick()">Register</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,12 +181,12 @@
     import User from "../../models/User";
     import { cloneDeep } from 'lodash';
     import Validation from "../../utils/Validation";
-    import AddressApi from "../../api/AddressApi";
+    import Api from "../../api/Api";
 
     enum fieldsEnum {
         USERNAME = 'username',
         PASSWORD = 'password',
-        REPEATPASSWORD = 'repeatPassword',
+        CONFIRMPASSWORD = 'confirmPassword',
         FIRSTNAME = 'firstName',
         LASTNAME = 'lastName',
         STREET = 'street',
@@ -233,7 +240,7 @@
                 return;
             }
 
-            AddressApi.getAddress(zipCode, parsedStreetNumber).then((response) => {
+            Api.address.getAddress(zipCode, parsedStreetNumber).then((response) => {
                 let data = response.data._embedded.addresses[0];
 
                 this.user.street = data.street;
@@ -241,8 +248,32 @@
             });
         }
 
+        public registerUserOnClick() {
+            // Recheck the fields
+            this.fieldsValidation.string(fieldsEnum.USERNAME, this.user[fieldsEnum.USERNAME], 2, 100);
+            this.fieldsValidation.string(fieldsEnum.PASSWORD, this.user[fieldsEnum.PASSWORD], 8, 100);
+            this.fieldsValidation.confirmPassword(fieldsEnum.CONFIRMPASSWORD, this.user[fieldsEnum.PASSWORD], this.user[fieldsEnum.CONFIRMPASSWORD]);
+            this.fieldsValidation.string(fieldsEnum.FIRSTNAME, this.user[fieldsEnum.FIRSTNAME], 2, 100);
+            this.fieldsValidation.string(fieldsEnum.LASTNAME, this.user[fieldsEnum.LASTNAME], 2, 100);
+            this.fieldsValidation.string(fieldsEnum.ZIPCODE, this.user[fieldsEnum.ZIPCODE], 6, 6);
+            this.fieldsValidation.string(fieldsEnum.STREETNUMBER, this.user[fieldsEnum.STREETNUMBER], 1, 6);
+            this.fieldsValidation.phone(fieldsEnum.PHONE, this.user[fieldsEnum.PHONE]);
+            this.fieldsValidation.email(fieldsEnum.EMAIL, this.user[fieldsEnum.EMAIL]);
+            
+            // Don't do anything whenever we got errors...
+            if(this.fieldsValidation.hasErrors()) {
+                return;
+            }
+
+            // this.$store.commit('Order/nextStep');
+        }
+
         public validateUser(field: string) {
             switch(field) {
+                case fieldsEnum.PASSWORD:
+                case fieldsEnum.CONFIRMPASSWORD:
+                    this.fieldsValidation.string(field, this.user[field], 8, 100);
+                case fieldsEnum.USERNAME:
                 case fieldsEnum.FIRSTNAME:
                 case fieldsEnum.LASTNAME:
                     this.fieldsValidation.string(field, this.user[field], 2, 100);

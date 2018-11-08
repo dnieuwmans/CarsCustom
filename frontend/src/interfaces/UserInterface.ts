@@ -1,11 +1,12 @@
 export default interface UserInterface {
     id: number;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     phone: string;
     email: string;
     username: string;
     password: string;
+    confirmPassword: string;
     role_id: number;
     street: string,
     streetNumber: string,

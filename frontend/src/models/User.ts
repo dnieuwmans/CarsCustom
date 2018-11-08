@@ -10,15 +10,16 @@ export default class User implements UserInterface {
             id: -1,
             firstName: '',
             lastName: '',
-            street: '',
-            streetNumber: '',
-            city: '',
-            zipCode: '',
             phone: '',
             email: '',
             username: '',
             password: '',
-            role_id: 1 // todo sjoerd => enum user
+            confirmPassword: '',
+            role_id: 1, // todo sjoerd => enum user
+            street: '',
+            streetNumber: '',
+            city: '',
+            zipCode: '',
         })
     }
 
@@ -29,6 +30,7 @@ export default class User implements UserInterface {
     public email: string;
     public username: string;
     public password: string;
+    public confirmPassword: string;
     public role_id: number;
     public street: string;
     public streetNumber: string;
@@ -37,12 +39,13 @@ export default class User implements UserInterface {
 
     constructor(params: UserInterface) {
         this.id = params.id;
-        this.firstName = params.first_name;
-        this.lastName = params.last_name;
+        this.firstName = params.firstName;
+        this.lastName = params.lastName;
         this.phone = params.phone;
         this.email = params.email;
         this.username = params.username;
         this.password = params.password;
+        this.confirmPassword = params.confirmPassword;
         this.role_id = params.role_id;
         this.street = params.street;
         this.streetNumber = params.streetNumber;
