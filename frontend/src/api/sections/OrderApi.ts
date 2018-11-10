@@ -11,4 +11,12 @@ export default class OrderApi {
   public addOrder(order: any) {
     return axios.post(`${this.route}/`, order);
   }
+
+  public getOrders() {
+    return axios.get(`${this.route}/`);
+  }
+
+  public getOrderByToken(token: string) {
+    return axios.get(`${this.route}/${token}`);
+  }
 }

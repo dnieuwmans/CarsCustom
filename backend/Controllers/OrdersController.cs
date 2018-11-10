@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.Dtos;
 using backend.Repositories;
@@ -29,9 +30,13 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrder(OrderDto orderDto) 
         {
-            var createdOrder = await _repository.Add(orderDto);
-
-            return StatusCode(201);
+            return Ok(await _repository.Add(orderDto));
         }
+
+        [HttpGet("{token}")]
+        public async Task<IActionResult> GetOrderByToken(string token) 
+        {
+            return Ok(await _repository.GetByToken(token));
+        } 
     }
 }

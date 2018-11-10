@@ -8,6 +8,7 @@ namespace backend.Repositories
     public interface IOrderRepository
     {
         Task<ICollection<Order>> GetAll();
-        Task<Order> Add(OrderDto orderDto);
+        Task<Order> GetByToken(string token);
+        Task<Dictionary<string, string>> Add(OrderDto orderDto);
     }
 }

@@ -5,6 +5,9 @@ using backend.Dtos;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Linq;
 
 namespace backend.Repositories
 {
@@ -25,7 +28,15 @@ namespace backend.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Order> Add(OrderDto orderDto)
+        public async Task<Order> GetByToken(string token) {
+            return await _context.Orders
+                .Include(o => o.Car)
+                .Include(o => o.SelectedColor)
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.Token == token);
+        }
+
+        public async Task<Dictionary<string, string>> Add(OrderDto orderDto)
         {
             // First create the order dependencies like car, color and user.
             // Car
@@ -57,7 +68,21 @@ namespace backend.Repositories
             };
 
             // Now put it all togeter in the order 
+
+            // But first let's generate a random token
+            var AllowableCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
+            var token = "";
+            var bytes = new byte[64];
+
+            using (var random = RandomNumberGenerator.Create())
+            {
+                random.GetBytes(bytes);
+            }
+
+            token = new string(bytes.Select(x => AllowableCharacters[x % AllowableCharacters.Length]).ToArray());
+
             Order order = new Order(){
+                Token = token,
                 Car = orderCar,
                 SelectedColor = orderColor,
                 User = orderUser,
@@ -68,7 +93,11 @@ namespace backend.Repositories
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 
-            return order;
+            var response = new Dictionary<string, string> {
+                {"token", order.Token},
+            };
+
+            return response;
         }
     }
 }

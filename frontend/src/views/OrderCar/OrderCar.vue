@@ -393,10 +393,16 @@
 
             // Add the order to the database
             Api.order.addOrder(clonedOrder.toJson()).then((response) => {
-                const statusCode = response.status;
+                const token = response.data.token;
 
-                if (statusCode === 201) {
-                    console.log('yay');
+                if (token) {
+                    // Delete the order
+                    this.$store.commit('Order/removeOrder');
+
+                    // Continue to the order complete page with a token.
+                    this.$router.push({ name: 'order-complete', params: {
+                        token,
+                    }});
                 }
             });
         }
