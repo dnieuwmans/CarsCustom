@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using backend.Authentication;
 using backend.Data;
+using backend.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,9 @@ namespace backend
 
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("TestConnection")));
             // services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>(); 
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

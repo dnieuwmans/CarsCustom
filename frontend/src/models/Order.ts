@@ -76,11 +76,6 @@ export class Order implements OrderInterface{
         const order = cloneDeep(this);
 
         let selectedColor = order.selectedCar.colors[order.selectedColor as any];
-    
-        // We don't need the id's
-        delete order.selectedCar.id;
-        delete order.orderUser.id;
-        delete selectedColor.id;
 
         return {
             car: order.selectedCar,

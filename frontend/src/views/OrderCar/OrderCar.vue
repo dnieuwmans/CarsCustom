@@ -391,7 +391,14 @@
              // This will make sure that there will be no reference
             const clonedOrder = cloneDeep(this.order);
 
-            Api.order.addOrder(clonedOrder.toJson());
+            // Add the order to the database
+            Api.order.addOrder(clonedOrder.toJson()).then((response) => {
+                const statusCode = response.status;
+
+                if (statusCode === 201) {
+                    console.log('yay');
+                }
+            });
         }
     }
 </script>
