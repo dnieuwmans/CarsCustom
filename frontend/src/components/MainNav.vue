@@ -11,10 +11,10 @@
                         <li :class="{'active': link.name === current}" v-for="link in links">
                             <router-link :to="{name: link.name}">{{ link.text }}</router-link>
                         </li>
-                        <li><a href="#"><i class="far fa-user"></i></a></li>
+                        <li><a href="#"><i class="fal fa-user"></i></a></li>
                         <li>
                             <router-link :to="{name: 'order'}">
-                                <i class="fas fa-shopping-basket"></i>
+                                <i class="fal fa-shopping-basket"></i>
                             </router-link>
                         </li>
                     </ul>

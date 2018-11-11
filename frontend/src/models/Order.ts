@@ -44,6 +44,7 @@ export class Order implements OrderInterface{
     public orderUser: OrderUser;
     public activeStep: number;
     public steps: any[];
+    public status: number;
 
     get activeStepName() {
         return this.steps[this.activeStep - 1].name;
@@ -66,9 +67,10 @@ export class Order implements OrderInterface{
         this.id = params.id;
         this.selectedCar = params.selectedCar;
         this.selectedColor = params.selectedColor;
-        this.orderUser = params.orderUser || OrderUser.init();
+        this.orderUser = new OrderUser(params.orderUser || OrderUser.init());
         this.activeStep = params.activeStep || stepsEnum.COLOR;
         this.steps = params.steps || stepsDef;
+        this.status = params.status || 0;
     }
 
     public toJson() {
