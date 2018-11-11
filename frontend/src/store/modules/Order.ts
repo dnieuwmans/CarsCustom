@@ -19,6 +19,7 @@ interface Mutations {
     nextStep($state: any): void;
     previousStep($state: any): void;
     updateOrderUser($state: any, orderUser: OrderUser): void;
+    removeOrder($state: any): void;
 }
 
 // Actions
@@ -72,6 +73,11 @@ const mutations: Mutations = {
 
         // Add it to the store
         store($state.order);
+    },
+
+    removeOrder($state) {
+        $state.order = null;
+        localStorage.removeItem('order');
     }
 };
 

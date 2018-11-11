@@ -2,7 +2,8 @@
 @import "variables";
 
 // Vendors
-@import url("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
+// @import url("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
+@import "fontawesome/css/all.css";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,800");
 @import "node_modules/bootstrap/scss/bootstrap";
 
@@ -27,3 +28,4 @@
 @import "pages/home";
 @import "pages/explore-cars";
 @import "pages/order-car";
+@import "pages/order-complete";

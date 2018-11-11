@@ -19,6 +19,11 @@ const router = new Router({
             path: '/order',
             name: 'order',
             component: () => import(/* webpackChunkName: "order" */ '@/views/OrderCar/OrderCar.vue' ),
+        },
+        {
+            path: '/order-complete/:token',
+            name: 'order-complete',
+            component: () => import(/* webpackChunckName: "order-complete" */ '@/views/OrderComplete/OrderComplete.vue'),
         }
     ],
 });

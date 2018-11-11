@@ -1,0 +1,64 @@
+.order-complete {
+    h3 {
+        i.fal {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            color: $primary;
+        }
+    }
+
+    h6 {
+        margin-bottom: 3rem;
+        color: lighten($heading-color, 25%);
+    }
+
+    &-box {
+        margin-bottom: 2rem;
+
+        figure {
+            width: 30rem;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+
+    .order-info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        .table-wrapper {
+            flex-grow: 1;
+        }
+
+        .table {
+            td, th {
+                padding: 0.2rem;
+                border: none;
+            }
+
+            th {
+                font-weight: 600;
+                color: $heading-color;
+            }
+        }
+    }
+
+    .order-item {
+        flex-shrink: 0;
+        background: #fafafa;
+        border-radius: 0.25rem;
+
+        ul {
+            text-align: center;
+
+            li:first-child {
+                font-size: 120%;
+                font-weight: 600;
+                color: $heading-color;
+            }
+        }
+    }
+}

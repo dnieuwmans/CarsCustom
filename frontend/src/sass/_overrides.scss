@@ -1,4 +1,13 @@
 body {
     font-family: 'Open Sans', sans-serif;
     background: #FAFAFA;
+    color: $body-color;
+}
+
+h1, h2, h3, h4, h5, h6, strong, label {
+    color: $heading-color;
+}
+
+strong {
+    font-weight: 600;
 }

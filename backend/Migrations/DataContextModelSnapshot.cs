@@ -56,6 +56,94 @@ namespace backend.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("backend.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CarId");
+
+                    b.Property<int?>("SelectedColorId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Token");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("SelectedColorId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("backend.Models.OrderCar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Brand");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("Disabled");
+
+                    b.Property<string>("ImageTemplate");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderCars");
+                });
+
+            modelBuilder.Entity("backend.Models.OrderColor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Hex");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderColors");
+                });
+
+            modelBuilder.Entity("backend.Models.OrderUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("Phone");
+
+                    b.Property<string>("Street");
+
+                    b.Property<string>("StreetNumber");
+
+                    b.Property<string>("ZipCode");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderUsers");
+                });
+
             modelBuilder.Entity("backend.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -91,6 +179,21 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Car")
                         .WithMany("Colors")
                         .HasForeignKey("CarId");
+                });
+
+            modelBuilder.Entity("backend.Models.Order", b =>
+                {
+                    b.HasOne("backend.Models.OrderCar", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId");
+
+                    b.HasOne("backend.Models.OrderColor", "SelectedColor")
+                        .WithMany()
+                        .HasForeignKey("SelectedColorId");
+
+                    b.HasOne("backend.Models.OrderUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

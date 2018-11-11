@@ -8,4 +8,5 @@ export default interface OrderInterface {
     orderUser?: OrderUser
     activeStep?: number;
     steps?: any;
+    status?: number;
 }

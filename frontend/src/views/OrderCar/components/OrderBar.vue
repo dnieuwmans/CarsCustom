@@ -12,7 +12,7 @@
                         @click="$emit('order-bar:previous')"
                         v-if="order.activeStep !== stepsEnum.COLOR"
                 >
-                    <i class="fas fa-chevron-left"></i>
+                    <i class="fal fa-chevron-left"></i>
                     <span>Previous Step</span>
                 </button>
                 <button class="btn btn-primary order-bar-btn__same-size"
@@ -20,20 +20,21 @@
                         v-if="!(order.activeStep === stepsEnum.SUMMARY || order.activeStep === stepsEnum.USER_INFO)"
                 >
                     <span>Next Step</span>
-                    <i class="fas fa-chevron-right"></i>
+                    <i class="fal fa-chevron-right"></i>
                 </button>
                 <button class="btn btn-primary order-bar-btn__same-size"
                         v-if="order.activeStep === stepsEnum.USER_INFO"
                         @click="$emit('order-bar:next-from-user')"
                 >
                     <span>Order Overview</span>
-                    <i class="fas fa-chevron-right"></i>
+                    <i class="fal fa-chevron-right"></i>
                 </button>
                 <button class="btn btn-success order-bar-btn__same-size"
                         v-if="order.activeStep === stepsEnum.SUMMARY"
+                        @click="$emit('order-bar:place-order')"
                 >
                     <span>Place Order</span>
-                    <i class="fas fa-check"></i>
+                    <i class="fal fa-check"></i>
                 </button>
             </div>
         </div>
