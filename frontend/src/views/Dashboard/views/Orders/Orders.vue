@@ -1,25 +1,22 @@
 <template>
     <div>
         <h2>Orders</h2>
-        <ul class="dashboard-tabs">
-            <li v-for="route in routes" :key="route.title" :class="{'active' : isActive(route) }">
-                <router-link :to="{ name: route.name }">
-                    <span v-text="route.title"></span>
-                </router-link>
-            </li>
-        </ul>
+        <dashboard-tabs :routes="routes" />
         <router-view />
     </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
+    import RouteInterface from '@/interfaces/RouteInterface';
+    import DashboardTabs from '@/views/Dashboard/components/DashboardTabs.vue';
     @Component({
-
+        components: {
+            DashboardTabs,
+        }
     })
     export default class DashboardOrders extends Vue {
-        // TODO: make an util
-         private routes: any = [
+        private routes: RouteInterface = [
             {
                 name: 'dashboard:orders:overview',
                 title: 'Overview',
@@ -29,9 +26,5 @@
                 title: 'Statistics',
             },
         ];
-
-        isActive(route: any) {
-            return route.name === this.$route.name;
-        }
     }
 </script>

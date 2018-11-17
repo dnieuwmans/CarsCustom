@@ -27,12 +27,10 @@ const router = new Router({
         },
         {
             path: '/dashboard',
-            name: 'dashboard',
             component: () => import(/* webpackChunckName: "dashboard" */ '@/views/Dashboard/Dashboard.vue'),
             children: [
                 {
                     path: '',
-                    name: 'dashboard:orders',
                     component: () => import(/* webpackChunckName: "dashboard-orders" */ '@/views/Dashboard/views/Orders/Orders.vue'),
                     children: [
                         {
@@ -49,7 +47,6 @@ const router = new Router({
                 },
                 {
                     path: 'cars',
-                    name: 'dashboard:cars',
                     component: () => import(/* webpackChunckName: "dashboard-cars" */ '@/views/Dashboard/views/Cars/Cars.vue'),
                     children: [
                         {
@@ -71,7 +68,6 @@ const router = new Router({
                 },
                 {
                     path: 'users',
-                    name: 'dashboard:users',
                     component: () => import(/* webpackChunckName: "dashboard-users" */ '@/views/Dashboard/views/Users/Users.vue'),
                     children: [
                         {

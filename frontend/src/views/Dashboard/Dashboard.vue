@@ -24,6 +24,7 @@
     // TODO: split the dashboard and the app. 
     import '@/sass/dashboard.scss';
     import {Component, Vue} from "vue-property-decorator";
+    import RouteInterface from '@/interfaces/RouteInterface';
     import MainLogo from '@/components/MainLogo.vue';
     @Component({
         name: 'Dashboard',
@@ -32,7 +33,7 @@
         }
     })
     export default class Dashboard extends Vue {
-        private routes: any = [
+        private routes: RouteInterface = [
             {
                 name: 'dashboard:orders:overview',
                 parent: 'dashboard:orders',
