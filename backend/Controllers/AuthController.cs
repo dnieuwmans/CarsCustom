@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using backend.Authentication;
 using backend.Dtos;
 using backend.Models;
+using backend.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using backend.Utils;
 
 namespace DotNetApp.API.Controllers
 {
@@ -37,10 +39,9 @@ namespace DotNetApp.API.Controllers
                 return BadRequest("Username already exists.");
             }
 
-            var userToCreate = new User 
-            {
-                Username = userForRegisterDto.Username
-            };
+            var userToCreate = new User();
+            Utils.CopyPropertiesTo(userForRegisterDto, userToCreate);
+            userToCreate.Role = RoleEnum.CUSTOMER;
 
             var createdUser = await _repository.Register(userToCreate, userForRegisterDto.Password);
 

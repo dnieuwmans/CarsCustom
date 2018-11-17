@@ -199,8 +199,6 @@ namespace backend.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
                     b.Property<string>("Email");
 
                     b.Property<string>("FirstName");
@@ -217,7 +215,15 @@ namespace backend.Migrations
 
                     b.Property<string>("Username");
 
+                    b.Property<string>("city");
+
                     b.Property<bool>("disabled");
+
+                    b.Property<string>("street");
+
+                    b.Property<string>("streetNumber");
+
+                    b.Property<string>("zipCode");
 
                     b.HasKey("Id");
 

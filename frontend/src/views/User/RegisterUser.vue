@@ -81,6 +81,7 @@
                                 id="first-name"
                                 class="form-control"
                                 placeholder="John"
+                                v-model="user.firstName"
                                 :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.FIRSTNAME)}"
                         >
                         <div class="invalid-feedback"
@@ -167,7 +168,7 @@
                 <div class="row">
                     <div class="col">
                         <button class="btn btn-primary"
-                        @click="registerUserOnClick()">Register</button>
+                        @click="register()">Register</button>
                     </div>
                 </div>
             </div>
@@ -248,10 +249,22 @@
             });
         }
 
-        public registerUserOnClick() {
+        public register() {
             // Recheck the fields
+            this.recheckFields(this.user)
+            
+            // Don't do anything whenever we got errors...
+            if(this.fieldsValidation.hasErrors()) {
+                return;
+            }
+
+            Api.auth.register(this.user); 
+        }
+
+        private recheckFields(user: User) {
             this.fieldsValidation.string(fieldsEnum.USERNAME, this.user[fieldsEnum.USERNAME], 2, 100);
             this.fieldsValidation.string(fieldsEnum.PASSWORD, this.user[fieldsEnum.PASSWORD], 8, 100);
+            this.fieldsValidation.string(fieldsEnum.CONFIRMPASSWORD, this.user[fieldsEnum.CONFIRMPASSWORD], 8, 100);
             this.fieldsValidation.confirmPassword(fieldsEnum.CONFIRMPASSWORD, this.user[fieldsEnum.PASSWORD], this.user[fieldsEnum.CONFIRMPASSWORD]);
             this.fieldsValidation.string(fieldsEnum.FIRSTNAME, this.user[fieldsEnum.FIRSTNAME], 2, 100);
             this.fieldsValidation.string(fieldsEnum.LASTNAME, this.user[fieldsEnum.LASTNAME], 2, 100);
@@ -259,13 +272,6 @@
             this.fieldsValidation.string(fieldsEnum.STREETNUMBER, this.user[fieldsEnum.STREETNUMBER], 1, 6);
             this.fieldsValidation.phone(fieldsEnum.PHONE, this.user[fieldsEnum.PHONE]);
             this.fieldsValidation.email(fieldsEnum.EMAIL, this.user[fieldsEnum.EMAIL]);
-            
-            // Don't do anything whenever we got errors...
-            if(this.fieldsValidation.hasErrors()) {
-                return;
-            }
-
-            // this.$store.commit('Order/nextStep');
         }
 
         public validateUser(field: string) {
@@ -292,7 +298,6 @@
                     break;
             }
 
-            // Don't do anything whenever we got errors...
             if(this.fieldsValidation.hasErrors()) {
                 return;
             }

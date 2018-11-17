@@ -1,4 +1,5 @@
 import UserInterface from '@/interfaces/UserInterface';
+import { cloneDeep } from 'lodash';
 
 export default class User implements UserInterface {
     public static fromJson(json: UserInterface) {
