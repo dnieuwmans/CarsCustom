@@ -34,24 +34,27 @@
     export default class Dashboard extends Vue {
         private routes: any = [
             {
-                name: 'dashboard:orders',
+                name: 'dashboard:orders:overview',
+                parent: 'dashboard:orders',
                 title: 'Orders',
                 icon: 'fal fa-fw fa-box',
             },
             {
-                name: 'dashboard:cars',
+                name: 'dashboard:cars:overview',
+                parent: 'dashboard:cars',
                 title: 'Cars',
                 icon: 'fal fa-fw fa-car',
             },
             {
-                name: 'dashboard:users',
+                name: 'dashboard:users:overview',
+                parent: 'dashboard:users',
                 title: 'Users',
                 icon: 'fal fa-fw fa-users',
             }
         ];
 
         isActive(route: any) {
-            return route.name === this.$route.name;
+            return this.$route.name.includes(route.parent);
         }
     }
 </script>

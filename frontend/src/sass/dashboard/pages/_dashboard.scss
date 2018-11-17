@@ -12,6 +12,15 @@
   &__main {
     flex-grow: 1;
     padding: 2rem;
+    overflow: auto;
+    
+    h2 {
+      margin-bottom: 3rem;
+    }
+
+    h5 {
+      margin-bottom: 2rem;
+    }
   }
 }
 
@@ -33,7 +42,7 @@
       }
 
       &:after {
-        content: '';
+        content: "";
         top: 0;
         position: absolute;
         width: 2px;
@@ -52,9 +61,58 @@
         }
 
         &:after {
-            visibility: visible;
-            opacity: 1;
+          visibility: visible;
+          opacity: 1;
         }
+      }
+    }
+  }
+}
+
+.dashboard-tabs {
+  margin: 0 0 3rem;
+  padding: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  li {
+    display: inline-block;
+    position: relative;
+    height: 2.5rem;
+
+    + li {
+      margin-left: 2rem;
+    }
+
+    a {
+      color: rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+      padding-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      left:0;
+      bottom: 0;
+      background: $primary-color;
+      width:100%;
+      height: 2px;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    &:hover,
+    &.active {
+      a {
+        color: $primary-color;
+        text-decoration: none;
+      }
+
+      &:after {
+        opacity: 1;
+        visibility: visible;
       }
     }
   }

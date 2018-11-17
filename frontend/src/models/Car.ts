@@ -35,4 +35,8 @@ export default class Car implements CarInterface {
     get formattedPrice() {
         return `€${this.price.toLocaleString('nl-NL')},-`;
     }
+
+    get fullDescription() {
+        return `${this.brand}, ${this.type}`;
+    }
 }
