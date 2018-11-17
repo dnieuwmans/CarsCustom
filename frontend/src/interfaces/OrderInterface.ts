@@ -9,4 +9,5 @@ export default interface OrderInterface {
     activeStep?: number;
     steps?: any;
     status?: number;
+    token?: string;
 }

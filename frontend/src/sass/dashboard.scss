@@ -1,0 +1,13 @@
+// Variables
+@import "variables";
+
+html, body, #app {
+    width: 100%;
+    height: 100%;
+}
+
+// Component
+@import "dashboard/components/table";
+
+// Pages
+@import "dashboard/pages/dashboard";

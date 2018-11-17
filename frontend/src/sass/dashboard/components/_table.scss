@@ -1,0 +1,44 @@
+.dashboard-table {
+    font-size: 0.9rem;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.1);
+
+    td, th {
+        border-color: #f3f3f3;
+        padding: 1rem;
+        vertical-align: middle;
+    }
+
+    .car-colors__item {
+        cursor: default;
+
+        &:hover {
+            border-color: #dbdbdb;
+        }
+    }
+
+    thead {
+        th, td {
+            font-weight: 600;
+            color: $heading-color;
+            border-bottom-width: 1px;
+            border-top: 0;
+        }
+        
+    }
+
+    td, th {
+        &.actions {
+            font-size: 1.2rem;
+
+            a {
+                color: transparentize($body-color, 0.6);
+                transition: all 0.3s ease;
+
+                &:hover {
+                    color: $body-color;
+                }
+            }
+        }
+    }
+}
