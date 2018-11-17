@@ -13,22 +13,22 @@ export enum stepsEnum {
 const stepsDef = [
     {
         id: stepsEnum.COLOR,
-        name: 'Color',
+        name: 'Select Color',
         completed: 0,
     },
     {
         id: stepsEnum.ACCESSORY,
-        name: 'Accessory',
+        name: 'Select Accessory',
         completed: 0,
     },
     {
         id: stepsEnum.USER_INFO,
-        name: 'User Info',
+        name: 'Buyer Information',
         completed: 0,
     },
     {
         id: stepsEnum.SUMMARY,
-        name: 'Summary',
+        name: 'Review Order',
         completed: 0,
     }
 ];
@@ -70,7 +70,7 @@ export class Order implements OrderInterface{
         this.selectedColor = params.selectedColor;
         this.orderUser = new OrderUser(params.orderUser || OrderUser.init());
         this.activeStep = params.activeStep || stepsEnum.COLOR;
-        this.steps = params.steps || stepsDef;
+        this.steps = params.steps || cloneDeep(stepsDef);
         this.status = params.status || 0;
         this.token = params.token || '';
     }
