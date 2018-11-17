@@ -12,7 +12,7 @@
                             <router-link :to="{name: link.name}">{{ link.text }}</router-link>
                         </li>
                         <li>
-                            <router-link :to="{name: 'user'}">
+                            <router-link :to="{name: 'register-user'}">
                                 <i class="far fa-user"></i>
                             </router-link>
                         </li>

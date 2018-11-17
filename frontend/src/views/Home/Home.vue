@@ -18,7 +18,7 @@
                                     <router-link :to="{name: 'explore-cars'}">Explore Cars</router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name: 'user'}">
+                                    <router-link :to="{name: 'register-user'}">
                                         <i class= "fas fa-user"></i>
                                     </router-link>
                                 </li>

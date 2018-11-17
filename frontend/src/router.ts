@@ -16,8 +16,8 @@ const router = new Router({
             component: () => import(/* webpackChunkName: "explore-cars" */ '@/views/ExploreCars/ExploreCars.vue' ),
         },
         {
-            path: '/user',
-            name: 'user',
+            path: '/register-user',
+            name: 'register-user',
             component: () => import(/* webpackChunkName: "user" */ '@/views/User/RegisterUser.vue' ),
         },
         {
@@ -29,6 +29,11 @@ const router = new Router({
             path: '/order-complete/:token',
             name: 'order-complete',
             component: () => import(/* webpackChunckName: "order-complete" */ '@/views/OrderComplete/OrderComplete.vue'),
+        },
+        {
+            path: '/registration-complete',
+            name: 'registration-complete',
+            component: () => import(/* webpackChunkName: "registration-complete" */ '@/views/User/RegistrationComplete.vue' ),
         },
         {
             path: '/dashboard',

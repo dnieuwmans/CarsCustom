@@ -1,8 +1,9 @@
 <template>
     <div class="explore-cars">
         <main-nav/>
-        
         <div class="register-user container">
+            <div class="alert alert-danger mb-4" v-if="showErrorMessage">{{ errorMessage }}</div>
+            <!-- Main -->
             <h2>Register</h2>
             <div v-if="fieldsValidation != null">
                 <div class="row">
@@ -209,6 +210,8 @@
         public fieldsEnum = fieldsEnum;
         public user = User.init(); // Because we are lazy ;)
         public fieldsValidation: Validation = new Validation({});
+        public errorMessage: string = '';
+        public showErrorMessage: boolean = false;
 
         public mounted() {
             this.fieldsValidation = new Validation(cloneDeep(this.user));
@@ -257,12 +260,21 @@
             if(this.fieldsValidation.hasErrors()) {
                 return;
             }
-
-            Api.auth.register(this.user); 
+            
+            Api.auth.register(this.user)
+            .then((response) => {
+                 this.$router.push({ name: 'registration-complete'});
+                 return;
+            })
+            .catch((error) => {
+                this.showErrorMessage = true;
+                this.errorMessage = error.response.data;
+            })
         }
 
         private recheckFields(user: User) {
             this.fieldsValidation.string(fieldsEnum.USERNAME, this.user[fieldsEnum.USERNAME], 2, 100);
+            this.fieldsValidation.userName(fieldsEnum.USERNAME, this.user[fieldsEnum.USERNAME]);
             this.fieldsValidation.string(fieldsEnum.PASSWORD, this.user[fieldsEnum.PASSWORD], 8, 100);
             this.fieldsValidation.string(fieldsEnum.CONFIRMPASSWORD, this.user[fieldsEnum.CONFIRMPASSWORD], 8, 100);
             this.fieldsValidation.confirmPassword(fieldsEnum.CONFIRMPASSWORD, this.user[fieldsEnum.PASSWORD], this.user[fieldsEnum.CONFIRMPASSWORD]);
