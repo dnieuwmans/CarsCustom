@@ -1,5 +1,6 @@
 import CarInterface from '@/interfaces/CarInterface';
 import Color from '@/models/Color';
+import Accessory from '@/models/Accessory'
 
 export default class Car implements CarInterface {
     public static fromJson(json: any) {
@@ -16,6 +17,7 @@ export default class Car implements CarInterface {
     public colors: Color[];
     public imageTemplate: string;
     public images: string[];
+    public accessories: Accessory[];
 
 
     constructor(params: CarInterface) {
@@ -30,6 +32,12 @@ export default class Car implements CarInterface {
         this.images = this.colors.map(c => {
             return this.imageTemplate.replace('%color%', c.name);
         })
+
+        if (params.accessories == null) {
+            this.accessories = [];
+        } else {
+            this.accessories = params.accessories.map(Accessory.fromJson);
+        }
     }
 
     get formattedPrice() {

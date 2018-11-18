@@ -10,5 +10,6 @@ namespace backend.Models
         public OrderCar Car { get; set; }
         public OrderUser User { get; set; }
         public OrderColor SelectedColor { get; set; }
+        public ICollection<OrderAccessory> SelectedAccessories { get; set; }
     }
 }

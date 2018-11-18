@@ -2,7 +2,7 @@
     <div class="order-car">
         <main-nav/>
 
-        <div class="order-car-container">
+        <div class="order-car-container" v-if="order != null">
             <div class="order-car__sidebar">
                 <div>
                     <h4>My Order</h4>
@@ -30,6 +30,22 @@
                             <i class="fal fa-palette"></i>
                             {{ order.selectedColorObject }}
                         </li>
+                        <li>
+                            <i class="fal fa-usd-circle"></i>
+                            {{ order.selectedCar.formattedPrice }}
+                        </li>
+                    </ul>
+
+                    <ul class="list-unstyled order-car__order-info order-car__accessories-info" v-if="order.selectedAccessories.length > 0">
+                        <li v-for="accessory in order.selectedAccessories">
+                            <i class="fal fa-plus-circle"></i>
+                            <span v-text="accessory.description"></span>
+                            <span v-text="accessory.formattedCost"></span>
+                        </li>
+                    </ul>
+
+                    <p><strong>Total</strong></p>
+                    <ul class="list-unstyled order-car__order-info">
                         <li>
                             <i class="fal fa-usd-circle"></i>
                             {{ order.totalPrice }}
@@ -85,10 +101,26 @@
                             <div class="order-panel col" v-if="order.activeStep === stepsEnum.ACCESSORY"
                                  :key="stepsEnum.ACCESSORY">
                                 <h4>Select Accessories</h4>
-                                <div class="alert alert-warning">
-                                    <i class="fal fa-exclamation-triangle"></i>
-                                    This section is under construction, please come by later!
+                                <p>Customize your dream car to your own needs!</p>
+
+                                <div class="alert alert-info" v-if="order.selectedCar.accessories.length === 0">
+                                    <i class="fas fa-info"></i>
+                                    This car doesn't have any accessories, yet. 
                                 </div>
+                                <div class="alert alert-info" v-else>
+                                    <i class="fas fa-info"></i>
+                                    <strong>Note:</strong> every addition will add extra costs to the total price.
+                                </div>
+
+                                <ul class="list-unstyled order-accessories" v-if="order.selectedCar.accessories.length !== 0">
+                                    <li v-for="accessory in order.selectedCar.accessories" @click="accessoryHandler(accessory)">
+                                        <span class="check-handler" :class="{ 'is-checked': containsAccessory(accessory) }">
+                                            <i class="fal fa-check"></i>
+                                        </span>
+                                        <span class="order-accessories__description" v-text="accessory.description"></span>
+                                        <span class="order-accessories__cost" v-text="accessory.formattedCost"></span>
+                                    </li>
+                                </ul>
                             </div>
 
                             <div class="order-panel col" v-if="order.activeStep === stepsEnum.USER_INFO"
@@ -271,6 +303,7 @@
     import {stepsEnum} from '../../models/Order';
     import OrderBar from "./components/OrderBar.vue";
     import OrderUser from "../../models/OrderUser";
+    import Accessory from "../../models/Accessory";
     import {cloneDeep} from 'lodash';
     import Validation from "../../utils/Validation";
     import Api from "@/api/Api";
@@ -325,6 +358,22 @@
 
         public selectColor(key: number) {
             this.$store.commit('Order/setSelectedColor', key);
+        }
+
+        public accessoryHandler(accessory: Accessory) {
+            if (this.containsAccessory(accessory)) {
+                this.$store.commit('Order/removeAccessory', cloneDeep(accessory));
+            } else {
+                this.$store.commit('Order/addAccessory', cloneDeep(accessory));
+            }
+        }
+
+        public containsAccessory(accessory: Accessory) {
+            const foundItem = this.order.selectedAccessories.find((a) => {
+                return a.id === accessory.id;
+            });
+
+            return foundItem != null;
         }
 
         public nextStep() {

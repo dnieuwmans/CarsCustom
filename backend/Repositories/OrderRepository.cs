@@ -26,6 +26,7 @@ namespace backend.Repositories
                 .Include(o => o.SelectedColor)
                 .Include(o => o.User)
                 .Include(o => o.Status)
+                .Include(o => o.SelectedAccessories)
                 .ToListAsync();
         }
 
@@ -35,6 +36,7 @@ namespace backend.Repositories
                 .Include(o => o.SelectedColor)
                 .Include(o => o.User)
                 .Include(o => o.Status)
+                .Include(o => o.SelectedAccessories)
                 .FirstOrDefaultAsync(o => o.Token == token);
         }
 
@@ -71,6 +73,20 @@ namespace backend.Repositories
                 ZipCode = orderDto.User.ZipCode,
             };
 
+            // Accessories
+            // TODO: this can be done in an easier way, I imagine?
+            ICollection<OrderAccessory> orderAccessories = new List<OrderAccessory>();
+
+            foreach (var orderAccessoryDto in orderDto.selectedAccessories)
+            {
+                var newAccessory = new OrderAccessory(){
+                    Description = orderAccessoryDto.Description,
+                    Cost = orderAccessoryDto.Cost,
+                };
+
+                orderAccessories.Add(newAccessory);
+            }
+
             // Now put it all togeter in the order 
 
             // But first let's generate a random token
@@ -91,6 +107,7 @@ namespace backend.Repositories
                 SelectedColor = orderColor,
                 User = orderUser,
                 Status = orderStatus,
+                SelectedAccessories = orderAccessories,
             };
 
 

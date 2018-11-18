@@ -1,4 +1,5 @@
 import Color from '@/models/Color';
+import Accessory from '@/models/Accessory';
 
 export default interface CarInterface {
     id: number;
@@ -9,6 +10,7 @@ export default interface CarInterface {
     images: string[];
     imageTemplate: string;
     colors: Color[];
+    accessories: Accessory[];
 
     image_template?: string;
 }

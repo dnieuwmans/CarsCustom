@@ -108,6 +108,7 @@
                 selectedCar: this.carsSpecifications[0],
                 selectedColor: this.carsSpecifications[1],
                 activeStep: stepsEnum.COLOR,
+                selectedAccessories: [],
             });
 
             this.$store.commit('Order/setOrder', order);

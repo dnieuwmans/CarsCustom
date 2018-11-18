@@ -3,6 +3,7 @@ import OrderInterface from '@/interfaces/OrderInterface';
 import OrderUser from "@/models/OrderUser";
 import { cloneDeep } from 'lodash';
 import OrderStatus from '@/models/OrderStatus';
+import Accessory from '@/models/Accessory';
 
 export enum stepsEnum {
     COLOR = 1,
@@ -42,6 +43,7 @@ export class Order implements OrderInterface{
     public id: number;
     public selectedCar: Car;
     public selectedColor: string;
+    public selectedAccessories: Accessory[];
     public orderUser: OrderUser;
     public activeStep: number;
     public steps: any[];
@@ -56,6 +58,10 @@ export class Order implements OrderInterface{
         // TODO: implement correctly
         let price = this.selectedCar.price;
 
+        this.selectedAccessories.forEach(accessory => {
+            price += accessory.cost;
+        });
+
         return `€${price.toLocaleString('nl-NL')},-`;
     }
 
@@ -69,11 +75,17 @@ export class Order implements OrderInterface{
         this.id = params.id;
         this.selectedCar = params.selectedCar;
         this.selectedColor = params.selectedColor;
+        this.selectedAccessories = (params.selectedAccessories) ? params.selectedAccessories.map(Accessory.fromJson) : []; // TODO: remove if after added to db
         this.orderUser = new OrderUser(params.orderUser || OrderUser.init());
         this.activeStep = params.activeStep || stepsEnum.COLOR;
         this.steps = params.steps || cloneDeep(stepsDef);
-        this.status = OrderStatus.fromJson(params.status) || new OrderStatus({ id: 0, value: 'New'});
         this.token = params.token || '';
+
+        if (params.status == null) {
+            this.status = new OrderStatus({ id: 0, value: 'New'});
+        } else {
+            this.status = OrderStatus.fromJson(params.status);
+        }
     }
 
     public toJson() {
@@ -86,6 +98,7 @@ export class Order implements OrderInterface{
             car: order.selectedCar,
             user: order.orderUser,
             selectedColor,
+            selectedAccessories: order.selectedAccessories,
         }
     }
 }
