@@ -14,11 +14,13 @@ namespace backend.Data
         // The models will be added here.
         public DbSet<Car> Cars { get; set; }
         public DbSet<Color> Colors { get; set; }
+        public DbSet<Accessory> Accessories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderCar> OrderCars { get; set; }
         public DbSet<OrderColor> OrderColors { get; set; }
         public DbSet<OrderUser> OrderUsers { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {}
     }

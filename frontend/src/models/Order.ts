@@ -2,6 +2,7 @@ import Car from '@/models/Car';
 import OrderInterface from '@/interfaces/OrderInterface';
 import OrderUser from "@/models/OrderUser";
 import { cloneDeep } from 'lodash';
+import OrderStatus from '@/models/OrderStatus';
 
 export enum stepsEnum {
     COLOR = 1,
@@ -44,7 +45,7 @@ export class Order implements OrderInterface{
     public orderUser: OrderUser;
     public activeStep: number;
     public steps: any[];
-    public status: number;
+    public status: OrderStatus;
     public token: string;
 
     get activeStepName() {
@@ -71,7 +72,7 @@ export class Order implements OrderInterface{
         this.orderUser = new OrderUser(params.orderUser || OrderUser.init());
         this.activeStep = params.activeStep || stepsEnum.COLOR;
         this.steps = params.steps || cloneDeep(stepsDef);
-        this.status = params.status || 0;
+        this.status = OrderStatus.fromJson(params.status) || new OrderStatus({ id: 0, value: 'New'});
         this.token = params.token || '';
     }
 

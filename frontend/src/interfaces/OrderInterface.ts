@@ -1,5 +1,6 @@
 import Car from '@/models/Car';
 import OrderUser from "@/models/OrderUser";
+import OrderStatusInterface from '@/models/OrderStatusInterface';
 
 export default interface OrderInterface {
     id: number;
@@ -8,6 +9,6 @@ export default interface OrderInterface {
     orderUser?: OrderUser
     activeStep?: number;
     steps?: any;
-    status?: number;
+    status?: OrderStatusInterface;
     token?: string;
 }

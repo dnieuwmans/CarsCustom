@@ -25,6 +25,7 @@ namespace backend.Repositories
                 .Include(o => o.Car)
                 .Include(o => o.SelectedColor)
                 .Include(o => o.User)
+                .Include(o => o.Status)
                 .ToListAsync();
         }
 
@@ -33,11 +34,14 @@ namespace backend.Repositories
                 .Include(o => o.Car)
                 .Include(o => o.SelectedColor)
                 .Include(o => o.User)
+                .Include(o => o.Status)
                 .FirstOrDefaultAsync(o => o.Token == token);
         }
 
         public async Task<Dictionary<string, string>> Add(OrderDto orderDto)
         {
+            OrderStatus orderStatus = await _context.OrderStatuses.FirstOrDefaultAsync(o => o.Value == "New");
+
             // First create the order dependencies like car, color and user.
             // Car
             OrderCar orderCar = new OrderCar(){
@@ -86,7 +90,7 @@ namespace backend.Repositories
                 Car = orderCar,
                 SelectedColor = orderColor,
                 User = orderUser,
-                Status = 0,
+                Status = orderStatus,
             };
 
 

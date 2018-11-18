@@ -18,7 +18,7 @@
             <tbody>
                 <tr v-for="order in orders" :key="order.id">
                     <td v-text="`#${order.id}`"></td>
-                    <td><div class="badge badge-primary" v-text="order.status"></div></td>
+                    <td><div class="badge badge-primary" v-text="order.status.value"></div></td>
                     <td><a :href="`mailto: ${order.orderUser.email}`">{{ order.orderUser.fullName }}</a></td>
                     <td v-text="order.orderUser.address"></td>
                     <td v-text="order.selectedCar.fullDescription"></td>
