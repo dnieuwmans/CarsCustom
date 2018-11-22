@@ -6,7 +6,7 @@ import Api from './api/Api';
 interface IAuth {
     isAuthenticated() : boolean;
     isLoaded() : boolean;
-    login(username: string, password: string) : AxiosPromise;
+    login(username: string, password: string) : Promise<void>;
     logout() : void;
     refresh() : void;
 }
@@ -41,7 +41,12 @@ class Auth implements IAuth {
      */
     login(username: string, password: string) {
         // TODO: We need to process the JWT and get the user data.
-        return Api.auth.login(username, password);
+        return Api.auth.login(username, password).then((response) =>  {
+            // Sets the token in the local storage so we can keep the user loggedin even after a page refresh.
+            localStorage.setItem('token', response.data.token);
+
+            this.refresh() 
+        });
     }
 
     logout() {
@@ -51,6 +56,7 @@ class Auth implements IAuth {
 
     refresh() {
         // TODO: implement the userdata reload.
+        console.log('load user');
     }
 }
 

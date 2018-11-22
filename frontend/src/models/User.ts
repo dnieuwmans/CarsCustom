@@ -9,18 +9,18 @@ export default class User implements UserInterface {
     public static init() {
         return new User({
             id: -1,
-            firstName: 'Sjoerd',
-            lastName: 'Kraan',
-            phone: '0612345678',
-            email: 'test@hotmail.com',
-            username: 'meneer_sjoerd',
-            password: 'testadmin',
-            confirmPassword: 'testadmin',
+            firstName: '',
+            lastName: '',
+            phone: '',
+            email: '',
+            username: '',
+            password: '',
+            confirmPassword: '',
             role_id: 1, // todo sjoerd => enum user
-            street: 'greenhof',
-            streetNumber: '14',
-            city: 'hazwdaddie',
-            zipCode: '2394at',
+            street: '',
+            streetNumber: '',
+            city: '',
+            zipCode: '',
         })
     }
 

@@ -1,7 +1,7 @@
 .dashboard-table {
     font-size: 0.9rem;
     background: #fff;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.1);
+    box-shadow: $shadow;
 
     td, th {
         border-color: #f3f3f3;
