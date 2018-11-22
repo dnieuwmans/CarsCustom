@@ -123,6 +123,9 @@
 
             this.$auth.login(this.usernameLogin, this.passwordLogin).then((response) => {
                 console.log("login response: ", response);
+                this.loginModalVisible = false;
+
+                window.alert("Welkom!");
             })
         }
     }

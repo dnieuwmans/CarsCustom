@@ -9,8 +9,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181118125528_OrderAccessories")]
-    partial class OrderAccessories
+    [Migration("20181122170413_NewMigrations")]
+    partial class NewMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -201,7 +201,7 @@ namespace backend.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
+                    b.Property<string>("City");
 
                     b.Property<string>("Email");
 
@@ -217,7 +217,13 @@ namespace backend.Migrations
 
                     b.Property<int>("Role");
 
+                    b.Property<string>("Street");
+
+                    b.Property<string>("StreetNumber");
+
                     b.Property<string>("Username");
+
+                    b.Property<string>("ZipCode");
 
                     b.Property<bool>("disabled");
 
