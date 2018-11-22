@@ -12,5 +12,6 @@ namespace backend.Models
         public string ImageTemplate { get; set; }
         public bool Disabled { get; set; }
         public ICollection<Color> Colors { get; set; }
+        public ICollection<Accessory> Accessories { get; set; }
     }
 }

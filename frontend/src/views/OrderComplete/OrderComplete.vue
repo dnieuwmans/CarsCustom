@@ -29,7 +29,7 @@
                                     </tr>
                                     <tr>
                                         <th>Order Status:</th>
-                                        <td>{{ order.status }}</td>
+                                        <td>{{ order.status.value }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">&nbsp;</td>

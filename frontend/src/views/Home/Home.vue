@@ -2,7 +2,7 @@
     <div class="home">
         <header class="home-header">
 
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col header-nav">
                         <div class="header-nav__logo logo logo--white">

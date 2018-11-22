@@ -1,6 +1,6 @@
 <template>
     <nav class="main-nav">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col logo logo--white logo--smaller">
                     <main-logo/>

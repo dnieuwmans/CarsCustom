@@ -7,5 +7,6 @@ namespace backend.Dtos
         public OrderCarDto Car { get; set; }
         public OrderColorDto SelectedColor { get; set; }
         public OrderUserDto User { get; set; }
+        public ICollection<OrderAccessoryDto> selectedAccessories { get; set; }
     }
 }

@@ -9,14 +9,32 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181110101305_AddOrders")]
-    partial class AddOrders
+    [Migration("20181118092302_InitialRestore")]
+    partial class InitialRestore
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
+
+            modelBuilder.Entity("backend.Models.Accessory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CarId");
+
+                    b.Property<decimal>("Cost");
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("Accessories");
+                });
 
             modelBuilder.Entity("backend.Models.Car", b =>
                 {
@@ -67,7 +85,9 @@ namespace backend.Migrations
 
                     b.Property<int?>("SelectedColorId");
 
-                    b.Property<int>("Status");
+                    b.Property<int?>("StatusId");
+
+                    b.Property<string>("Token");
 
                     b.Property<int?>("UserId");
 
@@ -76,6 +96,8 @@ namespace backend.Migrations
                     b.HasIndex("CarId");
 
                     b.HasIndex("SelectedColorId");
+
+                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -116,6 +138,18 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrderColors");
+                });
+
+            modelBuilder.Entity("backend.Models.OrderStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("backend.Models.OrderUser", b =>
@@ -174,6 +208,13 @@ namespace backend.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("backend.Models.Accessory", b =>
+                {
+                    b.HasOne("backend.Models.Car")
+                        .WithMany("Accessories")
+                        .HasForeignKey("CarId");
+                });
+
             modelBuilder.Entity("backend.Models.Color", b =>
                 {
                     b.HasOne("backend.Models.Car")
@@ -190,6 +231,10 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.OrderColor", "SelectedColor")
                         .WithMany()
                         .HasForeignKey("SelectedColorId");
+
+                    b.HasOne("backend.Models.OrderStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
 
                     b.HasOne("backend.Models.OrderUser", "User")
                         .WithMany()

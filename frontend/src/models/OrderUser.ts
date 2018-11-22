@@ -8,14 +8,14 @@ export default class OrderUser implements OrderUserInterface {
     public static init() {
         return new OrderUser({
             id: -1,
-            firstName: '',
-            lastName: '',
-            street: '',
-            streetNumber: '',
-            city: '',
-            zipCode: '',
-            phone: '',
-            email: '',
+            firstName: 'Dan',
+            lastName: 'Nieuwmans',
+            street: 'Street',
+            streetNumber: 'Number',
+            city: 'City',
+            zipCode: '1234AB',
+            phone: '061234567',
+            email: 'dannynieuwmans@gmail.com',
         })
     }
 

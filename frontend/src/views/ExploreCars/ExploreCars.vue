@@ -7,7 +7,9 @@
                 <div class="col">
                     <h3>Explore Cars</h3>
 
-                    <div class="alert alert-danger mb-4" v-if="showErrorMessage">Oops, you didn't select a car yet!
+                    <div class="alert alert-danger mb-4" v-if="showErrorMessage">
+                        <i class="far fa-times"></i>
+                        Oops, you didn't select a car yet!
                     </div>
                 </div>
             </div>
@@ -108,6 +110,7 @@
                 selectedCar: this.carsSpecifications[0],
                 selectedColor: this.carsSpecifications[1],
                 activeStep: stepsEnum.COLOR,
+                selectedAccessories: [],
             });
 
             this.$store.commit('Order/setOrder', order);

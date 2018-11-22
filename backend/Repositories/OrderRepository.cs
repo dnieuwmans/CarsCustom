@@ -25,6 +25,8 @@ namespace backend.Repositories
                 .Include(o => o.Car)
                 .Include(o => o.SelectedColor)
                 .Include(o => o.User)
+                .Include(o => o.Status)
+                .Include(o => o.SelectedAccessories)
                 .ToListAsync();
         }
 
@@ -33,11 +35,15 @@ namespace backend.Repositories
                 .Include(o => o.Car)
                 .Include(o => o.SelectedColor)
                 .Include(o => o.User)
+                .Include(o => o.Status)
+                .Include(o => o.SelectedAccessories)
                 .FirstOrDefaultAsync(o => o.Token == token);
         }
 
         public async Task<Dictionary<string, string>> Add(OrderDto orderDto)
         {
+            OrderStatus orderStatus = await _context.OrderStatuses.FirstOrDefaultAsync(o => o.Value == "New");
+
             // First create the order dependencies like car, color and user.
             // Car
             OrderCar orderCar = new OrderCar(){
@@ -67,6 +73,20 @@ namespace backend.Repositories
                 ZipCode = orderDto.User.ZipCode,
             };
 
+            // Accessories
+            // TODO: this can be done in an easier way, I imagine?
+            ICollection<OrderAccessory> orderAccessories = new List<OrderAccessory>();
+
+            foreach (var orderAccessoryDto in orderDto.selectedAccessories)
+            {
+                var newAccessory = new OrderAccessory(){
+                    Description = orderAccessoryDto.Description,
+                    Cost = orderAccessoryDto.Cost,
+                };
+
+                orderAccessories.Add(newAccessory);
+            }
+
             // Now put it all togeter in the order 
 
             // But first let's generate a random token
@@ -86,7 +106,8 @@ namespace backend.Repositories
                 Car = orderCar,
                 SelectedColor = orderColor,
                 User = orderUser,
-                Status = 0,
+                Status = orderStatus,
+                SelectedAccessories = orderAccessories,
             };
 
 

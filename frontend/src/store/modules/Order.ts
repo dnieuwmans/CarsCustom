@@ -1,8 +1,6 @@
 import { Order, stepsEnum } from '@/models/Order';
 import OrderUser from "@/models/OrderUser";
-
-// TODO: Maybe add the steps too
-// TODO: remove selected car and color
+import Accessory from "@/models/Accessory";
 
 // Interfaces
 interface State {
@@ -15,6 +13,8 @@ interface Getters {
 
 interface Mutations {
     setSelectedColor($state: any, color: number): void;
+    addAccessory($state: any, accessory: Accessory): void;
+    removeAccessory($state: any, accessory: Accessory): void;
     setOrder($state: any, order: Order): void;
     nextStep($state: any): void;
     previousStep($state: any): void;
@@ -37,6 +37,22 @@ const mutations: Mutations = {
 
         // Add it to the store
         store($state.order);
+    },
+
+    addAccessory($state, accessory) {
+        $state.order.selectedAccessories.push(accessory);
+
+        // Add it to the store
+        store($state.order);
+    },
+
+    removeAccessory($state, accessory) {
+        const newAccessories = $state.order.selectedAccessories.filter(s => s.id !== accessory.id);
+
+        $state.order.selectedAccessories = newAccessories;
+        
+         // Add it to the store
+         store($state.order);
     },
 
     setOrder($state, order) {
