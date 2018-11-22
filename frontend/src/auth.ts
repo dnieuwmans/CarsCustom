@@ -24,6 +24,7 @@ class Auth implements IAuth {
 
     /**
      * Returns a boolean whether the user is logged in.
+     * Not sure if we need this.
      */
     isAuthenticated(): boolean {
         return this.isLoaded() && this.user !== null && Number.isFinite(this.user.id);
@@ -44,8 +45,9 @@ class Auth implements IAuth {
         return Api.auth.login(username, password).then((response) =>  {
             // Sets the token in the local storage so we can keep the user loggedin even after a page refresh.
             localStorage.setItem('token', response.data.token);
+            Api.setDefaultHeader('Authorization', 'Bearer ' + response.data.token);
 
-            this.refresh() 
+            this.refresh();
         });
     }
 
@@ -55,8 +57,13 @@ class Auth implements IAuth {
     }
 
     refresh() {
-        // TODO: implement the userdata reload.
-        console.log('load user');
+        return axios.get('http://localhost:5000/api/auth/logged-in').then((response) => {
+            this._user = response.data;
+
+            // TODO: check if the user is enabled.
+
+            return this._user;
+        })
     }
 }
 
@@ -71,8 +78,6 @@ const vm = new Vue({ data: { auth }});
 // Yes I know what I am doing...
 Auth.install = function install($Vue: any) {
     Object.defineProperty($Vue.prototype, '$auth', { value: vm.auth });
-
-    // TODO: add interceptors for as we recieve 401's or 403's.
-}
+};
 
 export default Auth;

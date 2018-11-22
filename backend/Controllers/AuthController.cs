@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using backend.Utils;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotNetApp.API.Controllers
 {
@@ -30,7 +32,7 @@ namespace DotNetApp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto) 
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
 
@@ -47,9 +49,9 @@ namespace DotNetApp.API.Controllers
 
             return StatusCode(201);
         }
-    
+
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto) 
+        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
             var userFromRepo = await _repository.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
@@ -83,5 +85,23 @@ namespace DotNetApp.API.Controllers
                 token = tokenHandler.WriteToken(token),
             });
         }
+
+        [HttpGet("logged-in")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetLoggedInUser()
+        {
+            // THIS IS BAD PRACTICE
+
+            ClaimsPrincipal currentUser = this.User;
+            var username = currentUser.Identity.Name;
+
+            IDictionary<string, string> user = new Dictionary<string, string>
+            {
+                { "username", username }
+            };
+
+            return Ok(user);
+        }
+
     } 
 }

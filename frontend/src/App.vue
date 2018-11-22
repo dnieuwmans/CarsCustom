@@ -25,7 +25,6 @@
                 // Commit it to the store so we can use it
                 this.$store.commit('Order/setOrder', new Order(storedOrder));
             }
-
         }
 
         mounted() {

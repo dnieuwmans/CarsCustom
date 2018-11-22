@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import axios from "axios";
+import Api from "@/api/Api";
 
 Vue.use(Router);
 
@@ -38,6 +40,9 @@ const router = new Router({
         {
             path: '/dashboard',
             component: () => import(/* webpackChunckName: "dashboard" */ '@/views/Dashboard/Dashboard.vue'),
+            meta: {
+                requiresAuth: true,
+            },
             children: [
                 {
                     path: '',
@@ -100,6 +105,34 @@ const router = new Router({
             ],
         },
     ],
+});
+
+router.beforeEach((to, from, next) => {
+    const userToken = localStorage.getItem('token');
+
+    if (userToken != null && !router.app.$auth.isLoaded()) {
+        // Make sure to send the token with each api request
+        Api.setDefaultHeader('Authorization', 'Bearer ' + userToken);
+
+        // Reload the user.
+        router.app.$auth.refresh()
+            .then(() => { next() });
+    } else {
+        if (to.matched.some(route => route.meta.requiresAuth)) {
+
+            // Check if we are logged in.
+            // TODO: check role
+            if (router.app.$auth.isLoaded()) {
+                next();
+
+                return;
+            }
+
+            next({ name: 'home' });
+        } else {
+            next();
+        }
+    }
 });
 
 export default router;
