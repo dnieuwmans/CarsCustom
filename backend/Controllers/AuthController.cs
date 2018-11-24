@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using backend.Utils;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
+using backend.Repositories;
 
 namespace DotNetApp.API.Controllers
 {
@@ -25,10 +26,12 @@ namespace DotNetApp.API.Controllers
     {
         public readonly IAuthRepository _repository;
         public readonly IConfiguration _config;
-        public AuthController(IAuthRepository repository, IConfiguration configuration)
+        public readonly IUserRepository _userRepo;
+        public AuthController(IAuthRepository repository, IConfiguration configuration, IUserRepository userRepo)
         {
             _repository = repository;
             _config = configuration;
+            _userRepo = userRepo;
         }
 
         [HttpPost("register")]
@@ -90,15 +93,14 @@ namespace DotNetApp.API.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetLoggedInUser()
         {
-            // THIS IS BAD PRACTICE
+            // THIS IS BAD PRACTICE, we may need to figure out another way
 
             ClaimsPrincipal currentUser = this.User;
             var username = currentUser.Identity.Name;
 
-            IDictionary<string, string> user = new Dictionary<string, string>
-            {
-                { "username", username }
-            };
+            var user = await _userRepo.GetOneByUsername(username);
+
+            // TODO: we may want to map it to another model or serialize it.
 
             return Ok(user);
         }

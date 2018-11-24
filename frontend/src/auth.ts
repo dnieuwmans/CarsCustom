@@ -58,7 +58,7 @@ class Auth implements IAuth {
 
     refresh() {
         return axios.get('http://localhost:5000/api/auth/logged-in').then((response) => {
-            this._user = response.data;
+            this._user = User.fromJson(response.data);
 
             // TODO: check if the user is enabled.
 

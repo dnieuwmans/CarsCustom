@@ -7,7 +7,7 @@ export default interface UserInterface {
     username: string;
     password: string;
     confirmPassword: string;
-    role_id: number;
+    role: number;
     street: string,
     streetNumber: string,
     city: string,

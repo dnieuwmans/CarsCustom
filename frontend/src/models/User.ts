@@ -16,7 +16,7 @@ export default class User implements UserInterface {
             username: '',
             password: '',
             confirmPassword: '',
-            role_id: 1, // todo sjoerd => enum user
+            role: 1,
             street: '',
             streetNumber: '',
             city: '',
@@ -32,7 +32,7 @@ export default class User implements UserInterface {
     public username: string;
     public password: string;
     public confirmPassword: string;
-    public role_id: number;
+    public role: number;
     public street: string;
     public streetNumber: string;
     public city: string;
@@ -47,7 +47,7 @@ export default class User implements UserInterface {
         this.username = params.username;
         this.password = params.password;
         this.confirmPassword = params.confirmPassword;
-        this.role_id = params.role_id;
+        this.role = params.role;
         this.street = params.street;
         this.streetNumber = params.streetNumber;
         this.city = params.city;
