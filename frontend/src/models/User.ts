@@ -53,4 +53,8 @@ export default class User implements UserInterface {
         this.city = params.city;
         this.zipCode = params.zipCode;
     }
+
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
 }

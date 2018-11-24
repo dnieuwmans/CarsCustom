@@ -39,8 +39,9 @@
     display: flex;
     align-items: center;
     margin-right: 1rem;
+    position: relative;
 
-    li {
+    .nav-menu__item {
       display: inline-block;
 
       + li {

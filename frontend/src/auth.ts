@@ -52,8 +52,9 @@ class Auth implements IAuth {
     }
 
     logout() {
-        // TODO: remove jwt token.
+        // Removes the user and token.
         this._user = null;
+        localStorage.removeItem('token');
     }
 
     refresh() {
