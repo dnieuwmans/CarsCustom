@@ -25,13 +25,12 @@
                 // Commit it to the store so we can use it
                 this.$store.commit('Order/setOrder', new Order(storedOrder));
             }
-
         }
 
         mounted() {
-            this.$auth.login('danny', 'danny').then((response) => {
-                console.log(response);
-            })
+            // this.$auth.login('danny', 'danny').then((response) => {
+            //     console.log(response);
+            // })
         }
     }
 </script>

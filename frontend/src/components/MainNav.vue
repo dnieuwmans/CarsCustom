@@ -6,19 +6,7 @@
                     <main-logo/>
                 </div>
 
-                <div class="header-nav__menu">
-                    <ul class="list-unstyled">
-                        <li :class="{'active': link.name === current}" v-for="link in links">
-                            <router-link :to="{name: link.name}">{{ link.text }}</router-link>
-                        </li>
-                        <li><a href="#"><i class="fal fa-user"></i></a></li>
-                        <li>
-                            <router-link :to="{name: 'order'}">
-                                <i class="fal fa-shopping-basket"></i>
-                            </router-link>
-                        </li>
-                    </ul>
-                </div>
+                <main-menu />
             </div>
         </div>
     </nav>
@@ -27,32 +15,14 @@
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
     import MainLogo from '@/components/MainLogo.vue';
+    import MainMenu from '@/components/MainMenu.vue';
 
     @Component({
         name: 'MainNav',
         components: {
             MainLogo,
+            MainMenu,
         }
     })
-    export default class MainNav extends Vue {
-        public current: string = '';
-        public links: object[] = [
-            {
-                name: 'home',
-                text: 'Home',
-            },
-            {
-                name: 'explore-cars',
-                text: 'Explore Cars',
-            },
-        ];
-
-        get order() {
-            return this.$store.getters['Order/getOrder'];
-        }
-
-        public mounted() {
-            this.current = this.$route.name || '';
-        }
-    }
+    export default class MainNav extends Vue {}
 </script>

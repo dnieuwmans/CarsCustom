@@ -2,7 +2,7 @@
   display: flex;
   height: 100%;
   background: #fff;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: $shadow;
   padding: 1rem;
   border-radius: 0.25rem;
 }

@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import axios from "axios";
+import Api from "@/api/Api";
 
 Vue.use(Router);
 
@@ -16,6 +18,11 @@ const router = new Router({
             component: () => import(/* webpackChunkName: "explore-cars" */ '@/views/ExploreCars/ExploreCars.vue' ),
         },
         {
+            path: '/register-user',
+            name: 'register-user',
+            component: () => import(/* webpackChunkName: "user" */ '@/views/User/RegisterUser.vue' ),
+        },
+        {
             path: '/order',
             name: 'order',
             component: () => import(/* webpackChunkName: "order" */ '@/views/OrderCar/OrderCar.vue' ),
@@ -26,8 +33,16 @@ const router = new Router({
             component: () => import(/* webpackChunckName: "order-complete" */ '@/views/OrderComplete/OrderComplete.vue'),
         },
         {
+            path: '/registration-complete',
+            name: 'registration-complete',
+            component: () => import(/* webpackChunkName: "registration-complete" */ '@/views/User/RegistrationComplete.vue' ),
+        },
+        {
             path: '/dashboard',
             component: () => import(/* webpackChunckName: "dashboard" */ '@/views/Dashboard/Dashboard.vue'),
+            meta: {
+                requiresAuth: true,
+            },
             children: [
                 {
                     path: '',
@@ -90,6 +105,34 @@ const router = new Router({
             ],
         },
     ],
+});
+
+router.beforeEach((to, from, next) => {
+    const userToken = localStorage.getItem('token');
+
+    if (userToken != null && !router.app.$auth.isLoaded()) {
+        // Make sure to send the token with each api request
+        Api.setDefaultHeader('Authorization', 'Bearer ' + userToken);
+
+        // Reload the user.
+        router.app.$auth.refresh()
+            .then(() => { next() });
+    } else {
+        if (to.matched.some(route => route.meta.requiresAuth)) {
+
+            // Check if we are logged in.
+            // TODO: check role
+            if (router.app.$auth.isLoaded()) {
+                next();
+
+                return;
+            }
+
+            next({ name: 'home' });
+        } else {
+            next();
+        }
+    }
 });
 
 export default router;

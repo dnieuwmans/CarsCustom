@@ -1,4 +1,5 @@
 import axios from "axios";
+import User from '@/models/User';
 
 export default class AuthApi {
     private route : string;
@@ -8,11 +9,8 @@ export default class AuthApi {
     }
   
     // TODO: make complete
-    public register(username: string, password: string) {
-        return axios.post(`${this.route}/register`, {
-            username,
-            password,
-        });
+    public register(user: User) {
+        return axios.post(`${this.route}/register`, user);
     }
 
     public login(username: string, password: string) {

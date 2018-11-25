@@ -9,22 +9,7 @@
                             <main-logo></main-logo>
                         </div>
 
-                        <div class="header-nav__menu">
-                            <ul class="list-unstyled">
-                                <li class="active">
-                                    <router-link :to="{name: 'home'}">Home</router-link>
-                                </li>
-                                <li>
-                                    <router-link :to="{name: 'explore-cars'}">Explore Cars</router-link>
-                                </li>
-                                <li><a href="#"><i class="fal fa-user"></i></a></li>
-                                <li>
-                                    <router-link :to="{name: 'order'}">
-                                        <i class="fal fa-shopping-basket"></i>
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </div>
+                        <main-menu />
                     </div>
                 </div>
 
@@ -50,9 +35,11 @@
     import {Component, Vue} from "vue-property-decorator";
     import MainLogo from "../../components/MainLogo.vue";
     import Api from '@/api/Api';
+    import MainMenu from "../../components/MainMenu";
 
     @Component({
         components: {
+            MainMenu,
             MainLogo
         }
     })

@@ -24,9 +24,12 @@
 @import "components/car-card";
 @import "components/car-colors";
 @import "components/check-handler";
+@import "components/account-dropdown";
 
 // Pages
 @import "app/pages/home";
 @import "app/pages/explore-cars";
 @import "app/pages/order-car";
 @import "app/pages/order-complete";
+@import "pages/register-user";
+@import "pages/registration-complete";

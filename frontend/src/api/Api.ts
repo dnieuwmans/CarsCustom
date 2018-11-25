@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import CarApi from './sections/CarApi';
 import AddressApi from './sections/AddressApi';
 import AuthApi from './sections/AuthApi';
@@ -23,4 +25,9 @@ export default class Api {
 
     // Order related api methods.
     public static order = new OrderApi(route, 'orders');
+
+    // Sets the default headers according to the key and value.
+    public static setDefaultHeader = (key: string, value: string) => {
+        axios.defaults.headers.common[key] = value;
+    }
 }
