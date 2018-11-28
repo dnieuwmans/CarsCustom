@@ -206,3 +206,19 @@
     }
   }
 }
+
+.order-payment-method {
+  li {
+    font-size: 4rem;
+    display: inline-block;
+    color: transparentize($body-color, 0.6);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-right: 1rem;
+
+    &.is-active,
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}

@@ -33,7 +33,7 @@
                         v-if="order.activeStep === stepsEnum.SUMMARY"
                         @click="$emit('order-bar:place-order')"
                 >
-                    <span>Place Order</span>
+                    <span>Place Order & Pay</span>
                     <i class="fal fa-check"></i>
                 </button>
             </div>

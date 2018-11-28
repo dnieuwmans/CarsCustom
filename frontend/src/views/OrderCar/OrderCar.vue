@@ -36,7 +36,8 @@
                         </li>
                     </ul>
 
-                    <ul class="list-unstyled order-car__order-info order-car__accessories-info" v-if="order.selectedAccessories.length > 0">
+                    <ul class="list-unstyled order-car__order-info order-car__accessories-info"
+                        v-if="order.selectedAccessories.length > 0">
                         <li v-for="accessory in order.selectedAccessories">
                             <i class="fal fa-plus-circle"></i>
                             <span v-text="accessory.description"></span>
@@ -105,19 +106,23 @@
 
                                 <div class="alert alert-info" v-if="order.selectedCar.accessories.length === 0">
                                     <i class="fas fa-info"></i>
-                                    This car doesn't have any accessories, yet. 
+                                    This car doesn't have any accessories, yet.
                                 </div>
                                 <div class="alert alert-info" v-else>
                                     <i class="fas fa-info"></i>
                                     <strong>Note:</strong> every addition will add extra costs to the total price.
                                 </div>
 
-                                <ul class="list-unstyled order-accessories" v-if="order.selectedCar.accessories.length !== 0">
-                                    <li v-for="accessory in order.selectedCar.accessories" @click="accessoryHandler(accessory)">
-                                        <span class="check-handler" :class="{ 'is-checked': containsAccessory(accessory) }">
+                                <ul class="list-unstyled order-accessories"
+                                    v-if="order.selectedCar.accessories.length !== 0">
+                                    <li v-for="accessory in order.selectedCar.accessories"
+                                        @click="accessoryHandler(accessory)">
+                                        <span class="check-handler"
+                                              :class="{ 'is-checked': containsAccessory(accessory) }">
                                             <i class="fal fa-check"></i>
                                         </span>
-                                        <span class="order-accessories__description" v-text="accessory.description"></span>
+                                        <span class="order-accessories__description"
+                                              v-text="accessory.description"></span>
                                         <span class="order-accessories__cost" v-text="accessory.formattedCost"></span>
                                     </li>
                                 </ul>
@@ -249,10 +254,45 @@
                             <div class="order-panel col" v-if="order.activeStep === stepsEnum.SUMMARY"
                                  :key="stepsEnum.SUMMARY">
                                 <h4>Summary</h4>
-                                <p>Hold on tight, {{ order.orderUser.firstName}}. We are almost there. Please verify your
+                                <p>Hold on tight, {{ order.orderUser.firstName}}. We are almost there. Please verify
+                                    your
                                     order before continue.</p>
 
                                 TODO: make it really cool!
+                            </div>
+
+                            <div class="order-panel col" v-if="order.activeStep === stepsEnum.PAYMENT"
+                                 :key="stepsEnum.PAYMENT">
+                                <h4>Order Payment</h4>
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info"></i>
+                                    <strong>Note:</strong> we don't store your credit card information at all! It is only necessary in order to complete the payment.
+                                </div>
+                                <p>Please select the payment method of your choice.</p>
+
+                                <ul class="list-unstyled order-payment-method">
+                                    <li v-for="paymentMethod in paymentMethodsEnum"
+                                        :class="{ 'is-active' : selectedPaymentMethod === paymentMethod }"
+                                        @click="selectPayment(paymentMethod)">
+                                        <i class="fab" :class="`fa-cc-${paymentMethod}`"></i>
+                                    </li>
+                                </ul>
+
+
+                                <div class="row" v-if="selectedPaymentMethod !== ''">
+                                    <div class="col col-md-6 form-group">
+                                        <label for="">Card Number</label>
+                                        <input type="text" class="form-control" placeholder="Card Number">
+                                    </div>
+                                    <div class="col form-group">
+                                        <label for="">Expiry</label>
+                                        <input type="text" class="form-control" placeholder="MM/YYYY">
+                                    </div>
+                                    <div class="col form-group">
+                                        <label for="">CVV</label>
+                                        <input type="text" class="form-control" placeholder="0000">
+                                    </div>
+                                </div>
                             </div>
 
                         </transition>
@@ -270,7 +310,7 @@
                         </button>
                         <button class="btn btn-primary order-bar-btn__same-size"
                                 @click="nextStep"
-                                v-if="!(order.activeStep === stepsEnum.SUMMARY || order.activeStep === stepsEnum.USER_INFO)"
+                                v-if="!(order.activeStep === stepsEnum.PAYMENT || order.activeStep === stepsEnum.USER_INFO)"
                         >
                             <span>Next Step</span>
                             <i class="fal fa-chevron-right"></i>
@@ -283,10 +323,10 @@
                             <i class="fal fa-chevron-right"></i>
                         </button>
                         <button class="btn btn-success order-bar-btn__same-size"
-                                v-if="order.activeStep === stepsEnum.SUMMARY"
+                                v-if="order.activeStep === stepsEnum.PAYMENT"
                                 @click="placeOrder"
                         >
-                            <span>Place Order</span>
+                            <span>Place Order & Pay</span>
                             <i class="fal fa-check"></i>
                         </button>
                     </div>
@@ -319,6 +359,16 @@
         EMAIL = 'email',
     }
 
+    enum paymentMethodsEnum {
+        VISA = 'visa',
+        STRIPE = 'stripe',
+        MASTERCARD = 'mastercard',
+        AMEX = 'amex',
+        DISCOVER = 'discover',
+        JCB = 'jcb',
+        DINERS_CLUB = 'diners-club',
+    }
+
     @Component({
         name: 'OrderCar',
         components: {
@@ -332,6 +382,9 @@
         public fieldsEnum = fieldsEnum;
         public orderUser = OrderUser.init(); // Because we are lazy ;)
         public fieldsValidation: Validation = new Validation({});
+        public selectedPaymentMethod = '';
+        public paymentMethodsEnum = paymentMethodsEnum;
+
 
         get order() {
             return this.$store.getters['Order/getOrder'];
@@ -470,6 +523,10 @@
             }
 
             this.$store.commit('Order/nextStep');
+        }
+
+        public selectPayment(paymentMethod) {
+            this.selectedPaymentMethod = paymentMethod;
         }
 
         public placeOrder() {

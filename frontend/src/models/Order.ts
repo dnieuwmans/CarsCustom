@@ -10,6 +10,7 @@ export enum stepsEnum {
     ACCESSORY,
     USER_INFO,
     SUMMARY,
+    PAYMENT,
 }
 
 const stepsDef = [
@@ -32,7 +33,12 @@ const stepsDef = [
         id: stepsEnum.SUMMARY,
         name: 'Review Order',
         completed: 0,
-    }
+    },
+    {
+        id: stepsEnum.PAYMENT,
+        name: 'Pay Order',
+        completed: 0,
+    },
 ];
 
 export class Order implements OrderInterface{
