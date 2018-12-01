@@ -222,3 +222,11 @@
     }
   }
 }
+
+.order-summary-table {
+  th {
+    padding-right: 1rem;
+    font-weight: 600;
+    color: $heading-color;
+  }
+}
