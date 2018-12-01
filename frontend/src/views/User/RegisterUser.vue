@@ -1,7 +1,7 @@
 <template>
-    <div class="explore-cars">
+    <div class="register-user">
         <main-nav/>
-        <div class="register-user container">
+        <div class="container">
             <div class="alert alert-danger mb-4" v-if="showErrorMessage">{{ errorMessage }}</div>
             <!-- Main -->
             <h2>Register</h2>
