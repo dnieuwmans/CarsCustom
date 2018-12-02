@@ -34,7 +34,7 @@ export default class Validation {
         return count > 0;
     }
 
-    public string(field: string, value: string, min: number = 1, max: number = 100) {
+    public string(field: string, value: string, min: number = 2, max: number = 100) {
         const val = value.trim();
 
         this.errors[field] = '';
@@ -56,6 +56,8 @@ export default class Validation {
 
     public userName(field: string, value: string) {
         this.errors[field] = '';
+
+        this.string(field, value);
 
         if (!value.match(regexes.userName)) {
             this.errors[field] = 'The value is not a valid username.';
