@@ -1,4 +1,6 @@
 .explore-cars {
+    height: 100%;
+
     h3 {
         font-weight: 600;
         margin-bottom: 3rem;
@@ -7,4 +9,41 @@
     &-spacing {
         margin-bottom: 2rem;
     }
+}
+
+.explore-cars-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.explore-cars__sidebar {
+    width: 20rem;
+    height: 100%;
+    background: #fff;
+    padding: 2rem;
+    flex-shrink: 0;
+    overflow: auto;
+
+    h4 {
+        font-weight: 600;
+    }
+
+    .sub-title {
+        color: transparentize($body-color, 0.2);
+        font-style: italic;
+    }
+
+    .sidebar__filter,
+    .sidebar__title {
+        margin-bottom: 2rem;
+    }
+}
+
+.explore-cars__main {
+    padding: 2rem 0 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: scroll;
 }

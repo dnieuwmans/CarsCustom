@@ -31,5 +31,9 @@
         get order() {
             return this.$store.getters['Order/getOrder'];
         }
+
+        public selectColor(key: number) {
+            this.$store.commit('Order/setSelectedColor', key);
+        }
     }
 </script>

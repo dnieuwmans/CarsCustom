@@ -209,9 +209,33 @@
                 return;
             }
 
-            // Remap the items and remove any references if they are there.
-            this.orderUser = cloneDeep(this.order.orderUser);
-            this.fieldsValidation = new Validation(cloneDeep(this.order.orderUser));
+            // check if either of the fields are set, if not we can preload the user info if the user is logged in.
+            let isEmpty = true;
+
+            for(let userField in this.order.orderUser) {
+                if (userField === 'id') continue;
+
+                if (this.order.orderUser[userField] != '') {
+                    isEmpty = false;
+                    break;
+                }
+            }
+
+            // This is optically better to understand
+            if (isEmpty) {
+                // Check if the user is logged in
+                if (this.$auth.user != null) {
+
+                    // Get the user info.
+                    this.orderUser = cloneDeep(OrderUser.fromJson(this.$auth.user));
+                }
+
+            } else {
+                // Remap the items and remove any references if they are there.
+                this.orderUser = cloneDeep(this.order.orderUser);
+            }
+
+            this.fieldsValidation = new Validation(cloneDeep(this.orderUser));
         }
 
         public nextStep() {

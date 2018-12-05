@@ -2,23 +2,62 @@
     <div class="explore-cars">
         <main-nav/>
 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h3>Explore Cars</h3>
-
-                    <div class="alert alert-danger mb-4" v-if="showErrorMessage">
-                        <i class="far fa-times"></i>
-                        Oops, you didn't select a car yet!
-                    </div>
+        <div class="explore-cars-container">
+            <div class="explore-cars__sidebar">
+                <div class="sidebar__title">
+                    <h5>Filter</h5>
+                    <p><em>You can filter the overview by defining the right price range and color.</em></p>
                 </div>
+                <div class="sidebar__filter">
+                    <p><strong>Price:</strong></p>
+                    <div class="car-price-filer">
+                        <input type="text" class="form-control" v-model="priceFilter.min" @keyup.enter="filterCars('priceRange', priceFilter)">
+                        <div class="divider">-</div>
+                        <input type="text" class="form-control" v-model="priceFilter.max" @keyup.enter="filterCars('priceRange', priceFilter)">
+                        <button class="btn btn-primary" @click="filterCars('priceRange', priceFilter)">
+                            <i class="fal fa-chevron-double-right"></i>
+                        </button>
+                    </div>
+                    <small><a href="#" @click.prevent="resetPriceRange()">Reset Price</a></small>
+                </div>
+                <div class="sidebar__filter">
+                    <p><strong>Colors</strong></p>
+                    <ul class="car-colors">
+                        <li
+                                v-for="(color, key) in availableColors"
+                                :key="color.id"
+                                :title="color.name"
+                                :class="{'car-colors__item--active': color.name === carFilter.color}"
+                                class="car-colors__item"
+                                @click="filterCars('color', color.name)"
+                        >
+                            <span :style="{ background: color.hex }"></span>
+                        </li>
+                    </ul>
+                    <small><a href="#" @click.prevent="filterCars('color', '')">Reset Color</a></small>
+                </div>
+
             </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 explore-cars-spacing" v-for="car in cars" :key="car.id">
-                    <car-card
-                            :car="car"
-                            @CarCard:Customize="customizeCar"
-                    />
+            <div class="explore-cars__main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Explore Cars</h3>
+
+                            <div class="alert alert-danger mb-4" v-if="showErrorMessage">
+                                <i class="far fa-times"></i>
+                                Oops, you didn't select a car yet!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-if="filteredCars.length > 0">
+                        <div class="col-lg-4 col-md-6 explore-cars-spacing" v-for="car in filteredCars" :key="car.id">
+                            <car-card
+                                    :car="car"
+                                    @CarCard:Customize="customizeCar"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,7 +85,7 @@
     import {Component, Vue} from 'vue-property-decorator';
     import MainNav from '../../components/MainNav.vue';
     import CarCard from '../../components/CarCard.vue';
-
+    import {uniqBy, cloneDeep} from 'lodash';
     import Car from '../../models/Car';
     import {Order, stepsEnum} from '../../models/Order';
     import Api from '@/api/Api';
@@ -65,6 +104,71 @@
         public showErrorMessage: boolean = false;
         public continueOrderModal: boolean = false;
         public carsSpecifications: any = [];
+        public priceFilter: any = {min: 0, max: 0}; // used to pass the values to the filter
+        public carFilter: any = {
+            priceRange: {
+                min: '',
+                max: '',
+            },
+            color: '',
+        };
+
+        get availableColors() {
+            let colors = [];
+
+            this.cars.forEach((car) => {
+                colors.push(...car.colors);
+            });
+
+            return uniqBy(colors, 'name');
+        }
+
+        get prices() {
+            const prices = this.cars.slice(0).map(car => car.price);
+
+            return {
+                min: Math.min(...prices),
+                max: Math.max(...prices),
+            };
+        }
+
+        get filteredCars() {
+            // First get a copy of the cars array
+            let filteredCars = this.cars.slice(0);
+
+            // filter on the price
+            if (this.carFilter.priceRange.min !== '' || this.carFilter.priceRange.max !== '') {
+                filteredCars = filteredCars.filter((car) => {
+                    // Filter on min and max
+                    if (this.carFilter.priceRange.min !== '' && this.carFilter.priceRange.max !== '') {
+                        return car.price <= this.carFilter.priceRange.max && car.price >= this.carFilter.priceRange.min;
+                    }
+
+                    if (this.carFilter.priceRange.min !== '') {
+                        return car.price >= this.carFilter.priceRange.min;
+                    }
+
+                    if (this.carFilter.priceRange.max !== '') {
+                        return car.price <= this.carFilter.priceRange.max;
+                    }
+
+                    return true;
+                })
+            }
+
+            // Filter on color
+            if (this.carFilter.color !== '') {
+                filteredCars = filteredCars.filter((car) => {
+                    const found = car.colors.find((color) => {
+                        return color.name === this.carFilter.color;
+                    });
+
+                    return found != null;
+                })
+            }
+
+            return filteredCars;
+        }
 
         public customizeCar(car: Car, color: string) {
             // So we can use it at different places
@@ -87,6 +191,9 @@
             Api.car.findAll().then((response) => {
                 // TODO: map data
                 this.cars = response.data.map(Car.fromJson);
+
+                // Clone it, otherwise it will change
+                this.priceFilter = cloneDeep(this.prices);
             });
         }
 
@@ -114,6 +221,17 @@
             });
 
             this.$store.commit('Order/setOrder', order);
+        }
+
+        public filterCars(key, value) {
+            this.carFilter[key] = cloneDeep(value);
+        }
+
+        public resetPriceRange() {
+            this.filterCars('priceRange', this.prices);
+
+            // Clone it, otherwise it will change
+            this.priceFilter = cloneDeep(this.prices);
         }
     }
 </script>
