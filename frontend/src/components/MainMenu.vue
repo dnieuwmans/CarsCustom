@@ -7,7 +7,7 @@
             </li>
 
             <!-- Shopping basket -->
-            <li class="nav-menu__item">
+            <li class="nav-menu__item" :class="{ 'has-order': order != null }">
                 <router-link :to="{name: 'order'}">
                     <i class="fal fa-shopping-basket"></i>
                 </router-link>

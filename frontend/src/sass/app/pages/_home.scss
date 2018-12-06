@@ -10,8 +10,8 @@
   position: relative;
 
   .container-fluid {
-      position: relative;
-      z-index: 3;
+    position: relative;
+    z-index: 3;
   }
 
   &::after {
@@ -25,7 +25,6 @@
     z-index: 1;
   }
 }
-
 
 .header-nav {
   display: flex;
@@ -43,6 +42,21 @@
 
     .nav-menu__item {
       display: inline-block;
+
+      &.has-order {
+        position: relative;
+
+        &::after {
+          content: '';
+          width: 10px;
+          height: 10px;
+          background: $primary-color;
+          position: absolute;
+          top: 0;
+          right: -6px;
+          border-radius: 9999px;
+        }
+      }
 
       + li {
         margin-left: 2rem;
@@ -67,36 +81,36 @@
 }
 
 .header-text {
-    h1, h4 {
-        letter-spacing: 1px;
-        text-align: center;
-    }
+  h1, h4 {
+    letter-spacing: 1px;
+    text-align: center;
+  }
 
-    h1 {
-        font-weight: 900;
-        font-style: italic;
-        color: #fff;
-        margin-top: 15rem;
-    }
+  h1 {
+    font-weight: 900;
+    font-style: italic;
+    color: #fff;
+    margin-top: 15rem;
+  }
 
-    h4 {
-        color: rgba(255, 255, 255, 0.6);
-        font-style: italic;
-        margin-bottom: 3rem;
-    }
+  h4 {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    margin-bottom: 3rem;
+  }
 
-    a {
-        background: transparent;
-        border: 2px solid #fff;
-        color: #fff;
-        border-radius: 999px;
-        padding: 0.5rem 3rem;
-        transition: all 0.15s ease;
-        letter-spacing: 1px;
+  a {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.5rem 3rem;
+    transition: all 0.15s ease;
+    letter-spacing: 1px;
 
-        &:hover {
-            color: $dark-color;
-            background: #fff;
-        }
+    &:hover {
+      color: $dark-color;
+      background: #fff;
     }
+  }
 }
