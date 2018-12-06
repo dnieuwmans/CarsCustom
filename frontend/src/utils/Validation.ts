@@ -35,7 +35,6 @@ export default class Validation {
     }
 
     public string(field: string, value: string, min: number = 1, max: number = 100) {
-        console.log(field, value);
         const val = value.trim();
 
         this.errors[field] = '';
@@ -76,6 +75,16 @@ export default class Validation {
     public confirmPassword(field: string, password: string, confirmPassword: string) {
         if (password.trim() !== confirmPassword.trim()){
             this.errors[field] = 'Password and confirmation password do not match.';
+        }
+    }
+
+    public notBlank(field: string, value: string) {
+        const val = value.trim();
+
+        this.errors[field] = '';
+
+        if (val === '') {
+            this.errors[field] = 'The value may not be empty.';
         }
     }
 }

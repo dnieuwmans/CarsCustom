@@ -14,35 +14,54 @@
             </li>
 
             <li class="nav-menu__item">
-                <a href="#" @click.prevent="toggleLoginModal()">
-                    <i class="fal fa-user"></i>
+                <a href="#" @click.stop.prevent="toggleLoginModal()">
+                    <i class="fal fa-user" v-if="$auth.user == null"></i>
+                    <i class="fas fa-user" v-else></i>
                 </a>
             </li>
         </ul>
 
-        <div class="account-dropdown" :class="{ 'is-visible' : loginModalVisible }">
+        <div class="account-dropdown" :class="{ 'is-visible' : loginModalVisible }" @click.stop>
             <div class="account-dropdown__no-account" v-if="$auth.user == null">
+                <div class="row" v-if="loginMessage !== ''">
+                    <div class="col">
+                        <div class="alert alert-danger mb-4">
+                            <i class="far fa-times"></i>
+                            {{ loginMessage }}
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col input-container">
                         <i class="fal fa-user icon"></i>
                         <input type="text"
-                               id="usernameLogin"
+                               id="login-username"
                                class="form-control"
-                               placeholder="username"
-                               v-model="usernameLogin"
+                               :class="{'is-invalid': loginValidation.hasError(fieldsEnum.USERNAME)}"
+                               placeholder="John Doe"
+                               v-model="loginData.username"
                         >
+                        <div class="invalid-feedback"
+                             v-text="loginValidation.errors[fieldsEnum.USERNAME]"
+                             v-if="loginValidation.hasError(fieldsEnum.USERNAME)"
+                        ></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col input-container">
                         <i class="fal fa-key icon"></i>
                         <input type="password"
-                               id="passwordLogin"
+                               id="login-password"
                                class="form-control"
-                               placeholder="Password"
-                               v-model="passwordLogin"
+                               :class="{'is-invalid': loginValidation.hasError(fieldsEnum.PASSWORD)}"
+                               placeholder="••••••••"
+                               v-model="loginData.password"
                                @keyup.enter="tryLogin"
                         >
+                        <div class="invalid-feedback"
+                             v-text="loginValidation.errors[fieldsEnum.PASSWORD]"
+                             v-if="loginValidation.hasError(fieldsEnum.PASSWORD)"
+                        ></div>
                     </div>
                 </div>
                 <div class="row">
@@ -61,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr/>
                 <div class="row">
                     <div class="col-lg-12 text-register">
                         <router-link :to="{name: 'register-user'}">
@@ -93,6 +112,13 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
+    import Validation from "../utils/Validation";
+    import {cloneDeep} from 'lodash';
+
+    const enum fieldsEnum {
+        USERNAME = 'username',
+        PASSWORD = 'password',
+    }
 
     @Component({
         name: 'MainMenu',
@@ -110,6 +136,15 @@
             },
         ];
         public loginModalVisible: boolean = false;
+        public fieldsEnum = fieldsEnum;
+        public loginMessage = '';
+        public loginValidation: Validation = new Validation({});
+        public loginData: any = {
+            username: '',
+            password: '',
+        };
+
+        // TODO: remove
         public usernameLogin: string = '';
         public passwordLogin: string = '';
 
@@ -119,10 +154,18 @@
 
         public mounted() {
             this.current = this.$route.name || '';
+
+            this.loginValidation = new Validation(cloneDeep(this.loginData));
         }
 
         public toggleLoginModal() {
             this.loginModalVisible = !this.loginModalVisible;
+
+            if (!this.loginModalVisible) {
+                document.removeEventListener('click', this.toggleLoginModal);
+            } else {
+                document.addEventListener('click', this.toggleLoginModal);
+            }
         }
 
         public logout() {
@@ -130,15 +173,26 @@
             this.$auth.logout();
 
             // Refresh the page
-            this.$router.go(0);
+            this.$router.push({ name: 'home' });
         }
 
         public tryLogin() {
-            // TODO: validate shit
-            this.$auth.login(this.usernameLogin, this.passwordLogin).then(() => {
-                this.usernameLogin = '';
-                this.passwordLogin = '';
-            });
+            this.loginMessage = '';
+
+            // Validate the fields
+            this.loginValidation.notBlank(fieldsEnum.USERNAME, this.loginData[fieldsEnum.USERNAME]);
+            this.loginValidation.notBlank(fieldsEnum.PASSWORD, this.loginData[fieldsEnum.PASSWORD]);
+
+            if (!this.loginValidation.hasErrors()) {
+                this.$auth.login(this.loginData.username, this.loginData.password).then(() => {
+                    this.loginData = {username: '', password: ''};
+                }).catch((error) => {
+                    console.dir(error);
+                    if (error.response.status === 401) {
+                        this.loginMessage = 'Username and password is invalid.';
+                    }
+                });
+            }
         }
     }
 </script>
