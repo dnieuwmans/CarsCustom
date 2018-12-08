@@ -4,12 +4,14 @@ import OrderUser from "@/models/OrderUser";
 import { cloneDeep } from 'lodash';
 import OrderStatus from '@/models/OrderStatus';
 import Accessory from '@/models/Accessory';
+import Vue from 'vue';
 
 export enum stepsEnum {
     COLOR = 1,
     ACCESSORY,
     USER_INFO,
     SUMMARY,
+    PAYMENT,
 }
 
 const stepsDef = [
@@ -32,7 +34,12 @@ const stepsDef = [
         id: stepsEnum.SUMMARY,
         name: 'Review Order',
         completed: 0,
-    }
+    },
+    {
+        id: stepsEnum.PAYMENT,
+        name: 'Pay Order',
+        completed: 0,
+    },
 ];
 
 export class Order implements OrderInterface{
@@ -99,6 +106,7 @@ export class Order implements OrderInterface{
             user: order.orderUser,
             selectedColor,
             selectedAccessories: order.selectedAccessories,
+            username: Vue.prototype.$auth.user.username,
         }
     }
 }

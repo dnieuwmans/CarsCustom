@@ -65,7 +65,7 @@ const mutations: Mutations = {
     nextStep($state) {
         $state.order.steps[$state.order.activeStep - 1].completed = 100;
 
-        if ($state.order.activeStep !== stepsEnum.SUMMARY) {
+        if ($state.order.activeStep !== stepsEnum.PAYMENT) {
             $state.order.activeStep += 1;
         }
 

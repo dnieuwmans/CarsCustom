@@ -36,7 +36,8 @@
                         </li>
                     </ul>
 
-                    <ul class="list-unstyled order-car__order-info order-car__accessories-info" v-if="order.selectedAccessories.length > 0">
+                    <ul class="list-unstyled order-car__order-info order-car__accessories-info"
+                        v-if="order.selectedAccessories.length > 0">
                         <li v-for="accessory in order.selectedAccessories">
                             <i class="fal fa-plus-circle"></i>
                             <span v-text="accessory.description"></span>
@@ -77,184 +78,32 @@
                 <div class="order-panels container">
                     <div class="row">
                         <transition name="fade" mode="out-in">
-                            <div class="order-panel col" v-if="order.activeStep === stepsEnum.COLOR">
-                                <h4>Select the color of your new ride!</h4>
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info"></i>
-                                    <strong>Did you know</strong> clicking on a color will actually change the color of
-                                    the shown car, try it!
-                                </div>
-                                <ul class="car-colors car-colors--lg">
-                                    <li
-                                            v-for="(color, key) in order.selectedCar.colors"
-                                            :key="color.id"
-                                            :title="color.name"
-                                            :class="{'car-colors__item--active': key === order.selectedColor}"
-                                            class="car-colors__item"
-                                            @click="selectColor(key)"
-                                    >
-                                        <span :style="{ background: color.hex }"></span>
-                                    </li>
-                                </ul>
-                            </div>
+                            <color-step
+                                    v-if="order.activeStep === stepsEnum.COLOR"
+                                    :key="stepsEnum.COLOR"
+                            />
 
-                            <div class="order-panel col" v-if="order.activeStep === stepsEnum.ACCESSORY"
-                                 :key="stepsEnum.ACCESSORY">
-                                <h4>Select Accessories</h4>
-                                <p>Customize your dream car to your own needs!</p>
+                            <accessories-step
+                                    v-if="order.activeStep === stepsEnum.ACCESSORY"
+                                    :key="stepsEnum.ACCESSORY"
+                            />
 
-                                <div class="alert alert-info" v-if="order.selectedCar.accessories.length === 0">
-                                    <i class="fas fa-info"></i>
-                                    This car doesn't have any accessories, yet. 
-                                </div>
-                                <div class="alert alert-info" v-else>
-                                    <i class="fas fa-info"></i>
-                                    <strong>Note:</strong> every addition will add extra costs to the total price.
-                                </div>
+                            <user-info-step
+                                    v-if="order.activeStep === stepsEnum.USER_INFO"
+                                    :key="stepsEnum.USER_INFO"
+                                    :order-user="this.orderUser"
+                                    :fields-validation="this.fieldsValidation"
+                            />
 
-                                <ul class="list-unstyled order-accessories" v-if="order.selectedCar.accessories.length !== 0">
-                                    <li v-for="accessory in order.selectedCar.accessories" @click="accessoryHandler(accessory)">
-                                        <span class="check-handler" :class="{ 'is-checked': containsAccessory(accessory) }">
-                                            <i class="fal fa-check"></i>
-                                        </span>
-                                        <span class="order-accessories__description" v-text="accessory.description"></span>
-                                        <span class="order-accessories__cost" v-text="accessory.formattedCost"></span>
-                                    </li>
-                                </ul>
-                            </div>
+                            <summary-step
+                                    v-if="order.activeStep === stepsEnum.SUMMARY"
+                                    :key="stepsEnum.SUMMARY"
+                            />
 
-                            <div class="order-panel col" v-if="order.activeStep === stepsEnum.USER_INFO"
-                                 :key="stepsEnum.USER_INFO">
-                                <h4>User information</h4>
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info"></i>
-                                    <strong>Did you know</strong> creating an account will allow us to fill in the buyer
-                                    information automatically!
-                                </div>
-
-                                <div v-if="fieldsValidation != null">
-                                    <div class="row">
-                                        <div class="col form-group">
-                                            <label for="first-name">First Name</label>
-                                            <!-- TODO: make component-->
-                                            <input type="text"
-                                                   id="first-name"
-                                                   class="form-control"
-                                                   placeholder="John"
-                                                   :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.FIRSTNAME)}"
-                                                   v-model="orderUser.firstName"
-                                                   @change="updateOrderUser(fieldsEnum.FIRSTNAME)"
-                                            >
-                                            <div class="invalid-feedback"
-                                                 v-text="fieldsValidation.errors[fieldsEnum.FIRSTNAME]"
-                                                 v-if="fieldsValidation.hasError(fieldsEnum.FIRSTNAME)"
-                                            ></div>
-                                        </div>
-                                        <div class="col form-group">
-                                            <label for="last-name">Last Name</label>
-                                            <input
-                                                    type="text"
-                                                    id="last-name"
-                                                    class="form-control"
-                                                    placeholder="Doe"
-                                                    v-model="orderUser.lastName"
-                                                    :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.LASTNAME)}"
-                                                    @change="updateOrderUser(fieldsEnum.LASTNAME)"
-                                            >
-                                            <div class="invalid-feedback"
-                                                 v-text="fieldsValidation.errors[fieldsEnum.LASTNAME]"
-                                                 v-if="fieldsValidation.hasError(fieldsEnum.LASTNAME)"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col col-md-2 form-group">
-                                            <label for="zip-code">Zip Code</label>
-                                            <input type="text"
-                                                   id="zip-code"
-                                                   class="form-control"
-                                                   :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.ZIPCODE)}"
-                                                   placeholder="1234AB"
-                                                   v-model="orderUser.zipCode"
-                                                   @change="updateAddress()"
-                                            >
-                                            <div class="invalid-feedback"
-                                                 v-text="fieldsValidation.errors[fieldsEnum.ZIPCODE]"
-                                                 v-if="fieldsValidation.hasError(fieldsEnum.ZIPCODE)"
-                                            ></div>
-                                        </div>
-                                        <div class="col col-md-2 form-group">
-                                            <label for="number">Number</label>
-                                            <input type="text"
-                                                   id="number"
-                                                   class="form-control"
-                                                   :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.STREETNUMBER)}"
-                                                   placeholder="1234"
-                                                   v-model="orderUser.streetNumber"
-                                                   @change="updateAddress()">
-                                            <div class="invalid-feedback"
-                                                 v-text="fieldsValidation.errors[fieldsEnum.STREETNUMBER]"
-                                                 v-if="fieldsValidation.hasError(fieldsEnum.STREETNUMBER)"
-                                            ></div>
-                                        </div>
-                                        <div class="col">
-                                            <label for="address">Address <i class="fas fa-info-circle"></i></label>
-                                            <p id="address" style="margin-top: 0.675rem; color: rgba(0,0,0,0.5)">
-                                                <!-- TODO: get rid of the inline style -->
-                                                <em v-text="`${orderUser.street} ${orderUser.streetNumber}, ${orderUser.city}`"
-                                                    v-if="orderUser.city !== ''"></em>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <hr>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col form-group">
-                                            <label for="phone">Phone</label>
-                                            <input type="text"
-                                                   id="phone"
-                                                   class="form-control"
-                                                   :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.PHONE)}"
-                                                   placeholder="+31 6 12 23 45 67"
-                                                   v-model="orderUser.phone"
-                                                   @change="updateOrderUser(fieldsEnum.PHONE)"
-                                            >
-                                            <div class="invalid-feedback"
-                                                 v-text="fieldsValidation.errors[fieldsEnum.PHONE]"
-                                                 v-if="fieldsValidation.hasError(fieldsEnum.PHONE)"
-                                            ></div>
-                                        </div>
-                                        <div class="col form-group">
-                                            <label for="email">Email</label>
-                                            <input type="text"
-                                                   id="email"
-                                                   class="form-control"
-                                                   :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.EMAIL)}"
-                                                   placeholder="john.doe@email.com"
-                                                   v-model="orderUser.email"
-                                                   @change="updateOrderUser(fieldsEnum.EMAIL)"
-                                            >
-                                            <div class="invalid-feedback"
-                                                 v-text="fieldsValidation.errors[fieldsEnum.EMAIL]"
-                                                 v-if="fieldsValidation.hasError(fieldsEnum.EMAIL)"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="order-panel col" v-if="order.activeStep === stepsEnum.SUMMARY"
-                                 :key="stepsEnum.SUMMARY">
-                                <h4>Summary</h4>
-                                <p>Hold on tight, {{ order.orderUser.firstName}}. We are almost there. Please verify your
-                                    order before continue.</p>
-
-                                TODO: make it really cool!
-                            </div>
-
+                            <payment-step
+                                    v-if="order.activeStep === stepsEnum.PAYMENT"
+                                    :key="stepsEnum.PAYMENT"
+                            />
                         </transition>
                     </div>
                 </div>
@@ -270,7 +119,7 @@
                         </button>
                         <button class="btn btn-primary order-bar-btn__same-size"
                                 @click="nextStep"
-                                v-if="!(order.activeStep === stepsEnum.SUMMARY || order.activeStep === stepsEnum.USER_INFO)"
+                                v-if="!(order.activeStep === stepsEnum.PAYMENT || order.activeStep === stepsEnum.USER_INFO)"
                         >
                             <span>Next Step</span>
                             <i class="fal fa-chevron-right"></i>
@@ -283,10 +132,10 @@
                             <i class="fal fa-chevron-right"></i>
                         </button>
                         <button class="btn btn-success order-bar-btn__same-size"
-                                v-if="order.activeStep === stepsEnum.SUMMARY"
+                                v-if="order.activeStep === stepsEnum.PAYMENT"
                                 @click="placeOrder"
                         >
-                            <span>Place Order</span>
+                            <span>Place Order & Pay</span>
                             <i class="fal fa-check"></i>
                         </button>
                     </div>
@@ -303,10 +152,14 @@
     import {stepsEnum} from '../../models/Order';
     import OrderBar from "./components/OrderBar.vue";
     import OrderUser from "../../models/OrderUser";
-    import Accessory from "../../models/Accessory";
     import {cloneDeep} from 'lodash';
     import Validation from "../../utils/Validation";
     import Api from "@/api/Api";
+    import ColorStep from "./components/steps/ColorStep";
+    import AccessoriesStep from "./components/steps/AccessoriesStep";
+    import UserInfoStep from "./components/steps/UserInfoStep";
+    import SummaryStep from "./components/steps/SummaryStep";
+    import PaymentStep from "./components/steps/PaymentStep";
 
     enum fieldsEnum {
         FIRSTNAME = 'firstName',
@@ -322,6 +175,11 @@
     @Component({
         name: 'OrderCar',
         components: {
+            PaymentStep,
+            SummaryStep,
+            UserInfoStep,
+            AccessoriesStep,
+            ColorStep,
             OrderBar,
             MainNav,
         }
@@ -351,29 +209,33 @@
                 return;
             }
 
-            // Remap the items and remove any references if they are there.
-            this.orderUser = cloneDeep(this.order.orderUser);
-            this.fieldsValidation = new Validation(cloneDeep(this.order.orderUser));
-        }
+            // check if either of the fields are set, if not we can preload the user info if the user is logged in.
+            let isEmpty = true;
 
-        public selectColor(key: number) {
-            this.$store.commit('Order/setSelectedColor', key);
-        }
+            for(let userField in this.order.orderUser) {
+                if (userField === 'id') continue;
 
-        public accessoryHandler(accessory: Accessory) {
-            if (this.containsAccessory(accessory)) {
-                this.$store.commit('Order/removeAccessory', cloneDeep(accessory));
-            } else {
-                this.$store.commit('Order/addAccessory', cloneDeep(accessory));
+                if (this.order.orderUser[userField] != '') {
+                    isEmpty = false;
+                    break;
+                }
             }
-        }
 
-        public containsAccessory(accessory: Accessory) {
-            const foundItem = this.order.selectedAccessories.find((a) => {
-                return a.id === accessory.id;
-            });
+            // This is optically better to understand
+            if (isEmpty) {
+                // Check if the user is logged in
+                if (this.$auth.user != null) {
 
-            return foundItem != null;
+                    // Get the user info.
+                    this.orderUser = cloneDeep(OrderUser.fromJson(this.$auth.user));
+                }
+
+            } else {
+                // Remap the items and remove any references if they are there.
+                this.orderUser = cloneDeep(this.order.orderUser);
+            }
+
+            this.fieldsValidation = new Validation(cloneDeep(this.orderUser));
         }
 
         public nextStep() {
@@ -382,77 +244,6 @@
 
         public previousStep() {
             this.$store.commit('Order/previousStep');
-        }
-
-        public updateAddress() {
-            const zipCode = this.orderUser.zipCode;
-            const streetNumber = this.orderUser.streetNumber;
-
-            if (zipCode === '' || streetNumber === '') {
-                this.updateOrderUser(fieldsEnum.ZIPCODE);
-                this.updateOrderUser(fieldsEnum.STREETNUMBER);
-
-                return;
-            }
-
-            const parsedStreetNumber = Number.parseInt(streetNumber, 10);
-
-            // Checks if the number is actually a number.
-            if (Number.isNaN(parsedStreetNumber)) {
-                return;
-            }
-
-            // Let's check again.
-            this.updateOrderUser(fieldsEnum.ZIPCODE);
-            this.updateOrderUser(fieldsEnum.STREETNUMBER);
-
-            // We may not have any errors
-            if (this.fieldsValidation.hasError(fieldsEnum.ZIPCODE) || this.fieldsValidation.hasError(fieldsEnum.STREETNUMBER)) {
-                return;
-            }
-
-            Api.address.getAddress(zipCode, parsedStreetNumber).then((response) => {
-                let data = response.data._embedded.addresses[0];
-
-                this.orderUser.street = data.street;
-                this.orderUser.city = data.city.label;
-
-                // This will make sure that there will be no reference
-                const clonedOrderUser = cloneDeep(this.orderUser);
-
-                this.$store.commit('Order/updateOrderUser', clonedOrderUser);
-            });
-        }
-
-        public updateOrderUser(field: string) {
-            switch (field) {
-                case fieldsEnum.FIRSTNAME:
-                case fieldsEnum.LASTNAME:
-                    this.fieldsValidation.string(field, this.orderUser[field], 2, 100);
-                    break;
-                case fieldsEnum.ZIPCODE:
-                    this.fieldsValidation.string(field, this.orderUser[field], 6, 6);
-                    break;
-                case fieldsEnum.STREETNUMBER:
-                    this.fieldsValidation.string(field, this.orderUser[field], 1, 6);
-                    break;
-                case fieldsEnum.PHONE:
-                    this.fieldsValidation.phone(field, this.orderUser[field]);
-                    break;
-                case fieldsEnum.EMAIL:
-                    this.fieldsValidation.email(field, this.orderUser[field]);
-                    break;
-            }
-
-            // Don't do anything whenever we got errors...
-            if (this.fieldsValidation.hasErrors()) {
-                return;
-            }
-
-            // This will make sure that there will be no reference
-            const clonedOrderUser = cloneDeep(this.orderUser);
-
-            this.$store.commit('Order/updateOrderUser', clonedOrderUser);
         }
 
         public continueToSummary() {

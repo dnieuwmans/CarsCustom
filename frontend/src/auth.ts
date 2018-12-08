@@ -64,6 +64,10 @@ class Auth implements IAuth {
             // TODO: check if the user is enabled.
 
             return this._user;
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                this.logout();
+            }
         })
     }
 }

@@ -11,5 +11,6 @@ namespace backend.Models
         public OrderUser User { get; set; }
         public OrderColor SelectedColor { get; set; }
         public ICollection<OrderAccessory> SelectedAccessories { get; set; }
+        public string Username { get; set; }
     }
 }
