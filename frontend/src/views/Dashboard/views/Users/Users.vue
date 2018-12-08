@@ -25,10 +25,6 @@
                 name: 'dashboard:users:new',
                 title: 'New User',
             },
-            {
-                name: 'dashboard:users:statistics',
-                title: 'Statistics',
-            },
         ];
     }
 </script>

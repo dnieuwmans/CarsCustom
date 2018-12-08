@@ -64,13 +64,29 @@
                         v-text="fieldsValidation.errors[fieldsEnum.CONFIRMPASSWORD]"
                         v-if="fieldsValidation.hasError(fieldsEnum.CONFIRMPASSWORD)"
                 ></div>
-            </div>
+            </div>    
         </div>
+        <!-- if route is dashboard new user then show role dropdown -->
+        <div v-if="$route.path === '/dashboard/users/new'" class="row">
+            <div class="col form-group">
+                <label for="role">Role</label>
+                <select class="form-control" v-model="user.role" :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.ROLE)}">
+                     <option v-for="role in roles" :key="role.key"> {{ role.value }} </option>
+                </select>
+                <div class="invalid-feedback"
+                        v-text="fieldsValidation.errors[fieldsEnum.ROLE]"
+                        v-if="fieldsValidation.hasError(fieldsEnum.ROLE)"
+                ></div>
+            </div>
+            <div class="col"></div>
+        </div>
+
         <div class="row">
             <div class="col">
                 <hr>
             </div>
         </div>
+
         <div class="row">
             <div class="col form-group">
                 <label for="first-name">First Name</label>
@@ -173,20 +189,8 @@ import {Component, Vue} from "vue-property-decorator";
 import Validation from "@/utils/Validation";
 import User from "@/models/User";
 import Api from "@/api/Api";
-
-enum fieldsEnum {
-    USERNAME = 'username',
-    PASSWORD = 'password',
-    CONFIRMPASSWORD = 'confirmPassword',
-    FIRSTNAME = 'firstName',
-    LASTNAME = 'lastName',
-    STREET = 'street',
-    STREETNUMBER = 'streetNumber',
-    CITY = 'city',
-    ZIPCODE = 'zipCode',
-    PHONE = 'phone',
-    EMAIL = 'email',
-}
+import UserFieldsEnum from "@/utils/UserFieldsEnum";
+import {roleEnum} from "@/utils/Roles";
 
 @Component({
     name: 'UserForm',
@@ -203,7 +207,28 @@ enum fieldsEnum {
     }
 })
 export default class UserForm extends Vue {
-    public fieldsEnum = fieldsEnum;
+    public fieldsEnum = UserFieldsEnum;
+
+    get roles() {
+        const roles = [];
+
+        for(let key in roleEnum) {
+            let numberKey = Number.parseInt(key);
+
+            if (!isNaN(numberKey)) {
+                const value = roleEnum[numberKey].substring(0,1) + roleEnum[numberKey].substring(1).toLowerCase();
+
+                roles.push({ key: numberKey, value, }
+                );
+            }
+        }
+
+        if(this.$auth.isEmployee()) {
+            roles.splice(0,2);
+        }
+
+        return roles;
+    }
 
     public updateAddress() {
         const zipCode = this.user.zipCode;
@@ -240,7 +265,7 @@ export default class UserForm extends Vue {
         });
     }
 
-     public validateUser(field: string) {
+    public validateUser(field: string) {
         switch(field) {
             case fieldsEnum.PASSWORD:
             case fieldsEnum.CONFIRMPASSWORD:

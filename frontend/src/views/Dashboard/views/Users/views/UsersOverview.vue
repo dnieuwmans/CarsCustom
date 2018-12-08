@@ -52,7 +52,6 @@ export default class DashboardUsersOverview extends Vue {
   mounted() {
     Api.user.getUsers().then(response => {
       this.users = response.data.map(User.fromJson);
-      console.log(this.users);
     });
   }
 }

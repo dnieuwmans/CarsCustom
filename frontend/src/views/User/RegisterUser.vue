@@ -28,20 +28,7 @@
     import Validation from "../../utils/Validation";
     import Api from "../../api/Api";
     import UserForm from "@/components/UserForm";
-
-    enum fieldsEnum {
-        USERNAME = 'username',
-        PASSWORD = 'password',
-        CONFIRMPASSWORD = 'confirmPassword',
-        FIRSTNAME = 'firstName',
-        LASTNAME = 'lastName',
-        STREET = 'street',
-        STREETNUMBER = 'streetNumber',
-        CITY = 'city',
-        ZIPCODE = 'zipCode',
-        PHONE = 'phone',
-        EMAIL = 'email',
-    }
+    import userFieldsEnum from "@/utils/UserFieldsEnum";
 
     @Component({
         name: 'RegisterUser',
@@ -52,7 +39,7 @@
     })
     export default class RegisterUser extends Vue {
         public continueOrderModal: boolean = false;
-        public fieldsEnum = fieldsEnum;
+        public fieldsEnum = userFieldsEnum;
         public user = User.init(); // Because we are lazy ;)
         public fieldsValidation: Validation = new Validation({});
         public errorMessage: string = '';
