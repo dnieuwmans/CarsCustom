@@ -32,6 +32,8 @@
 
                 </div>
             </div>
+
+            <!-- TODO: IF we got time we should add user information change and open the order in this window instead of the one with the token-->
             <div class="profile-container box">
                 <div class="profile-container__title">
                     <h3>My Profile</h3>
