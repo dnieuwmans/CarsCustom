@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import axios from "axios";
 import Api from "@/api/Api";
+import { roleEnum } from './utils/Roles';
 
 Vue.use(Router);
 
@@ -57,11 +58,17 @@ const router = new Router({
                             path: '',
                             name: 'dashboard:orders:overview',
                             component: () => import(/* webpackChunckName: "dashboard-orders-overview" */ '@/views/Dashboard/views/Orders/views/OrdersOverview.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
                         },
                         {
                             path: 'statistics',
                             name: 'dashboard:orders:statistics',
                             component: () => import(/* webpackChunckName: "dashboard-orders-statistics" */ '@/views/Dashboard/views/Orders/views/OrdersStatistics.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
                         }
                     ]
                 },
@@ -73,16 +80,25 @@ const router = new Router({
                             path: '',
                             name: 'dashboard:cars:overview',
                             component: () => import(/* webpackChunckName: "dashboard-cars-overview" */ '@/views/Dashboard/views/Cars/views/CarsOverview.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
                         },
                         {
                             path: 'new',
                             name: 'dashboard:cars:new',
                             component: () => import(/* webpackChunckName: "dashboard-cars-new" */ '@/views/Dashboard/views/Cars/views/CarsNew.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
                         },
                         {
                             path: 'statistics',
                             name: 'dashboard:cars:statistics',
                             component: () => import(/* webpackChunckName: "dashboard-cars-statistics" */ '@/views/Dashboard/views/Cars/views/CarsStatistics.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
                         }
                     ]
                 },
@@ -94,17 +110,18 @@ const router = new Router({
                             path: '',
                             name: 'dashboard:users:overview',
                             component: () => import(/* webpackChunckName: "dashboard-users-overview" */ '@/views/Dashboard/views/Users/views/UsersOverview.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
                         },
                         {
                             path: 'new',
                             name: 'dashboard:users:new',
                             component: () => import(/* webpackChunckName: "dashboard-users-new" */ '@/views/Dashboard/views/Users/views/UsersNew.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
                         },
-                        {
-                            path: 'statistics',
-                            name: 'dashboard:users:statistics',
-                            component: () => import(/* webpackChunckName: "dashboard-users-statistics" */ '@/views/Dashboard/views/Users/views/UsersStatistics.vue'),
-                        }
                     ]
                 },
             ],
@@ -126,11 +143,19 @@ router.beforeEach((to, from, next) => {
         if (to.matched.some(route => route.meta.requiresAuth)) {
 
             // Check if we are logged in.
-            // TODO: check role
             if (router.app.$auth.isLoaded()) {
-                next();
+                // Which role does the user need?
+                let mayEnter = true;
 
-                return;
+                // instead of for use the to.meta since it is based on the child to which we navigate to
+                if (to.meta.requiredRoles != null) {
+                    mayEnter = router.app.$auth.hasRole(to.meta.requiredRoles);
+                }
+
+                if (mayEnter) {
+                    next();
+                    return;
+                }
             }
 
             next({ name: 'home' });

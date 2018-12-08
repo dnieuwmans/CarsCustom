@@ -4,6 +4,7 @@ import CarApi from './sections/CarApi';
 import AddressApi from './sections/AddressApi';
 import AuthApi from './sections/AuthApi';
 import OrderApi from './sections/OrderApi';
+import UserApi from './sections/UserApi';
 
 const route: string = 'http://localhost:5000/api';
 
@@ -17,14 +18,14 @@ export default class Api {
     // Note: this api section doesn't talk to our own api.
     public static address = new AddressApi();
 
-    // TODO: implement
-    public static user = {}
-
     // Authenticate related api methods.
     public static auth = new AuthApi(route, 'auth');
 
     // Order related api methods.
     public static order = new OrderApi(route, 'orders');
+
+    // User related api methods.
+    public static user = new UserApi(route, 'users');
 
     // Sets the default headers according to the key and value.
     public static setDefaultHeader = (key: string, value: string) => {

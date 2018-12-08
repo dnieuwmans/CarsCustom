@@ -21,6 +21,7 @@ export default class User implements UserInterface {
             streetNumber: '',
             city: '',
             zipCode: '',
+            disabled: false,
         })
     }
 
@@ -37,6 +38,15 @@ export default class User implements UserInterface {
     public streetNumber: string;
     public city: string;
     public zipCode: string;
+    public disabled: boolean;
+
+    get address() {
+        return `${this.street} ${this.streetNumber}, ${this.zipCode} - ${this.city}`;
+    }
+
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
 
     constructor(params: UserInterface) {
         this.id = params.id;
@@ -52,10 +62,7 @@ export default class User implements UserInterface {
         this.streetNumber = params.streetNumber;
         this.city = params.city;
         this.zipCode = params.zipCode;
-    }
-
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`;
+        this.disabled = params.disabled;
     }
 
     get address() {

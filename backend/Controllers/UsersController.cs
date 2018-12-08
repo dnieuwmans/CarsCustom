@@ -1,20 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using backend.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult GetAll()
+        public readonly IConfiguration _config;
+        public readonly IUserRepository _repository;
+
+        public UsersController(IConfiguration configuration, IUserRepository repository)
         {
-            return Ok("");
+            _config = configuration;
+            _repository = repository;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll() 
+        {
+            return Ok(await _repository.GetAll());
+        } 
 
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
             return Ok();
         }
+       
     }
 }

@@ -2,6 +2,7 @@ import User from '@/models/User';
 import axios, { AxiosPromise } from 'axios';
 import Vue from 'vue';
 import Api from './api/Api';
+import { roleEnum } from './utils/Roles';
 
 interface IAuth {
     isAuthenticated() : boolean;
@@ -28,6 +29,30 @@ class Auth implements IAuth {
      */
     isAuthenticated(): boolean {
         return this.isLoaded() && this.user !== null && Number.isFinite(this.user.id);
+    }
+
+    isAdmin(): boolean {
+        if (this._user == null) return false;
+
+        return this.isLoaded() && this._user.role === roleEnum.ADMIN;
+    }
+
+    isEmployee(): boolean {
+        if (this._user == null) return false;
+
+        return this.isLoaded() && this._user.role === roleEnum.EMPLOYEE;
+    }
+
+    isCustomer(): boolean {
+        if (this._user == null) return false;
+
+        return this.isLoaded() && this._user.role === roleEnum.CUSTOMER;
+    }
+
+    hasRole(roles: number[]) {
+        if (this._user == null) return false;
+
+        return roles.includes(this._user.role);
     }
 
     /**

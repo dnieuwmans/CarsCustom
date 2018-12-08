@@ -8,8 +8,9 @@ export default interface UserInterface {
     password: string;
     confirmPassword: string;
     role: number;
-    street: string,
-    streetNumber: string,
-    city: string,
-    zipCode: string,
+    street: string;
+    streetNumber: string;
+    city: string;
+    zipCode: string;
+    disabled: boolean;
 }
