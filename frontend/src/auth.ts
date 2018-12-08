@@ -32,18 +32,26 @@ class Auth implements IAuth {
     }
 
     isAdmin(): boolean {
+        if (this._user == null) return false;
+
         return this.isLoaded() && this._user.role === roleEnum.ADMIN;
     }
 
     isEmployee(): boolean {
+        if (this._user == null) return false;
+
         return this.isLoaded() && this._user.role === roleEnum.EMPLOYEE;
     }
 
     isCustomer(): boolean {
+        if (this._user == null) return false;
+
         return this.isLoaded() && this._user.role === roleEnum.CUSTOMER;
     }
 
     hasRole(roles: number[]) {
+        if (this._user == null) return false;
+
         return roles.includes(this._user.role);
     }
 
