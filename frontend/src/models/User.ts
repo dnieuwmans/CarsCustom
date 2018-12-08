@@ -57,4 +57,8 @@ export default class User implements UserInterface {
     get fullName() {
         return `${this.firstName} ${this.lastName}`;
     }
+
+    get address() {
+        return `${this.street} ${this.streetNumber}, ${this.zipCode} - ${this.city}`;
+    }
 }

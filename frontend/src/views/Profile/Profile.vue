@@ -2,38 +2,54 @@
     <div class="profile">
         <main-nav/>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-3">
-                    <h4>Welcome, {{ $auth.user.fullName }}</h4>
-                    <table class="table user-summary-table">
-                        <tr>
-                            <th>Full name:</th>
-                            <td>{{ $auth.user.fullName }}</td>
-                        </tr>
-                        <tr>
-                            <th>Email:</th>
-                            <td>{{ $auth.user.email }}</td>
-                        </tr>
-                        <tr>
-                            <th>Address:</th>
-                            <td>{{ $auth.user.address }}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone:</th>
-                            <td>{{ $auth.user.phone }}</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-md-6 offset-1">
-                    <h5>My Orders</h5>
-                    <ul class="my-orders">
-                        <li v-for="order in orders" class="order-item box">
-                            <router-link :to="{ name: 'order-complete', params: { token: order.token }} ">
-                                #{{ order.id }} -
-                                {{ order.selectedCar.fullDescription }}
-                            </router-link>
+        <div class="profile-wrapper">
+            <div class="profile-info">
+                <div class="profile-info-card">
+                    <div class="profile-avatar">
+                        <i class="fal fa-user"></i>
+                        <h6>{{ $auth.user.fullName}}</h6>
+                    </div>
+                    <div class="user-info">
+                        <ul>
+                            <li>
+                                <i class="fal fa-fw fa-id-card-alt" title="Username"></i>
+                                <span>{{ $auth.user.username }}</span>
+                            </li>
+                            <li>
+                                <i class="fal fa-fw fa-envelope" title="Email"></i>
+                                <span>{{ $auth.user.email }}</span>
+                            </li>
+                            <li>
+                                <i class="fal fa-fw fa-mobile-android" title="Phone"></i>
+                                <span>{{ $auth.user.phone }}</span>
+                            </li>
+                            <li>
+                                <i class="fal fa-fw fa-map-marker-alt" title="Address"></i>
+                                <span>{{ $auth.user.address}}</span>
+                            </li>
+                        </ul>
+                    </div>
 
+                </div>
+            </div>
+            <div class="profile-container box">
+                <div class="profile-container__title">
+                    <h3>My Profile</h3>
+                    <h5>My Orders</h5>
+                </div>
+                <div class="profile-container__content">
+                    <ul class="list-unstyled" v-if="orders.length > 0">
+                        <li v-for="order in orders" class="order-item">
+                            <span class="badge">{{ order.status.value }}</span>
+                            <span class="badge">#{{ order.id }}</span>
+                            <span class="order-price">{{ order.selectedCar.fullDescription }}</span>
+                            <span>{{ order.totalPrice }}</span>
+                            <span>
+                                <router-link :to="{ name: 'order-complete', params: { token: order.token }} ">
+                                    View Order
+                                    <i class="fal fa-chevron-right"></i>
+                                </router-link>
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -61,7 +77,7 @@
         public mounted() {
             // Extra check when you are not loggedIn
             if (this.$auth.user == null) {
-                this.$router.push({ name: 'home' });
+                this.$router.push({name: 'home'});
                 return;
             }
 
