@@ -26,6 +26,14 @@ namespace backend.Controllers
             
             return Ok(values);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getSingle(int id)
+        {
+            var values = await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).FirstOrDefaultAsync(c => c.Id == id); 
+            
+            return Ok(values);
+        }
         
         [HttpGet("total")]
         public async Task<ActionResult> getTotal()

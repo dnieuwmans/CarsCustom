@@ -11,9 +11,11 @@
                 <div class="sidebar__filter">
                     <p><strong>Price:</strong></p>
                     <div class="car-price-filer">
-                        <input type="text" class="form-control" v-model="priceFilter.min" @keyup.enter="filterCars('priceRange', priceFilter)">
+                        <input type="text" class="form-control" v-model="priceFilter.min"
+                               @keyup.enter="filterCars('priceRange', priceFilter)">
                         <div class="divider">-</div>
-                        <input type="text" class="form-control" v-model="priceFilter.max" @keyup.enter="filterCars('priceRange', priceFilter)">
+                        <input type="text" class="form-control" v-model="priceFilter.max"
+                               @keyup.enter="filterCars('priceRange', priceFilter)">
                         <button class="btn btn-primary" @click="filterCars('priceRange', priceFilter)">
                             <i class="fal fa-chevron-double-right"></i>
                         </button>
@@ -69,12 +71,16 @@
                     You are about to change the order, this action will overwrite the existing order.
                 </p>
                 <div slot="footer">
-                    <button type="button" class="btn btn-primary" @click="continueOrderModalPositive()">
-                        Start a new order
-                    </button>
-                    <button type="button" class="btn btn-secondary" @click="continueOrderModalNegative()">
-                        Continue with order
-                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @click="continueOrderModalPositive()">
+                            <span>Start a new order</span>
+                            <i class="fal fa-redo"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary" @click="continueOrderModalNegative()">
+                            <span>Continue with order</span>
+                            <i class="fal fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </main-modal>
         </transition>
@@ -85,7 +91,7 @@
     import {Component, Vue} from 'vue-property-decorator';
     import MainNav from '../../components/MainNav.vue';
     import CarCard from '../../components/CarCard.vue';
-    import {uniqBy, cloneDeep} from 'lodash';
+    import {cloneDeep, uniqBy} from 'lodash';
     import Car from '../../models/Car';
     import {Order, stepsEnum} from '../../models/Order';
     import Api from '@/api/Api';
