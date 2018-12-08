@@ -1,0 +1,24 @@
+.profile {
+
+  h4, h5 {
+    margin-bottom: 2rem;
+  }
+
+  .my-orders {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .order-item {
+    margin-bottom: 1rem;
+  }
+
+  .user-summary-table {
+    th {
+      padding-right: 1rem;
+      font-weight: 600;
+      color: $heading-color;
+    }
+  }
+}

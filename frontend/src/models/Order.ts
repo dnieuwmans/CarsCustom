@@ -4,6 +4,7 @@ import OrderUser from "@/models/OrderUser";
 import { cloneDeep } from 'lodash';
 import OrderStatus from '@/models/OrderStatus';
 import Accessory from '@/models/Accessory';
+import Vue from 'vue';
 
 export enum stepsEnum {
     COLOR = 1,
@@ -105,6 +106,7 @@ export class Order implements OrderInterface{
             user: order.orderUser,
             selectedColor,
             selectedAccessories: order.selectedAccessories,
+            username: Vue.prototype.$auth.user.username,
         }
     }
 }

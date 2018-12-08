@@ -10,5 +10,6 @@ namespace backend.Repositories
         Task<ICollection<Order>> GetAll();
         Task<Order> GetByToken(string token);
         Task<Dictionary<string, string>> Add(OrderDto orderDto);
+        Task<ICollection<Order>> getByUsername(string username);
     }
 }

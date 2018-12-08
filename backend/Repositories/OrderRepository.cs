@@ -108,6 +108,7 @@ namespace backend.Repositories
                 User = orderUser,
                 Status = orderStatus,
                 SelectedAccessories = orderAccessories,
+                Username = orderDto.Username,
             };
 
 
@@ -119,6 +120,17 @@ namespace backend.Repositories
             };
 
             return response;
+        }
+
+        public async Task<ICollection<Order>> getByUsername(string username) {
+            return await _context.Orders
+                .Include(o => o.Car)
+                .Include(o => o.SelectedColor)
+                .Include(o => o.User)
+                .Include(o => o.Status)
+                .Include(o => o.SelectedAccessories)
+                .Where(o => o.Username == username)
+                .ToListAsync();
         }
     }
 }

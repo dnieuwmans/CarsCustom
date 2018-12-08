@@ -93,10 +93,10 @@
                 <em>Hello, {{ $auth.user.fullName }}</em>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="#">
+                        <router-link :to="{name: 'profile'}">
                             <i class="fal fa-user"></i>
                             <span>My Profile</span>
-                        </a>
+                        </router-link>
                     </li>
                     <li>
                         <a href="#" @click.prevent="logout()">
