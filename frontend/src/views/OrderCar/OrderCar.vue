@@ -110,28 +110,28 @@
 
                 <div class="order-navigation">
                     <div class="btn-group">
-                        <button class="btn btn-outline-primary"
+                        <button class="btn btn-outline-primary" id="previous-step"
                                 @click="previousStep"
                                 v-if="order.activeStep !== stepsEnum.COLOR"
                         >
                             <i class="fal fa-chevron-left"></i>
                             <span>Previous Step</span>
                         </button>
-                        <button class="btn btn-primary order-bar-btn__same-size"
+                        <button class="btn btn-primary order-bar-btn__same-size" id="next-step"
                                 @click="nextStep"
                                 v-if="!(order.activeStep === stepsEnum.PAYMENT || order.activeStep === stepsEnum.USER_INFO)"
                         >
                             <span>Next Step</span>
                             <i class="fal fa-chevron-right"></i>
                         </button>
-                        <button class="btn btn-primary order-bar-btn__same-size"
+                        <button class="btn btn-primary order-bar-btn__same-size" id="continue-to-summary"
                                 v-if="order.activeStep === stepsEnum.USER_INFO"
                                 @click="continueToSummary"
                         >
                             <span>Order Overview</span>
                             <i class="fal fa-chevron-right"></i>
                         </button>
-                        <button class="btn btn-success order-bar-btn__same-size"
+                        <button class="btn btn-success order-bar-btn__same-size" id="place-order"
                                 v-if="order.activeStep === stepsEnum.PAYMENT"
                                 @click="placeOrder"
                         >

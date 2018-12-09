@@ -31,7 +31,7 @@ namespace backend.Controllers
         public async Task<IActionResult> GetOrders() 
         {
             return Ok(await _repository.GetAll());
-        } 
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddOrder(OrderDto orderDto) 
