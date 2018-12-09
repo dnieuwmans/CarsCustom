@@ -48,6 +48,8 @@
             </p>
         </section>
 
+        <main-footer />
+
         <transition name="modal">
             <main-modal v-if="continueOrderModal">
                 <h5 slot="header">You are about to change the order</h5>
@@ -79,9 +81,11 @@
     import MainModal from "../../components/MainModal";
     import Car from "../../models/Car";
     import {Order, stepsEnum} from '../../models/Order';
+    import MainFooter from "../../components/MainFooter";
 
     @Component({
         components: {
+            MainFooter,
             MainMenu,
             MainLogo,
             MainModal,

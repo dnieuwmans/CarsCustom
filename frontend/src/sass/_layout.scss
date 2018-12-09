@@ -7,3 +7,27 @@
 .order-car {
   padding-top: 4.5rem;
 }
+
+footer {
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.6);
+  background: $dark-color;
+
+  .footer-logo {
+    flex-grow: 1;
+    margin-right: 1rem;
+
+    svg {
+      height: 2.2rem;
+      fill: rgba(255, 255, 255, 0.6);
+    }
+
+    &:hover {
+      svg {
+        fill: #fff;
+      }
+    }
+  }
+}

@@ -96,10 +96,12 @@
     import {Order, stepsEnum} from '../../models/Order';
     import Api from '@/api/Api';
     import MainModal from "../../components/MainModal.vue";
+    import MainFooter from "../../components/MainFooter";
 
     @Component({
         name: 'ExploreCars',
         components: {
+            MainFooter,
             MainModal,
             CarCard,
             MainNav,

@@ -235,6 +235,9 @@
                 this.orderUser = cloneDeep(this.order.orderUser);
             }
 
+            // We need to update the orderUser and cloneDeep it so it won't break due to reactivity.
+            this.$store.commit('Order/updateOrderUser', cloneDeep(this.orderUser));
+
             this.fieldsValidation = new Validation(cloneDeep(this.orderUser));
         }
 
