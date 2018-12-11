@@ -52,11 +52,11 @@ import Car from "@/models/Car";
 import { Order } from "@/models/Order";
 @Component({})
 export default class DashboardOrdersOverview extends Vue {
-  public orders: [Order] = null;
+  public orders: Order[] = [];
 
   mounted() {
     Api.order.getOrders().then(response => {
-      this.orders = response.data.map(order => {
+      this.orders = response.data.map((order: any) => {
         // Make sure to get the right mapping.
         order.car.colors = [order.selectedColor];
         order.selectedCar = new Car(order.car);

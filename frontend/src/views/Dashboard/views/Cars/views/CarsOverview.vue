@@ -40,7 +40,7 @@
 
     @Component({})
     export default class DashboardOrdersOverview extends Vue {
-        public cars: Car[] = null;
+        public cars: Car[] = [];
 
         mounted() {
             Api.car.findAll().then(response => {

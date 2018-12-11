@@ -33,7 +33,7 @@
         }
     })
     export default class Dashboard extends Vue {
-        private routes: RouteInterface = [
+        private routes: RouteInterface[] = [
             {
                 name: 'dashboard:orders:overview',
                 parent: 'dashboard:orders',
@@ -55,6 +55,10 @@
         ];
 
         isActive(route: any) {
+            if (this.$route.name == null) {
+                return false;
+            }
+
             return this.$route.name.includes(route.parent);
         }
     }

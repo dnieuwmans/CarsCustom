@@ -87,7 +87,7 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import MainNav from '../../components/MainNav.vue';
+    import MainNav from '@/components/MainNav.vue';
     import Api from '@/api/Api';
     import { Order } from '@/models/Order';
     import Car from '@/models/Car';

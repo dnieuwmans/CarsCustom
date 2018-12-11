@@ -155,11 +155,11 @@
     import {cloneDeep} from 'lodash';
     import Validation from "../../utils/Validation";
     import Api from "@/api/Api";
-    import ColorStep from "./components/steps/ColorStep";
-    import AccessoriesStep from "./components/steps/AccessoriesStep";
-    import UserInfoStep from "./components/steps/UserInfoStep";
-    import SummaryStep from "./components/steps/SummaryStep";
-    import PaymentStep from "./components/steps/PaymentStep";
+    import ColorStep from "./components/steps/ColorStep.vue";
+    import AccessoriesStep from "./components/steps/AccessoriesStep.vue";
+    import UserInfoStep from "./components/steps/UserInfoStep.vue";
+    import SummaryStep from "./components/steps/SummaryStep.vue";
+    import PaymentStep from "./components/steps/PaymentStep.vue";
 
     enum fieldsEnum {
         FIRSTNAME = 'firstName',

@@ -64,8 +64,4 @@ export default class User implements UserInterface {
         this.zipCode = params.zipCode;
         this.disabled = params.disabled;
     }
-
-    get address() {
-        return `${this.street} ${this.streetNumber}, ${this.zipCode} - ${this.city}`;
-    }
 }

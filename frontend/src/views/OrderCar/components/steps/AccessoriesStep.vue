@@ -50,7 +50,7 @@
         }
 
         public containsAccessory(accessory: Accessory) {
-            const foundItem = this.order.selectedAccessories.find((a) => {
+            const foundItem = this.order.selectedAccessories.find((a: Accessory) => {
                 return a.id === accessory.id;
             });
 

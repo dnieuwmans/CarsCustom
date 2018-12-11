@@ -16,7 +16,7 @@
         }
     })
     export default class DashboardOrders extends Vue {
-        private routes: RouteInterface = [
+        private routes: RouteInterface[] = [
             {
                 name: 'dashboard:orders:overview',
                 title: 'Overview',

@@ -75,13 +75,14 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-    import MainLogo from "../../components/MainLogo.vue";
     import Api from '../../api/Api';
-    import MainMenu from "../../components/MainMenu";
-    import MainModal from "../../components/MainModal";
     import Car from "../../models/Car";
     import {Order, stepsEnum} from '../../models/Order';
-    import MainFooter from "../../components/MainFooter";
+
+    import MainLogo from "@/components/MainLogo.vue";
+    import MainFooter from "@/components/MainFooter.vue";
+    import MainMenu from "@/components/MainMenu.vue";
+    import MainModal from "@/components/MainModal.vue";
 
     @Component({
         components: {
@@ -102,6 +103,10 @@
         }
 
         get highlightedCarImage() {
+            if (this.highlightedCar == null) {
+                return '';
+            }
+
             return this.highlightedCar.images[1];
         }
 

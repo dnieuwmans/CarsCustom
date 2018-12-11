@@ -16,7 +16,7 @@
         }
     })
     export default class DashboardCars extends Vue {
-         private routes: RouteInterface = [
+         private routes: RouteInterface[] = [
             {
                 name: 'dashboard:cars:overview',
                 title: 'Overview',

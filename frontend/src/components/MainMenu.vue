@@ -115,7 +115,7 @@
     import Validation from "../utils/Validation";
     import {cloneDeep} from 'lodash';
 
-    const enum fieldsEnum {
+    enum fieldsEnum {
         USERNAME = 'username',
         PASSWORD = 'password',
     }

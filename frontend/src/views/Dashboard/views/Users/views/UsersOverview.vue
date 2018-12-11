@@ -46,7 +46,7 @@ import { getRoleName } from "@/utils/Roles";
 @Component({})
 
 export default class DashboardUsersOverview extends Vue {
-  public users: [User] = null;
+  public users: User[] = [];
   public getRoleName = getRoleName;
 
   mounted() {
