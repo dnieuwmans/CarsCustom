@@ -47,7 +47,7 @@ const mutations: Mutations = {
     },
 
     removeAccessory($state, accessory) {
-        const newAccessories = $state.order.selectedAccessories.filter(s => s.id !== accessory.id);
+        const newAccessories = $state.order.selectedAccessories.filter((s: Accessory) => s.id !== accessory.id);
 
         $state.order.selectedAccessories = newAccessories;
         

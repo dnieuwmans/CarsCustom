@@ -94,13 +94,19 @@
                 <ul class="list-unstyled">
                     <li>
                         <router-link :to="{name: 'profile'}">
-                            <i class="fal fa-user"></i>
+                            <i class="fal fa-fw fa-user"></i>
                             <span>My Profile</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$auth.isAdmin() || $auth.isEmployee()">
+                        <router-link :to="{name: 'dashboard:orders:overview'}">
+                            <i class="fal fa-fw fa-browser"></i>
+                            <span>Dashboard</span>
                         </router-link>
                     </li>
                     <li>
                         <a href="#" @click.prevent="logout()">
-                            <i class="fal fa-power-off"></i>
+                            <i class="fal fa-fw fa-power-off"></i>
                             <span>Logout</span>
                         </a>
                     </li>
@@ -115,7 +121,7 @@
     import Validation from "../utils/Validation";
     import {cloneDeep} from 'lodash';
 
-    const enum fieldsEnum {
+    enum fieldsEnum {
         USERNAME = 'username',
         PASSWORD = 'password',
     }
@@ -173,7 +179,7 @@
             this.$auth.logout();
 
             // Refresh the page
-            this.$router.push({ name: 'home' });
+            this.$router.push({name: 'home'});
         }
 
         public tryLogin() {

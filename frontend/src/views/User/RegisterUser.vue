@@ -27,7 +27,7 @@
     import { cloneDeep } from 'lodash';
     import Validation from "../../utils/Validation";
     import Api from "../../api/Api";
-    import UserForm from "@/components/UserForm";
+    import UserForm from "@/components/UserForm.vue";
     import userFieldsEnum from "@/utils/UserFieldsEnum";
 
     @Component({
@@ -70,17 +70,17 @@
         }
 
         private recheckFields(user: User) {
-            this.fieldsValidation.string(fieldsEnum.USERNAME, this.user[fieldsEnum.USERNAME], 2, 100);
-            this.fieldsValidation.userName(fieldsEnum.USERNAME, this.user[fieldsEnum.USERNAME]);
-            this.fieldsValidation.string(fieldsEnum.PASSWORD, this.user[fieldsEnum.PASSWORD], 8, 100);
-            this.fieldsValidation.string(fieldsEnum.CONFIRMPASSWORD, this.user[fieldsEnum.CONFIRMPASSWORD], 8, 100);
-            this.fieldsValidation.confirmPassword(fieldsEnum.CONFIRMPASSWORD, this.user[fieldsEnum.PASSWORD], this.user[fieldsEnum.CONFIRMPASSWORD]);
-            this.fieldsValidation.string(fieldsEnum.FIRSTNAME, this.user[fieldsEnum.FIRSTNAME], 2, 100);
-            this.fieldsValidation.string(fieldsEnum.LASTNAME, this.user[fieldsEnum.LASTNAME], 2, 100);
-            this.fieldsValidation.string(fieldsEnum.ZIPCODE, this.user[fieldsEnum.ZIPCODE], 6, 6);
-            this.fieldsValidation.string(fieldsEnum.STREETNUMBER, this.user[fieldsEnum.STREETNUMBER], 1, 6);
-            this.fieldsValidation.phone(fieldsEnum.PHONE, this.user[fieldsEnum.PHONE]);
-            this.fieldsValidation.email(fieldsEnum.EMAIL, this.user[fieldsEnum.EMAIL]);
+            this.fieldsValidation.string(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME], 2, 100);
+            this.fieldsValidation.userName(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME]);
+            this.fieldsValidation.string(this.fieldsEnum.PASSWORD, this.user[this.fieldsEnum.PASSWORD], 8, 100);
+            this.fieldsValidation.string(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.CONFIRMPASSWORD], 8, 100);
+            this.fieldsValidation.confirmPassword(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.PASSWORD], this.user[this.fieldsEnum.CONFIRMPASSWORD]);
+            this.fieldsValidation.string(this.fieldsEnum.FIRSTNAME, this.user[this.fieldsEnum.FIRSTNAME], 2, 100);
+            this.fieldsValidation.string(this.fieldsEnum.LASTNAME, this.user[this.fieldsEnum.LASTNAME], 2, 100);
+            this.fieldsValidation.string(this.fieldsEnum.ZIPCODE, this.user[this.fieldsEnum.ZIPCODE], 6, 6);
+            this.fieldsValidation.string(this.fieldsEnum.STREETNUMBER, this.user[this.fieldsEnum.STREETNUMBER], 1, 6);
+            this.fieldsValidation.phone(this.fieldsEnum.PHONE, this.user[this.fieldsEnum.PHONE]);
+            this.fieldsValidation.email(this.fieldsEnum.EMAIL, this.user[this.fieldsEnum.EMAIL]);
         }
     }
 </script>

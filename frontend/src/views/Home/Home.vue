@@ -48,6 +48,8 @@
             </p>
         </section>
 
+        <main-footer />
+
         <transition name="modal">
             <main-modal v-if="continueOrderModal">
                 <h5 slot="header">You are about to change the order</h5>
@@ -73,15 +75,18 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
-    import MainLogo from "../../components/MainLogo.vue";
     import Api from '../../api/Api';
-    import MainMenu from "../../components/MainMenu";
-    import MainModal from "../../components/MainModal";
     import Car from "../../models/Car";
     import {Order, stepsEnum} from '../../models/Order';
 
+    import MainLogo from "@/components/MainLogo.vue";
+    import MainFooter from "@/components/MainFooter.vue";
+    import MainMenu from "@/components/MainMenu.vue";
+    import MainModal from "@/components/MainModal.vue";
+
     @Component({
         components: {
+            MainFooter,
             MainMenu,
             MainLogo,
             MainModal,
@@ -98,6 +103,10 @@
         }
 
         get highlightedCarImage() {
+            if (this.highlightedCar == null) {
+                return '';
+            }
+
             return this.highlightedCar.images[1];
         }
 

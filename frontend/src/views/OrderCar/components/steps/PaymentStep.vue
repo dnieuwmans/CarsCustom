@@ -50,14 +50,14 @@
         name: 'PaymentStep',
     })
     export default class PaymentStep extends Vue {
-        public selectedPaymentMethod = '';
+        public selectedPaymentMethod: string = '';
         public paymentMethodsEnum = paymentMethodsEnum;
 
         get order() {
             return this.$store.getters['Order/getOrder'];
         }
 
-        public selectPayment(paymentMethod) {
+        public selectPayment(paymentMethod: string) {
             this.selectedPaymentMethod = paymentMethod;
         }
     }

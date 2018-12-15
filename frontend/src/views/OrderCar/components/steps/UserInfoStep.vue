@@ -123,7 +123,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Prop} from 'vue-property-decorator';
     import Api from "../../../../api/Api";
     import {cloneDeep} from 'lodash';
     import Validation from "../../../../utils/Validation";
@@ -141,21 +141,15 @@
 
     @Component({
         name: 'UserInfoStep',
-        props: {
-            orderUser: {
-                type: Object,
-                required: true,
-            },
-
-            fieldsValidation: {
-                type: Validation,
-                required: true,
-            },
-
-        }
     })
     export default class UserInfoStep extends Vue {
         public fieldsEnum = fieldsEnum;
+
+        @Prop()
+        public orderUser!: any;
+
+        @Prop()
+        public fieldsValidation!: Validation;
 
         get order() {
             return this.$store.getters['Order/getOrder'];

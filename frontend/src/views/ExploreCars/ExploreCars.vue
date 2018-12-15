@@ -96,10 +96,13 @@
     import {Order, stepsEnum} from '../../models/Order';
     import Api from '@/api/Api';
     import MainModal from "../../components/MainModal.vue";
+    import MainFooter from "@/components/MainFooter.vue";
+    import Color from "../../models/Color";
 
     @Component({
         name: 'ExploreCars',
         components: {
+            MainFooter,
             MainModal,
             CarCard,
             MainNav,
@@ -120,7 +123,7 @@
         };
 
         get availableColors() {
-            let colors = [];
+            let colors: Color[] = [];
 
             this.cars.forEach((car) => {
                 colors.push(...car.colors);
@@ -229,7 +232,7 @@
             this.$store.commit('Order/setOrder', order);
         }
 
-        public filterCars(key, value) {
+        public filterCars(key: string, value: any) {
             this.carFilter[key] = cloneDeep(value);
         }
 

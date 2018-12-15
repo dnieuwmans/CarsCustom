@@ -28,10 +28,11 @@ namespace backend.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetOrders() 
         {
             return Ok(await _repository.GetAll());
-        } 
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddOrder(OrderDto orderDto) 

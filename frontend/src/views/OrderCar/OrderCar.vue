@@ -110,28 +110,28 @@
 
                 <div class="order-navigation">
                     <div class="btn-group">
-                        <button class="btn btn-outline-primary"
+                        <button class="btn btn-outline-primary" id="previous-step"
                                 @click="previousStep"
                                 v-if="order.activeStep !== stepsEnum.COLOR"
                         >
                             <i class="fal fa-chevron-left"></i>
                             <span>Previous Step</span>
                         </button>
-                        <button class="btn btn-primary order-bar-btn__same-size"
+                        <button class="btn btn-primary order-bar-btn__same-size" id="next-step"
                                 @click="nextStep"
                                 v-if="!(order.activeStep === stepsEnum.PAYMENT || order.activeStep === stepsEnum.USER_INFO)"
                         >
                             <span>Next Step</span>
                             <i class="fal fa-chevron-right"></i>
                         </button>
-                        <button class="btn btn-primary order-bar-btn__same-size"
+                        <button class="btn btn-primary order-bar-btn__same-size" id="continue-to-summary"
                                 v-if="order.activeStep === stepsEnum.USER_INFO"
                                 @click="continueToSummary"
                         >
                             <span>Order Overview</span>
                             <i class="fal fa-chevron-right"></i>
                         </button>
-                        <button class="btn btn-success order-bar-btn__same-size"
+                        <button class="btn btn-success order-bar-btn__same-size" id="place-order"
                                 v-if="order.activeStep === stepsEnum.PAYMENT"
                                 @click="placeOrder"
                         >
@@ -155,11 +155,11 @@
     import {cloneDeep} from 'lodash';
     import Validation from "../../utils/Validation";
     import Api from "@/api/Api";
-    import ColorStep from "./components/steps/ColorStep";
-    import AccessoriesStep from "./components/steps/AccessoriesStep";
-    import UserInfoStep from "./components/steps/UserInfoStep";
-    import SummaryStep from "./components/steps/SummaryStep";
-    import PaymentStep from "./components/steps/PaymentStep";
+    import ColorStep from "./components/steps/ColorStep.vue";
+    import AccessoriesStep from "./components/steps/AccessoriesStep.vue";
+    import UserInfoStep from "./components/steps/UserInfoStep.vue";
+    import SummaryStep from "./components/steps/SummaryStep.vue";
+    import PaymentStep from "./components/steps/PaymentStep.vue";
 
     enum fieldsEnum {
         FIRSTNAME = 'firstName',
@@ -234,6 +234,9 @@
                 // Remap the items and remove any references if they are there.
                 this.orderUser = cloneDeep(this.order.orderUser);
             }
+
+            // We need to update the orderUser and cloneDeep it so it won't break due to reactivity.
+            this.$store.commit('Order/updateOrderUser', cloneDeep(this.orderUser));
 
             this.fieldsValidation = new Validation(cloneDeep(this.orderUser));
         }

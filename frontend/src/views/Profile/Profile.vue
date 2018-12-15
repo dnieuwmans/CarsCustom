@@ -62,10 +62,12 @@
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import MainNav from "../../components/MainNav";
-    import Api from "../../api/Api";
-    import {Order} from "../../models/Order";
-    import Car from "../../models/Car";
+
+    import MainNav from '@/components/MainNav.vue';
+
+    import Api from '../../api/Api';
+    import {Order} from '../../models/Order';
+    import Car from '../../models/Car';
 
     @Component({
         name: 'Profile',
@@ -84,7 +86,7 @@
             }
 
             Api.order.getMyOrders().then((response) => {
-                this.orders = response.data.map((order) => {
+                this.orders = response.data.map((order: any) => {
                     const orderData = order;
 
                     orderData.car.colors = [orderData.selectedColor];

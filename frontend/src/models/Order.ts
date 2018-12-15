@@ -106,7 +106,7 @@ export class Order implements OrderInterface{
             user: order.orderUser,
             selectedColor,
             selectedAccessories: order.selectedAccessories,
-            username: Vue.prototype.$auth.user.username,
+            username: Vue.prototype.$auth.user != null ? Vue.prototype.$auth.user.username : null,
         }
     }
 }

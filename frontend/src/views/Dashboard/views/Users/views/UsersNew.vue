@@ -19,7 +19,7 @@
     import { cloneDeep } from 'lodash';
     import Validation from "@/utils/Validation";
     import Api from "@/api/Api";
-    import UserForm from "@/components/UserForm";
+    import UserForm from "@/components/UserForm.vue";
     import userFieldsEnum from "@/utils/UserFieldsEnum";
 
     @Component({
@@ -51,16 +51,16 @@
             }
             
             Api.auth.register(this.user)
-            .then((response) => {
-                // TODO SJOERD, tell the user the new user has been added to the database.
-                
-                this.emptyFiels(this.user);
-                return;
-            })
-            .catch((error) => {
-                this.showErrorMessage = true;
-                this.errorMessage = error.response.data;
-            })
+                .then((response) => {
+                    // TODO SJOERD, tell the user the new user has been added to the database.
+
+                    this.emptyFields();
+                    return;
+                })
+                .catch((error) => {
+                    this.showErrorMessage = true;
+                    this.errorMessage = error.response.data;
+                })
         }
 
         private recheckFields(user: User) {
@@ -68,6 +68,9 @@
             this.fieldsValidation.userName(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME]);
             this.fieldsValidation.string(this.fieldsEnum.PASSWORD, this.user[this.fieldsEnum.PASSWORD], 8, 100);
             this.fieldsValidation.string(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.CONFIRMPASSWORD], 8, 100);
+
+            // @ts-ignore
+            // TODO: somehow the role doesn't work properly with ts
             this.fieldsValidation.role(this.fieldsEnum.ROLE, this.user[this.fieldsEnum.ROLE]);
             this.fieldsValidation.confirmPassword(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.PASSWORD], this.user[this.fieldsEnum.CONFIRMPASSWORD]);
             this.fieldsValidation.string(this.fieldsEnum.FIRSTNAME, this.user[this.fieldsEnum.FIRSTNAME], 2, 100);
@@ -78,10 +81,19 @@
             this.fieldsValidation.email(this.fieldsEnum.EMAIL, this.user[this.fieldsEnum.EMAIL]);
         }
 
-        private emptyFiels(user: User) {
-            user.forEach(element => {
-                element = ''; // todo, not all values are a string
-            });
+        private emptyFields() {
+            this.user[this.fieldsEnum.USERNAME] = '';
+            this.user[this.fieldsEnum.USERNAME] = '';
+            this.user[this.fieldsEnum.PASSWORD] = '';
+            this.user[this.fieldsEnum.CONFIRMPASSWORD] = '';
+            this.user[this.fieldsEnum.ROLE] = 0;
+            this.user[this.fieldsEnum.PASSWORD] = '';
+            this.user[this.fieldsEnum.FIRSTNAME] = '';
+            this.user[this.fieldsEnum.LASTNAME] = '';
+            this.user[this.fieldsEnum.ZIPCODE] = '';
+            this.user[this.fieldsEnum.STREETNUMBER] = '';
+            this.user[this.fieldsEnum.PHONE] = '';
+            this.user[this.fieldsEnum.EMAIL] = '';
         }
     }
 </script>

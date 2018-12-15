@@ -185,7 +185,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Vue, Prop} from "vue-property-decorator";
 import Validation from "@/utils/Validation";
 import User from "@/models/User";
 import Api from "@/api/Api";
@@ -194,20 +194,15 @@ import {roleEnum} from "@/utils/Roles";
 
 @Component({
     name: 'UserForm',
-    props: {
-        fieldsValidation: {
-            type: Validation,
-            required: true,
-        },
-
-        user: {
-            type: User,
-            required: true,
-        }
-    }
 })
 export default class UserForm extends Vue {
     public fieldsEnum = UserFieldsEnum;
+
+    @Prop()
+    public user!: User;
+
+    @Prop()
+    public fieldsValidation!: Validation;
 
     get roles() {
         const roles = [];
@@ -235,8 +230,8 @@ export default class UserForm extends Vue {
         const streetNumber = this.user.streetNumber;
 
         if(zipCode === '' || streetNumber === '') {
-            this.validateUser(fieldsEnum.ZIPCODE);
-            this.validateUser(fieldsEnum.STREETNUMBER);
+            this.validateUser(this.fieldsEnum.ZIPCODE);
+            this.validateUser(this.fieldsEnum.STREETNUMBER);
 
             return;
         }
@@ -249,11 +244,11 @@ export default class UserForm extends Vue {
         }
 
         // Let's check again.
-        this.validateUser(fieldsEnum.ZIPCODE);
-        this.validateUser(fieldsEnum.STREETNUMBER);
+        this.validateUser(this.fieldsEnum.ZIPCODE);
+        this.validateUser(this.fieldsEnum.STREETNUMBER);
 
         // We may not have any errors
-        if(this.fieldsValidation.hasError(fieldsEnum.ZIPCODE) || this.fieldsValidation.hasError(fieldsEnum.STREETNUMBER)) {
+        if(this.fieldsValidation.hasError(this.fieldsEnum.ZIPCODE) || this.fieldsValidation.hasError(this.fieldsEnum.STREETNUMBER)) {
             return;
         }
 
@@ -267,27 +262,27 @@ export default class UserForm extends Vue {
 
     public validateUser(field: string) {
         switch(field) {
-            case fieldsEnum.PASSWORD:
-            case fieldsEnum.CONFIRMPASSWORD:
+            case this.fieldsEnum.PASSWORD:
+            case this.fieldsEnum.CONFIRMPASSWORD:
                 this.fieldsValidation.string(field, this.user[field], 8, 100);
                 break;
-            case fieldsEnum.USERNAME:
-                this.fieldsValidation.userName(field, this.user[field], 2, 100);
+            case this.fieldsEnum.USERNAME:
+                this.fieldsValidation.userName(field, this.user[field]);
                 break;
-            case fieldsEnum.FIRSTNAME:
-            case fieldsEnum.LASTNAME:
+            case this.fieldsEnum.FIRSTNAME:
+            case this.fieldsEnum.LASTNAME:
                 this.fieldsValidation.string(field, this.user[field], 2, 100);
                 break;
-            case fieldsEnum.ZIPCODE:
+            case this.fieldsEnum.ZIPCODE:
                 this.fieldsValidation.string(field, this.user[field], 6, 6);
                 break;
-            case fieldsEnum.STREETNUMBER:
+            case this.fieldsEnum.STREETNUMBER:
                 this.fieldsValidation.string(field, this.user[field], 1, 6);
                 break;
-            case fieldsEnum.PHONE:
+            case this.fieldsEnum.PHONE:
                 this.fieldsValidation.phone(field, this.user[field]);
                 break;
-            case fieldsEnum.EMAIL:
+            case this.fieldsEnum.EMAIL:
                 this.fieldsValidation.email(field, this.user[field]);
                 break;
         }

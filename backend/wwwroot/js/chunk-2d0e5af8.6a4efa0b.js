@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e5af8"],{9616:function(t,e,n){"use strict";n.r(e);var s=function(){var t=this,e=t.$createElement;t._self._c;return t._m(0)},i=[function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",[n("h5",[t._v("Statistics")])])}],c=n("2877"),r={},u=Object(c["a"])(r,s,i,!1,null,null,null);u.options.__file="OrdersStatistics.vue";e["default"]=u.exports}}]);
+//# sourceMappingURL=chunk-2d0e5af8.6a4efa0b.js.map

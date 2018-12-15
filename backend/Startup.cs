@@ -25,8 +25,8 @@ namespace backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("TestConnection")));
+            services.AddSpaStaticFiles(x => x.RootPath = "wwwroot");
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("TestConnection")));
             // services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -59,6 +59,8 @@ namespace backend
                 // app.UseHsts();
             }
 
+            app.UseSpaStaticFiles();
+
             // app.UseHttpsRedirection();
             app.UseCors(x => {
                 x.WithOrigins("http://localhost:8080")
@@ -67,6 +69,8 @@ namespace backend
                     .AllowAnyHeader();
             });
             app.UseMvc();
+
+            app.UseSpa(x => x.Options.SourcePath = "wwwroot");
         }
     }
 }

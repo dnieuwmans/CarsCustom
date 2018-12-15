@@ -28,7 +28,5 @@
             MainNav,
         }
     })
-    export default class RegistrationComplete extends Vue {
-        main
-    }
+    export default class RegistrationComplete extends Vue {}
 </script>
