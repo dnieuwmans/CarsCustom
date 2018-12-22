@@ -16,8 +16,8 @@ export default class OrderApi {
     return axios.get(`${this.route}/`);
   }
 
-  public getOrderByToken(token: string) {
-    return axios.get(`${this.route}/${token}`);
+  public getOrderById(id: number) {
+    return axios.get(`${this.route}/${id}`);
   }
 
   public getMyOrders() {

@@ -290,18 +290,12 @@
 
             // Add the order to the database
             Api.order.addOrder(clonedOrder.toJson()).then((response) => {
-                const token = response.data.token;
-
-                if (token) {
+                if (response.data.id) {
                     // Delete the order
                     this.$store.commit('Order/removeOrder');
 
-                    // Continue to the order complete page with a token.
-                    this.$router.push({
-                        name: 'order-complete', params: {
-                            token,
-                        }
-                    });
+                    this.$router.push({ name: 'profile:single-order', params: { id: response.data.id }});
+                    return;
                 }
             });
         }

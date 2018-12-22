@@ -37,24 +37,10 @@
             <div class="profile-container box">
                 <div class="profile-container__title">
                     <h3>My Profile</h3>
-                    <h5>My Orders</h5>
+                    <h5>{{ title }}</h5>
                 </div>
-                <div class="profile-container__content">
-                    <ul class="list-unstyled" v-if="orders.length > 0">
-                        <li v-for="order in orders" class="order-item">
-                            <span class="badge">{{ order.status.value }}</span>
-                            <span class="badge">#{{ order.id }}</span>
-                            <span class="order-price">{{ order.selectedCar.fullDescription }}</span>
-                            <span>{{ order.totalPrice }}</span>
-                            <span>
-                                <router-link :to="{ name: 'order-complete', params: { token: order.token }} ">
-                                    View Order
-                                    <i class="fal fa-chevron-right"></i>
-                                </router-link>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+
+                <router-view />
             </div>
         </div>
     </div>
@@ -65,10 +51,6 @@
 
     import MainNav from '@/components/MainNav.vue';
 
-    import Api from '../../api/Api';
-    import {Order} from '../../models/Order';
-    import Car from '../../models/Car';
-
     @Component({
         name: 'Profile',
         components: {
@@ -76,7 +58,9 @@
         }
     })
     export default class Profile extends Vue {
-        public orders: Order[] = [];
+        get title() {
+            return this.$route.meta.title;
+        }
 
         public mounted() {
             // Extra check when you are not loggedIn
@@ -84,19 +68,6 @@
                 this.$router.push({name: 'home'});
                 return;
             }
-
-            Api.order.getMyOrders().then((response) => {
-                this.orders = response.data.map((order: any) => {
-                    const orderData = order;
-
-                    orderData.car.colors = [orderData.selectedColor];
-                    orderData.selectedCar = new Car(orderData.car);
-                    orderData.selectedColor = 0;
-                    orderData.orderUser = orderData.user;
-
-                    return Order.fromJson(orderData);
-                });
-            })
         }
     }
 </script>

@@ -30,17 +30,17 @@ namespace backend.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Order> GetByToken(string token) {
-            return await _context.Orders
+        public async Task<Order> GetByIdAndUsername(int id, string username) {
+             return await _context.Orders
                 .Include(o => o.Car)
                 .Include(o => o.SelectedColor)
                 .Include(o => o.User)
                 .Include(o => o.Status)
                 .Include(o => o.SelectedAccessories)
-                .FirstOrDefaultAsync(o => o.Token == token);
+                .FirstOrDefaultAsync(o => o.Id == id && o.Username == username);
         }
 
-        public async Task<Dictionary<string, string>> Add(OrderDto orderDto)
+        public async Task<Dictionary<string, int>> Add(OrderDto orderDto)
         {
             OrderStatus orderStatus = await _context.OrderStatuses.FirstOrDefaultAsync(o => o.Value == "New");
 
@@ -88,35 +88,23 @@ namespace backend.Repositories
             }
 
             // Now put it all togeter in the order 
-
-            // But first let's generate a random token
-            var AllowableCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
-            var token = "";
-            var bytes = new byte[64];
-
-            using (var random = RandomNumberGenerator.Create())
-            {
-                random.GetBytes(bytes);
-            }
-
-            token = new string(bytes.Select(x => AllowableCharacters[x % AllowableCharacters.Length]).ToArray());
-
             Order order = new Order(){
-                Token = token,
                 Car = orderCar,
                 SelectedColor = orderColor,
                 User = orderUser,
                 Status = orderStatus,
                 SelectedAccessories = orderAccessories,
                 Username = orderDto.Username,
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now
             };
 
 
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 
-            var response = new Dictionary<string, string> {
-                {"token", order.Token},
+            var response = new Dictionary<string, int> {
+                {"id", order.Id},
             };
 
             return response;
