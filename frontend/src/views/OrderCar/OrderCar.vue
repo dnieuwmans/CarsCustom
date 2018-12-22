@@ -71,12 +71,17 @@
                                     <div class="order-steps__progress"></div>
                                 </li>
                             </ul>
+
+                            <div class="alert alert-danger" v-if="!mayContinueOrder">
+                                <i class="fas fa-exclamation"></i>
+                                Please login to continue your order.
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="order-panels container">
-                    <div class="row">
+                    <div class="row" v-if="mayContinueOrder">
                         <transition name="fade" mode="out-in">
                             <color-step
                                     v-if="order.activeStep === stepsEnum.COLOR"
@@ -109,7 +114,7 @@
                 </div>
 
                 <div class="order-navigation">
-                    <div class="btn-group">
+                    <div class="btn-group" v-if="mayContinueOrder">
                         <button class="btn btn-outline-primary" id="previous-step"
                                 @click="previousStep"
                                 v-if="order.activeStep !== stepsEnum.COLOR"
@@ -201,6 +206,14 @@
             }
 
             return '';
+        }
+
+        get mayContinueOrder() {
+            if (this.order.activeStep === this.stepsEnum.COLOR || this.order.activeStep === this.stepsEnum.ACCESSORY) {
+                return true;
+            }
+
+            return this.$auth.user != null;
         }
 
         public mounted() {

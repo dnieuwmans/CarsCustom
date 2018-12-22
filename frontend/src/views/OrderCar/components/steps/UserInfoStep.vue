@@ -4,7 +4,7 @@
         <div class="alert alert-info">
             <i class="fas fa-info"></i>
             <strong>Did you know</strong> creating an account will allow us to fill in the buyer
-            information automatically!
+            information automatically! If you don't see your information, please refresh the page.
         </div>
 
         <div v-if="fieldsValidation != null">
