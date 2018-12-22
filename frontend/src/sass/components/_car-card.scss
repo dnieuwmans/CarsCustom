@@ -7,6 +7,14 @@
 .car-card {
   flex-direction: column;
   overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f0f0f0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+  }
 }
 
 .car-card__header {
@@ -38,7 +46,6 @@
 .car-card__body-middle {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
   flex-grow: 1;
 
   .car-brand {

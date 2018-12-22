@@ -4,7 +4,7 @@
     display: inline-block;
     border: 1px solid transparentize($body-color, 0.75);
     color: transparentize($body-color, 0.75);
-    border-radius: 9999px;
+    border-radius: 0.25rem;
     text-align: center;
     line-height: calc(1.5rem - 2px);
     cursor: pointer;

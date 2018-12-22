@@ -43,6 +43,10 @@
     .nav-menu__item {
       display: inline-block;
 
+      &.shopping-basket {
+        position: relative;
+      }
+
       &.has-order {
         position: relative;
 
@@ -67,6 +71,7 @@
         font-weight: 600;
         font-style: italic;
         font-size: 0.9rem;
+        transition: all 0.3s ease;
       }
 
       &:hover,
@@ -74,6 +79,26 @@
         a {
           color: #fff;
           text-decoration: none;
+        }
+      }
+    }
+
+    .nav-login {
+      border-left: 1px solid rgba(255,255,255,0.2);
+      padding-left: 2rem;
+
+      span {
+        font-style: normal;
+        font-weight: normal;
+        color: rgba(255,255,255,0.5);
+        transition: all 0.3s ease;
+      }
+
+      a {
+        &:hover {
+          span {
+            color: #fff;
+          }
         }
       }
     }

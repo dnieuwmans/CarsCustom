@@ -1,5 +1,5 @@
 <template>
-    <div class="box car-card">
+    <div class="box car-card" @click="$emit('CarCard:Customize', car, selectedColor)">
         <div class="car-card__header">
             <figure>
                 <transition name="slide-fade" mode="out-in">
@@ -24,7 +24,7 @@
                             :title="color.name"
                             :class="{'car-colors__item--active': key === selectedColor}"
                             class="car-colors__item"
-                            @click="selectColor(key)"
+                            @click.stop="selectColor(key)"
                     >
                         <span :style="{ background: color.hex }"></span>
                     </li>
@@ -34,13 +34,6 @@
             <div class="car-card__body-middle">
                 <span class="car-brand">{{ car.brand }} {{ car.type }}</span>
                 <span class="car-description">{{ car.description }}</span>
-            </div>
-
-            <div class="car-card__body-footer">
-                <button class="btn btn-primary btn-block" @click="$emit('CarCard:Customize', car, selectedColor)">
-                    <span>Customize</span>
-                    <i class="fal fa-wrench"></i>
-                </button>
             </div>
         </div>
     </div>

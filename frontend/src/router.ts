@@ -12,26 +12,41 @@ const router = new Router({
             path: '/',
             name: 'home',
             component: () => import(/* webpackChunkName: "home" */ '@/views/Home/Home.vue' ),
+            meta: {
+                title: 'Homepage',
+            },
         },
         {
             path: '/explore-cars',
             name: 'explore-cars',
             component: () => import(/* webpackChunkName: "explore-cars" */ '@/views/ExploreCars/ExploreCars.vue' ),
+            meta: {
+                title: 'Explore Cars',
+            },
         },
         {
             path: '/my-profile',
             name: 'profile',
             component: () => import(/* webpackChunkName: "my-profile" */ '@/views/Profile/Profile.vue' ),
+            meta: {
+                title: 'My Profile',
+            },
         },
         {
             path: '/register-user',
             name: 'register-user',
             component: () => import(/* webpackChunkName: "user" */ '@/views/User/RegisterUser.vue' ),
+            meta: {
+                title: 'Register',
+            },
         },
         {
             path: '/order',
             name: 'order',
             component: () => import(/* webpackChunkName: "order" */ '@/views/OrderCar/OrderCar.vue' ),
+            meta: {
+                title: 'Order',
+            },
         },
         {
             path: '/order-complete/:token',
@@ -48,6 +63,7 @@ const router = new Router({
             component: () => import(/* webpackChunckName: "dashboard" */ '@/views/Dashboard/Dashboard.vue'),
             meta: {
                 requiresAuth: true,
+                title: 'Dashboard'
             },
             children: [
                 {
@@ -163,6 +179,15 @@ router.beforeEach((to, from, next) => {
             next();
         }
     }
+});
+
+// Changes the document title according to the route title.
+router.afterEach((to) => {
+    document.title = `${to.matched.slice(0)
+        .reverse()
+        .filter(route => route.meta.title != null)
+        .map(route => route.meta.title)
+        .join(' - ')} - Cars Customs`;
 });
 
 export default router;

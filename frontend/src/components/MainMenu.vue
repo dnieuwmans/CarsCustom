@@ -7,16 +7,38 @@
             </li>
 
             <!-- Shopping basket -->
-            <li class="nav-menu__item" :class="{ 'has-order': order != null }">
-                <router-link :to="{name: 'order'}">
+            <li class="nav-menu__item shopping-basket" :class="{ 'has-order': order != null }">
+                <a href="#" @click.prevent.stop="toggleShoppingModal()">
                     <i class="fal fa-shopping-basket"></i>
-                </router-link>
+                </a>
+
+                <div class="shopping-dropdown" :class="{ 'is-visible': shoppingModalVisible }" @click.stop>
+                    <div class="shopping-dropdown__title">
+                        <span v-if="order != null">Your ongoing order:</span>
+                        <span v-else>You have no ongoing orders.</span>
+                    </div>
+                    <div class="shopping-dropdown__content" v-if="order != null">
+                        <strong>{{ order.selectedCar.fullDescription }}</strong> <br>
+                        {{ order.selectedCar.description }}, {{ order.totalPrice }}
+                    </div>
+                    <div class="shopping-dropdown__footer" v-if="order != null">
+                        <a href="#" class="discard-order" @click.prevent="discardOrder()">
+                            <span>Discard</span>
+                            <i class="fal fa-times"></i>
+                        </a>
+                        <router-link :to="{name: 'order'}">
+                            <span>Continue</span>
+                            <i class="fal fa-chevron-right"></i>
+                        </router-link>
+                    </div>
+                </div>
             </li>
 
-            <li class="nav-menu__item">
+            <li class="nav-menu__item nav-login">
                 <a href="#" @click.stop.prevent="toggleLoginModal()">
                     <i class="fal fa-user" v-if="$auth.user == null"></i>
                     <i class="fas fa-user" v-else></i>
+                    <span v-if="$auth.user != null">{{ $auth.user.fullName}}</span>
                 </a>
             </li>
         </ul>
@@ -142,6 +164,7 @@
             },
         ];
         public loginModalVisible: boolean = false;
+        public shoppingModalVisible: boolean = false;
         public fieldsEnum = fieldsEnum;
         public loginMessage = '';
         public loginValidation: Validation = new Validation({});
@@ -171,6 +194,25 @@
                 document.removeEventListener('click', this.toggleLoginModal);
             } else {
                 document.addEventListener('click', this.toggleLoginModal);
+            }
+        }
+
+        public toggleShoppingModal() {
+            this.shoppingModalVisible = !this.shoppingModalVisible;
+
+            if (!this.shoppingModalVisible) {
+                document.removeEventListener('click', this.toggleShoppingModal);
+            } else {
+                document.addEventListener('click', this.toggleShoppingModal);
+            }
+        }
+
+        public discardOrder() {
+            this.$store.commit('Order/removeOrder');
+
+            // Checks if we are at the order page
+            if (this.$route.name === 'order') {
+                this.$router.push({ name: 'explore-cars' });
             }
         }
 
