@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="modal fade show" tabindex="-1" role="dialog" style="display: block">
-            <div class="modal-dialog" role="document">
+        <div class="modal fade show" tabindex="-1" role="dialog" style="display: block" @click="$emit('modal:close')">
+            <div class="modal-dialog" role="document" @click.stop>
                 <div class="modal-content">
                     <div class="modal-header">
                         <slot name="header"></slot>

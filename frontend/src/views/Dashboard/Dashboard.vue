@@ -12,6 +12,12 @@
                         <span v-text="route.title"></span>
                     </router-link>
                 </li>
+                <li>
+                    <a href="#" @click.stop="logout">
+                        <i class="fal fa-fw fa-power-off"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="dashboard__main">
@@ -51,7 +57,7 @@
                 parent: 'dashboard:users',
                 title: 'Users',
                 icon: 'fal fa-fw fa-users',
-            }
+            },
         ];
 
         isActive(route: any) {
@@ -60,6 +66,11 @@
             }
 
             return this.$route.name.includes(route.parent);
+        }
+
+        logout() {
+            this.$auth.logout();
+            this.$router.push('/');
         }
     }
 </script>

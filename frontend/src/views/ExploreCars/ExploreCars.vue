@@ -11,10 +11,10 @@
                 <div class="sidebar__filter">
                     <p><strong>Price:</strong></p>
                     <div class="car-price-filer">
-                        <input type="text" class="form-control" v-model="priceFilter.min"
+                        <input type="text" class="form-control" :placeholder="prices.min" v-model="priceFilter.min"
                                @keyup.enter="filterCars('priceRange', priceFilter)">
                         <div class="divider">-</div>
-                        <input type="text" class="form-control" v-model="priceFilter.max"
+                        <input type="text" class="form-control" :placeholder="prices.max" v-model="priceFilter.max"
                                @keyup.enter="filterCars('priceRange', priceFilter)">
                         <button class="btn btn-primary" @click="filterCars('priceRange', priceFilter)">
                             <i class="fal fa-chevron-double-right"></i>
@@ -44,11 +44,21 @@
                 <div class="container">
                     <div class="row">
                         <div class="col">
-                            <h3>Explore Cars</h3>
+                            <h3>
+                                Explore Cars
+                                <small v-if="carFilter.color !== '' || carFilter.priceRange.min !== '' || carFilter.priceRange.max !== ''">
+                                    ({{ filteredCars.length }}/{{ cars.length}})
+                                </small>
+                            </h3>
 
                             <div class="alert alert-danger mb-4" v-if="showErrorMessage">
                                 <i class="far fa-times"></i>
                                 Oops, you didn't select a car yet!
+                            </div>
+
+                            <div class="alert alert-info" v-if="filteredCars.length === 0">
+                                <i class="fas fa-info"></i>
+                                There are no cars to display, please adjust the filters.
                             </div>
                         </div>
                     </div>
@@ -65,7 +75,7 @@
         </div>
 
         <transition name="modal">
-            <main-modal v-if="continueOrderModal">
+            <main-modal v-if="continueOrderModal" @modal:close="continueOrderModal = false">
                 <h5 slot="header">You are about to change the order</h5>
                 <p slot="body">
                     You are about to change the order, this action will overwrite the existing order.
@@ -113,7 +123,7 @@
         public showErrorMessage: boolean = false;
         public continueOrderModal: boolean = false;
         public carsSpecifications: any = [];
-        public priceFilter: any = {min: 0, max: 0}; // used to pass the values to the filter
+        public priceFilter: any = {min: '', max: ''}; // used to pass the values to the filter
         public carFilter: any = {
             priceRange: {
                 min: '',
@@ -200,9 +210,6 @@
             Api.car.findAll().then((response) => {
                 // TODO: map data
                 this.cars = response.data.map(Car.fromJson);
-
-                // Clone it, otherwise it will change
-                this.priceFilter = cloneDeep(this.prices);
             });
         }
 
@@ -237,10 +244,8 @@
         }
 
         public resetPriceRange() {
-            this.filterCars('priceRange', this.prices);
-
-            // Clone it, otherwise it will change
-            this.priceFilter = cloneDeep(this.prices);
+            this.filterCars('priceRange', { min: '', max: ''});
+            this.priceFilter = { min: '', max: ''};
         }
     }
 </script>
