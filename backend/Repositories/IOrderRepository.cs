@@ -8,8 +8,8 @@ namespace backend.Repositories
     public interface IOrderRepository
     {
         Task<ICollection<Order>> GetAll();
-        Task<Order> GetByToken(string token);
-        Task<Dictionary<string, string>> Add(OrderDto orderDto);
+        Task<Dictionary<string, int>> Add(OrderDto orderDto);
+        Task<Order> GetByIdAndUsername(int id, string username);
         Task<ICollection<Order>> getByUsername(string username);
     }
 }

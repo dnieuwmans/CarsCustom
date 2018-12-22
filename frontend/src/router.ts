@@ -26,11 +26,28 @@ const router = new Router({
         },
         {
             path: '/my-profile',
-            name: 'profile',
             component: () => import(/* webpackChunkName: "my-profile" */ '@/views/Profile/Profile.vue' ),
             meta: {
-                title: 'My Profile',
+                title: 'Profile',
             },
+            children: [
+                {
+                    path: '',
+                    name: 'profile:orders',
+                    component: () => import(/* webpackChunckName: "my-profile-orders" */ '@/views/Profile/views/Orders.vue'),
+                    meta: {
+                        title: 'My Orders',
+                    },
+                },
+                {
+                    path: 'order/:id',
+                    name: 'profile:single-order',
+                    component: () => import(/* webpackChunckName: "my-profile-single-order" */ '@/views/Profile/views/SingleOrder.vue'),
+                    meta: {
+                        title: 'My Order',
+                    },
+                }
+            ]
         },
         {
             path: '/register-user',
@@ -47,11 +64,6 @@ const router = new Router({
             meta: {
                 title: 'Order',
             },
-        },
-        {
-            path: '/order-complete/:token',
-            name: 'order-complete',
-            component: () => import(/* webpackChunckName: "order-complete" */ '@/views/OrderComplete/OrderComplete.vue'),
         },
         {
             path: '/registration-complete',
@@ -187,7 +199,7 @@ router.afterEach((to) => {
         .reverse()
         .filter(route => route.meta.title != null)
         .map(route => route.meta.title)
-        .join(' - ')} - Cars Customs`;
+        .join(' - ')} | Cars Customs`;
 });
 
 export default router;

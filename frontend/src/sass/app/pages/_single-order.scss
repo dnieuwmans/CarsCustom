@@ -1,0 +1,46 @@
+.single-order {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+
+  .order-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    .table {
+      td, th {
+        padding: 0.2rem;
+        border: none;
+      }
+
+      th {
+        font-weight: 600;
+        color: $heading-color;
+        width: 10rem;
+      }
+    }
+  }
+
+  .order-item {
+    flex-shrink: 0;
+    background: #fafafa;
+    border-radius: 0.25rem;
+    flex-direction: column;
+    margin-right: 2rem;
+
+    img {
+      height: 15rem;
+    }
+
+    ul {
+      text-align: center;
+
+      li:first-child {
+        font-size: 120%;
+        font-weight: 600;
+        color: $heading-color;
+      }
+    }
+  }
+}

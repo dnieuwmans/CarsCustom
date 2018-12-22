@@ -40,10 +40,16 @@ namespace backend.Controllers
             return Ok(await _repository.Add(orderDto));
         }
 
-        [HttpGet("{token}")]
-        public async Task<IActionResult> GetOrderByToken(string token) 
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetOrderById(int id) 
         {
-            return Ok(await _repository.GetByToken(token));
+            // THIS IS BAD PRACTICE, we may need to figure out another way
+
+            ClaimsPrincipal currentUser = this.User;
+            var username = currentUser.Identity.Name;
+
+            return Ok(await _repository.GetByIdAndUsername(id, username));
         } 
 
         [HttpGet("my-orders")]

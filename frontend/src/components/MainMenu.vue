@@ -115,7 +115,7 @@
                 <em>Hello, {{ $auth.user.fullName }}</em>
                 <ul class="list-unstyled">
                     <li>
-                        <router-link :to="{name: 'profile'}">
+                        <router-link :to="{name: 'profile:orders'}">
                             <i class="fal fa-fw fa-user"></i>
                             <span>My Profile</span>
                         </router-link>
