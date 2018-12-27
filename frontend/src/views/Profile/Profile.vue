@@ -27,6 +27,11 @@
                                 <i class="fal fa-fw fa-map-marker-alt" title="Address"></i>
                                 <span>{{ $auth.user.address}}</span>
                             </li>
+                            <li>
+                                <router-link class="btn btn-profile-edit btn-block" :to="{ name: 'profile:edit-user'} ">
+                                    Edit
+                                </router-link>
+                            </li>
                         </ul>
                     </div>
 

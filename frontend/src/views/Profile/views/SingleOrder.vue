@@ -2,10 +2,10 @@
     <div>
         <router-link :to="{name: 'profile:orders'}">
             <i class="fal fa-chevron-left"></i>
-            <span>Back to my orders</span>
+            <span>Back to profile</span>
         </router-link>
-
-        <div class="single-order" v-if="order != null">
+        
+        <div class="single-order mt-4" v-if="order != null">
             <div class="order-item">
                 <figure>
                     <transition name="slide-fade" mode="out-in">

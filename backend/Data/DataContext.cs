@@ -22,6 +22,14 @@ namespace backend.Data
         public DbSet<OrderUser> OrderUsers { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {}
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            // modelBuilder.Entity<User>(entity =>
+            // {
+            //     // Set key for entity
+            //     entity.HasKey(u => u.Id);
+            // });
+
+            // base.OnModelCreating(modelBuilder);
+        }
     }
 }
