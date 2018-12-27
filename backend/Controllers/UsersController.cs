@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using backend.Dtos;
+using System.Security.Claims;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : ControllerBase
     {
         public readonly IConfiguration _config;
@@ -30,6 +33,15 @@ namespace backend.Controllers
         {
             return Ok();
         }
-       
+
+        [HttpPost("update")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Update(UserForUpdateDto userForUpdateDto) 
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var username = currentUser.Identity.Name;
+
+            return Ok(await _repository.Update(username, userForUpdateDto));
+        }
     }
 }

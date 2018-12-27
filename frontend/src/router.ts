@@ -46,6 +46,14 @@ const router = new Router({
                     meta: {
                         title: 'My Order',
                     },
+                },
+                {
+                    path: 'user',
+                    name: 'profile:edit-user',
+                    component: () => import(/* webpackChunckName: "my-profile-edit-user" */ '@/views/Profile/views/EditUser.vue'),
+                    meta: {
+                        title: 'My Information',
+                    },
                 }
             ]
         },

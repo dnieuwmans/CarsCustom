@@ -1,5 +1,6 @@
 import { roleEnum } from './Roles';
 import { isValidRole } from './Roles';
+import userFieldsEnum from './UserFieldsEnum';
 
 // Email regex Scott Gonzalez.
 const regexes = {
@@ -35,6 +36,16 @@ export default class Validation {
         });
 
         return count > 0;
+    }
+
+    public showErrors(error: any) {
+        for (let item in userFieldsEnum) {
+            let itemName = item.charAt(0) + item.slice(1).toLowerCase();
+            
+            if (error.response.data[itemName] != undefined) {
+              this.errors[item.toLowerCase()] = error.response.data[itemName][0];
+            }
+        }
     }
 
     public string(field: string, value: string, min: number = 2, max: number = 100) {

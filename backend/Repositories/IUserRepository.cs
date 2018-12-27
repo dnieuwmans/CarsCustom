@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using backend.Dtos;
 using backend.Models;
 
 namespace backend.Repositories
@@ -8,5 +9,6 @@ namespace backend.Repositories
     {
          Task<ICollection<User>> GetAll();
          Task<User> GetOneByUsername(string username);
+         Task<bool> Update(string username, UserForUpdateDto userForUpdateDto);
     }
 }

@@ -61,6 +61,20 @@
           word-break: break-word;
         }
       }
+
+      .btn-profile-edit {
+        margin-top:1rem;
+        background-color: transparent;
+        color: #fff;
+        border: 1px solid #fff;
+
+        &:hover,
+        &.active {
+          background-color: #fff;
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
     }
   }
 

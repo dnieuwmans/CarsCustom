@@ -1,51 +1,66 @@
 <template>
-    <div class="register-user">
-        <main-nav/>
-        <div class="container">
+    <div class="edit-user">
+        <router-link :to="{name: 'profile:orders'}">
+            <i class="fal fa-chevron-left"></i>
+            <span>Back to profile</span>
+        </router-link>
 
-            <!-- Main -->
-            <h2>Register</h2>
+        <div class="mt-4">
+            <div class="alert alert-success mb-4" v-if="showSuccessMessage">{{ successMessage }}</div>
+
             <div v-if="fieldsValidation != null">
-                <user-form :fields-validation="fieldsValidation" :user="user" />
+                <user-form-profile :fields-validation="fieldsValidation" :user="user"/>
             </div>
-
+        
+        
             <div class="row">
                 <div class="col">
                     <button class="btn btn-primary"
-                    @click="register()">Register</button>
+                    @click="save()">Save</button>
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import MainNav from '../../components/MainNav.vue';
-    import User from "../../models/User";
+
+    import MainNav from '@/components/MainNav.vue';
+
+    import Api from '@/api/Api';
+    import Car from '@/models/Car';
     import { cloneDeep } from 'lodash';
-    import Validation from "../../utils/Validation";
-    import Api from "../../api/Api";
-    import UserForm from "@/components/UserForm.vue";
+    import {Order} from '@/models/Order';
+    import User from "@/models/User";
+    import UserFormProfile from "@/components/UserFormProfile.vue";
     import userFieldsEnum from "@/utils/UserFieldsEnum";
+    import Validation from "@/utils/Validation";
 
     @Component({
-        name: 'RegisterUser',
+        name: 'SingleOrder',
         components: {
             MainNav,
-            UserForm,
+            UserFormProfile,
         }
     })
-    export default class RegisterUser extends Vue {
+    export default class SingleOrder extends Vue {
+        // @ts-ignore
         public fieldsEnum = userFieldsEnum;
-        public user = User.init(); // Because we are lazy ;)
+        // @ts-ignore
+        public user: User = cloneDeep(this.$auth.user);
         public fieldsValidation: Validation = new Validation({});
+        public successMessage: string = '';
+        public showSuccessMessage: boolean = false;
 
         public mounted() {
             this.fieldsValidation = new Validation(cloneDeep(this.user));
         }
 
-        public register() {
+        public save() {
+            this.showSuccessMessage = false;
+
             // Recheck the fields
             this.recheckFields(this.user)
             
@@ -54,10 +69,12 @@
                 return;
             }
             
-            Api.auth.register(this.user)
+            Api.user.update(this.user)
             .then((response) => {
-                 this.$router.push({ name: 'registration-complete'});
-                 return;
+                this.showSuccessMessage = true;
+                this.successMessage = "Success! Your profile information has been updated";
+
+                this.$auth.refresh();
             })
             .catch((error) => {
                 this.fieldsValidation.showErrors(error);
@@ -65,11 +82,8 @@
         }
 
         private recheckFields(user: User) {
-            this.fieldsValidation.string(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME], 2, 100);
-            this.fieldsValidation.userName(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME]);
-            this.fieldsValidation.string(this.fieldsEnum.PASSWORD, this.user[this.fieldsEnum.PASSWORD], 8, 100);
-            this.fieldsValidation.string(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.CONFIRMPASSWORD], 8, 100);
-            this.fieldsValidation.confirmPassword(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.PASSWORD], this.user[this.fieldsEnum.CONFIRMPASSWORD]);
+            if (user == null) return;
+
             this.fieldsValidation.string(this.fieldsEnum.FIRSTNAME, this.user[this.fieldsEnum.FIRSTNAME], 2, 100);
             this.fieldsValidation.string(this.fieldsEnum.LASTNAME, this.user[this.fieldsEnum.LASTNAME], 2, 100);
             this.fieldsValidation.string(this.fieldsEnum.ZIPCODE, this.user[this.fieldsEnum.ZIPCODE], 6, 6);
