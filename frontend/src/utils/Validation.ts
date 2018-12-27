@@ -38,6 +38,7 @@ export default class Validation {
         return count > 0;
     }
 
+    // TODO: make generic
     public showErrors(error: any) {
         for (let item in userFieldsEnum) {
             let itemName = item.charAt(0) + item.slice(1).toLowerCase();

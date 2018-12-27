@@ -83,6 +83,7 @@ class Auth implements IAuth {
     }
 
     refresh() {
+        // TODO: place in the api service
         return axios.get('http://localhost:5000/api/auth/logged-in').then((response) => {
             this._user = User.fromJson(response.data);
 

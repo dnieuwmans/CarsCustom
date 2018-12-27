@@ -6,6 +6,7 @@ import AuthApi from './sections/AuthApi';
 import OrderApi from './sections/OrderApi';
 import UserApi from './sections/UserApi';
 
+// TODO: Maybe grab it from a config file?
 const route: string = 'http://localhost:5000/api';
 
 // Note: use sections to keep this file as clean as possible.
