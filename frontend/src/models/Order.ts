@@ -56,6 +56,7 @@ export class Order implements OrderInterface{
     public steps: any[];
     public status: OrderStatus;
     public token: string;
+    public createdAt: Date | null;
 
     get activeStepName() {
         return this.steps[this.activeStep - 1].name;
@@ -87,6 +88,10 @@ export class Order implements OrderInterface{
         this.activeStep = params.activeStep || stepsEnum.COLOR;
         this.steps = params.steps || cloneDeep(stepsDef);
         this.token = params.token || '';
+
+        // No need to make another interface for one property
+        // @ts-ignore
+        this.createdAt = new Date(params.createdAt) || null;
 
         if (params.status == null) {
             this.status = new OrderStatus({ id: 0, value: 'New'});
