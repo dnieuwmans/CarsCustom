@@ -13,4 +13,5 @@ export default interface OrderInterface {
     steps?: any;
     status?: OrderStatusInterface;
     token?: string;
+    createdAt?: Date | null;
 }

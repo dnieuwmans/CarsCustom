@@ -27,6 +27,7 @@ namespace backend.Repositories
                 .Include(o => o.User)
                 .Include(o => o.Status)
                 .Include(o => o.SelectedAccessories)
+                .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
 
@@ -118,6 +119,7 @@ namespace backend.Repositories
                 .Include(o => o.Status)
                 .Include(o => o.SelectedAccessories)
                 .Where(o => o.Username == username)
+                .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
     }

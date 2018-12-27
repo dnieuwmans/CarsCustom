@@ -6,7 +6,7 @@ describe('CarsCustom - Order', () => {
         cy.contains('h3', 'Explore Cars');
 
         // Select a car
-        cy.get('.box.car-card').eq(0).find('button').click();
+        cy.get('.box.car-card').eq(0).click();
 
         // Check if we do indeed arrived at the order page
         cy.location('hash').should('eq', '#/order');

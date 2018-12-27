@@ -4,7 +4,8 @@
             <li v-for="order in orders" class="order-item">
                 <span class="badge">{{ order.status.value }}</span>
                 <span class="badge">#{{ order.id }}</span>
-                <span class="order-price">{{ order.selectedCar.fullDescription }}</span>
+                <span class="badge">{{ formatDate(order.createdAt, '%d %M %Y - %H:%i') }}</span>
+                <span class="order-description">{{ order.selectedCar.fullDescription }}</span>
                 <span>{{ order.totalPrice }}</span>
                 <span>
                     <router-link :to="{ name: 'profile:single-order', params: { id: order.id }} ">
@@ -25,6 +26,7 @@
     import Api from '../../../api/Api';
     import {Order} from '../../../models/Order';
     import Car from '../../../models/Car';
+    import { formatDate } from '../../../utils/Date';
 
     @Component({
         name: 'ProfileOrders',
@@ -34,9 +36,11 @@
     })
     export default class ProfileOrders extends Vue {
         public orders: Order[] = [];
+        public formatDate = formatDate;
 
         public mounted() {
             Api.order.getMyOrders().then((response) => {
+                console.log(response.data);
                 this.orders = response.data.map((order: any) => {
                     const orderData = order;
 
