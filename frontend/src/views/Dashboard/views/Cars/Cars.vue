@@ -21,10 +21,6 @@
                 name: 'dashboard:cars:overview',
                 title: 'Overview',
             },
-            {
-                name: 'dashboard:cars:new',
-                title: 'New Car',
-            },
         ];
     }
 </script>

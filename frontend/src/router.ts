@@ -98,14 +98,6 @@ const router = new Router({
                                 requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
                             }
                         },
-                        {
-                            path: 'statistics',
-                            name: 'dashboard:orders:statistics',
-                            component: () => import(/* webpackChunckName: "dashboard-orders-statistics" */ '@/views/Dashboard/views/Orders/views/OrdersStatistics.vue'),
-                            meta: {
-                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
-                            }
-                        }
                     ]
                 },
                 {
@@ -120,22 +112,6 @@ const router = new Router({
                                 requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
                             }
                         },
-                        {
-                            path: 'new',
-                            name: 'dashboard:cars:new',
-                            component: () => import(/* webpackChunckName: "dashboard-cars-new" */ '@/views/Dashboard/views/Cars/views/CarsNew.vue'),
-                            meta: {
-                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
-                            }
-                        },
-                        {
-                            path: 'statistics',
-                            name: 'dashboard:cars:statistics',
-                            component: () => import(/* webpackChunckName: "dashboard-cars-statistics" */ '@/views/Dashboard/views/Cars/views/CarsStatistics.vue'),
-                            meta: {
-                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
-                            }
-                        }
                     ]
                 },
                 {
