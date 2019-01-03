@@ -21,10 +21,6 @@
                 name: 'dashboard:orders:overview',
                 title: 'Overview',
             },
-            {
-                name: 'dashboard:orders:statistics',
-                title: 'Statistics',
-            },
         ];
     }
 </script>
