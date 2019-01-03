@@ -1,7 +1,7 @@
 <template>
     <footer>
         <main-logo class="footer-logo"/>
-        <small>&copy; 2018 CarsCustom. CarsCustom is a fictional company, we actually don't sell cars :)</small>
+        <small>&copy; {{ year }} CarsCustom. CarsCustom is a fictional company, we actually don't sell cars :)</small>
     </footer>
 </template>
 
@@ -15,5 +15,9 @@
             MainLogo,
         }
     })
-    export default class MainFooter extends Vue {}
+    export default class MainFooter extends Vue {
+        get year() {
+            return new Date().getFullYear();
+        }
+    }
 </script>

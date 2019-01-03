@@ -93,15 +93,6 @@
                         </button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center text-forgot-password">
-                            <router-link :to="{name: 'register-user'}">
-                                Forgot Password?
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
                 <hr/>
                 <div class="row">
                     <div class="col-lg-12 text-register">
