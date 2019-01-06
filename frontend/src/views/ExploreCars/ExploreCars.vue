@@ -2,8 +2,8 @@
     <div class="explore-cars">
         <main-nav/>
 
-        <div class="explore-cars-container">
-            <div class="explore-cars__sidebar">
+        <div class="explore-cars-container" :class="{ 'sidebar--open': sidebarOpen }" @click="closeSidebar()">
+            <div class="explore-cars__sidebar" :class="{ 'explore-cars__sidebar--open': sidebarOpen }">
                 <div class="sidebar__title">
                     <h5>Filter</h5>
                     <p><em>You can filter the overview by defining the right price range and color.</em></p>
@@ -72,6 +72,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile! -->
+            <!-- TODO: make a component -->
+            <div class="mobile-navigator">
+                <ul class="navigator-items">
+                    <li :class="{'active': sidebarOpen }">
+                        <a href="#" @click.prevent.stop="toggleSideBar()">
+                            <i class="fal fa-filter"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <transition name="modal">
@@ -83,11 +95,11 @@
                 <div slot="footer">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" @click="continueOrderModalPositive()">
-                            <span>Start a new order</span>
-                            <i class="fal fa-redo"></i>
+                            <span>New Order</span>
+                            <i class="fal fa-plus"></i>
                         </button>
                         <button type="button" class="btn btn-secondary" @click="continueOrderModalNegative()">
-                            <span>Continue with order</span>
+                            <span>Continue</span>
                             <i class="fal fa-arrow-right"></i>
                         </button>
                     </div>
@@ -131,6 +143,7 @@
             },
             color: '',
         };
+        public sidebarOpen: boolean = false;
 
         get availableColors() {
             let colors: Color[] = [];
@@ -241,11 +254,27 @@
 
         public filterCars(key: string, value: any) {
             this.carFilter[key] = cloneDeep(value);
+
+            // Let's close the sidebar, if on mobile
+            this.sidebarOpen = false;
         }
 
         public resetPriceRange() {
-            this.filterCars('priceRange', { min: '', max: ''});
-            this.priceFilter = { min: '', max: ''};
+            this.filterCars('priceRange', {min: '', max: ''});
+            this.priceFilter = {min: '', max: ''};
+
+            // Let's close the sidebar, if on mobile
+            this.sidebarOpen = false;
+        }
+
+        public toggleSideBar() {
+            this.sidebarOpen = !this.sidebarOpen;
+        }
+
+        public closeSidebar() {
+            if (this.sidebarOpen) {
+                this.sidebarOpen = false;
+            }
         }
     }
 </script>

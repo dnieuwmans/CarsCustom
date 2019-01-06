@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d2089cb"],{a611:function(e,n,t){"use strict";t.r(n);var r=function(){var e=this,n=e.$createElement;e._self._c;return e._m(0)},c=[function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[t("h5",[e._v("New Car")])])}],u=t("2877"),a={},l=Object(u["a"])(a,r,c,!1,null,null,null);l.options.__file="CarsNew.vue";n["default"]=l.exports}}]);
-//# sourceMappingURL=chunk-2d2089cb.c5204933.js.map

@@ -2,8 +2,8 @@
     <div class="order-car">
         <main-nav/>
 
-        <div class="order-car-container" v-if="order != null">
-            <div class="order-car__sidebar">
+        <div class="order-car-container" :class="{ 'sidebar--open': sidebarOpen }" v-if="order != null" @click="closeSidebar()">
+            <div class="order-car__sidebar" :class="{ 'order-car__sidebar--open': sidebarOpen }">
                 <div>
                     <h4>My Order</h4>
                     <p class="sub-title">Your full order will be presented below and updated throughout the order
@@ -147,6 +147,18 @@
                 </div>
 
             </div>
+
+            <!-- Mobile! -->
+            <!-- TODO: make a component -->
+            <div class="mobile-navigator">
+                <ul class="navigator-items">
+                    <li :class="{'active': sidebarOpen }">
+                        <a href="#" @click.prevent.stop="toggleSideBar()">
+                            <i class="fal fa-car"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -195,6 +207,7 @@
         public fieldsEnum = fieldsEnum;
         public orderUser = OrderUser.init(); // Because we are lazy ;)
         public fieldsValidation: Validation = new Validation({});
+        public sidebarOpen: boolean = false;
 
         get order() {
             return this.$store.getters['Order/getOrder'];
@@ -298,6 +311,16 @@
                     return;
                 }
             });
+        }
+
+        public toggleSideBar() {
+            this.sidebarOpen = !this.sidebarOpen;
+        }
+
+        public closeSidebar() {
+            if (this.sidebarOpen) {
+                this.sidebarOpen = false;
+            }
         }
     }
 </script>
