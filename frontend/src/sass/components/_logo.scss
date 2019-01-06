@@ -11,7 +11,18 @@
 
     &--smaller {
         svg {
-            height: 2.5rem;
+            height: 2rem;
+        }
+    }
+}
+
+
+@media (min-width: 768px) {
+    .logo {
+        &--smaller {
+            svg {
+                height: 2.5rem;
+            }
         }
     }
 }

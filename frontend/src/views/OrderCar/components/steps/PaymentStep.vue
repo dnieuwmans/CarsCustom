@@ -14,22 +14,6 @@
                 <i class="fab" :class="`fa-cc-${paymentMethod}`"></i>
             </li>
         </ul>
-
-
-        <div class="row" v-if="selectedPaymentMethod !== ''">
-            <div class="col col-md-6 form-group">
-                <label for="">Card Number</label>
-                <input type="text" class="form-control" placeholder="Card Number">
-            </div>
-            <div class="col form-group">
-                <label for="">Expiry</label>
-                <input type="text" class="form-control" placeholder="MM/YYYY">
-            </div>
-            <div class="col form-group">
-                <label for="">CVV</label>
-                <input type="text" class="form-control" placeholder="0000">
-            </div>
-        </div>
     </div>
 </template>
 

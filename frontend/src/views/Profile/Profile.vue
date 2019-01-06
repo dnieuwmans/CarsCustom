@@ -2,8 +2,8 @@
     <div class="profile">
         <main-nav/>
 
-        <div class="profile-wrapper">
-            <div class="profile-info">
+        <div class="profile-wrapper" :class="{ 'sidebar--open': sidebarOpen }" @click="closeSidebar()">
+            <div class="profile-info" :class="{ 'profile-info--open': sidebarOpen }">
                 <div class="profile-info-card">
                     <div class="profile-avatar">
                         <i class="fal fa-user"></i>
@@ -28,9 +28,7 @@
                                 <span>{{ $auth.user.address}}</span>
                             </li>
                             <li>
-                                <router-link class="btn btn-profile-edit btn-block" :to="{ name: 'profile:edit-user'} ">
-                                    Edit
-                                </router-link>
+                                <button class="btn btn-profile-edit btn-block" @click="editUser()">Edit</button>
                             </li>
                         </ul>
                     </div>
@@ -48,6 +46,18 @@
                 <router-view />
             </div>
         </div>
+
+        <!-- Mobile! -->
+        <!-- TODO: make a component -->
+        <div class="mobile-navigator">
+            <ul class="navigator-items">
+                <li :class="{'active': sidebarOpen }">
+                    <a href="#" @click.prevent.stop="toggleSideBar()">
+                        <i class="fal fa-user"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -63,6 +73,8 @@
         }
     })
     export default class Profile extends Vue {
+        public sidebarOpen: boolean = false;
+
         get title() {
             return this.$route.meta.title;
         }
@@ -73,6 +85,21 @@
                 this.$router.push({name: 'home'});
                 return;
             }
+        }
+
+        public toggleSideBar() {
+            this.sidebarOpen = !this.sidebarOpen;
+        }
+
+        public closeSidebar() {
+            if (this.sidebarOpen) {
+                this.sidebarOpen = false;
+            }
+        }
+
+        public editUser() {
+            this.$router.push({ name: 'profile:edit-user'});
+            this.sidebarOpen = false;
         }
     }
 </script>
