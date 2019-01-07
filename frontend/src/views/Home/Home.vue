@@ -59,11 +59,11 @@
                 <div slot="footer">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" @click="continueOrderModalPositive()">
-                            <span>Start a new order</span>
-                            <i class="fal fa-redo"></i>
+                            <span>New Order</span>
+                            <i class="fal fa-plus"></i>
                         </button>
                         <button type="button" class="btn btn-secondary" @click="continueOrderModalNegative()">
-                            <span>Continue with order</span>
+                            <span>Continue</span>
                             <i class="fal fa-arrow-right"></i>
                         </button>
                     </div>

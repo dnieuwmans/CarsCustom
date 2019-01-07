@@ -1,6 +1,6 @@
 .single-order {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   .order-info {
     flex-grow: 1;
@@ -41,5 +41,27 @@
         color: $heading-color;
       }
     }
+  }
+}
+
+.profile-wrapper .profile-container {
+  background: transparent;
+  box-shadow: none;
+  padding: 0 !important;
+}
+
+@media (min-width: 576px) {
+  .single-order .order-item {
+    flex-direction: column !important;
+  }
+
+  .single-order {
+    flex-direction: row;
+  }
+
+  .profile-wrapper .profile-container {
+    background: #fff;
+    box-shadow: $shadow;
+    padding: 2rem !important;
   }
 }

@@ -22,6 +22,8 @@
                     </li>
                     <li>{{ order.selectedCar.description }}</li>
                     <li>{{ order.selectedCar.formattedPrice }}</li>
+                    <li><hr /></li>
+                    <li v-for="accessory in order.selectedAccessories">+ {{ accessory.description }} <small>({{ accessory.formattedCost}})</small></li>
                 </ul>
             </div>
 
@@ -60,6 +62,7 @@
                             <td>{{ order.orderUser.phone }}</td>
                         </tr>
                     </table>
+
                 </div>
 
                 <small>

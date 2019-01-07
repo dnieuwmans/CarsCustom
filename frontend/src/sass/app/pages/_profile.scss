@@ -8,7 +8,7 @@
 }
 
 .profile-wrapper {
-  margin: 0 2rem;
+  margin: 0 1rem;
   display: flex;
   padding-bottom: 2rem;
 
@@ -219,6 +219,10 @@
 }
 
 @media (min-width: 576px) {
+  .profile-wrapper {
+    margin: 0 2rem;
+  }
+
   .profile-wrapper .order-item {
     flex-direction: row;
 
