@@ -31,5 +31,10 @@ export default class Api {
     // Sets the default headers according to the key and value.
     public static setDefaultHeader = (key: string, value: string) => {
         axios.defaults.headers.common[key] = value;
-    }
+    };
+
+    // Resets the default headers.
+    public static resetDefaultHeaders = () => {
+        axios.defaults.headers.common = {};
+    };
 }

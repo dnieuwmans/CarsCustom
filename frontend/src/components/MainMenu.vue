@@ -164,9 +164,6 @@
             password: '',
         };
 
-        // TODO: remove
-        public usernameLogin: string = '';
-        public passwordLogin: string = '';
 
         get order() {
             return this.$store.getters['Order/getOrder'];
@@ -225,6 +222,14 @@
             if (!this.loginValidation.hasErrors()) {
                 this.$auth.login(this.loginData.username, this.loginData.password).then(() => {
                     this.loginData = {username: '', password: ''};
+
+                    // We need to refresh the user in $auth.
+                    this.$auth.refresh().then(() => {
+                        // If it is still 'null' he is disabled in our db.
+                        if (this.$auth.user == null) {
+                            this.loginMessage = 'Your account is disabled.'
+                        }
+                    });
                 }).catch((error) => {
                     console.dir(error);
                     if (error.response.status === 401) {
