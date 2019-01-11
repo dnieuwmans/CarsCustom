@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers 
 {
     [Route("api/[controller]")]
-    public class CarsController : Controller 
+    [ApiController]
+    public class CarsController : ControllerBase
     {
         private readonly DataContext _dataContext;
 
@@ -20,9 +23,9 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> getAll()
+        public async Task<ActionResult> getAllAvailable()
         {
-            var values = await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).ToListAsync(); 
+            var values = await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).Where(c => c.Disabled == false).ToListAsync(); 
             
             return Ok(values);
         }
@@ -38,9 +41,18 @@ namespace backend.Controllers
         [HttpGet("total")]
         public async Task<ActionResult> getTotal()
         {
-            var values = await _dataContext.Cars.ToListAsync(); 
+            var values = await _dataContext.Cars.Where(c => c.Disabled == false).ToListAsync(); 
             
             return Ok(values.Count);
+        }
+
+        [HttpGet("all")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<ActionResult> getAll()
+        {
+            var values = await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).ToListAsync();
+
+            return Ok(values);
         }
     }
 }

@@ -11,6 +11,7 @@ export default interface CarInterface {
     imageTemplate: string;
     colors: Color[];
     accessories: Accessory[];
+    disabled: boolean;
 
     image_template?: string;
 }

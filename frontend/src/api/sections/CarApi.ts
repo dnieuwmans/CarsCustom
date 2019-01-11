@@ -7,7 +7,11 @@ export default class CarApi {
     this.route = `${route}/${subRoute}`; 
   }
 
-  public findAll() {
+  public findAll(dashboard = false) {
+    if (dashboard) {
+        return axios.get(`${this.route}/all`);
+    }
+
     return axios.get(`${this.route}/`);
   }
 

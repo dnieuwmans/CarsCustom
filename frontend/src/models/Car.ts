@@ -18,6 +18,7 @@ export default class Car implements CarInterface {
     public imageTemplate: string;
     public images: string[];
     public accessories: Accessory[];
+    public disabled: boolean;
 
 
     constructor(params: CarInterface) {
@@ -28,10 +29,11 @@ export default class Car implements CarInterface {
         this.price = params.price;
         this.colors = params.colors.map(Color.fromJson);
         this.imageTemplate = params.imageTemplate;
+        this.disabled = params.disabled;
 
         this.images = this.colors.map(c => {
             return this.imageTemplate.replace('%color%', c.name);
-        })
+        });
 
         if (params.accessories == null) {
             this.accessories = [];

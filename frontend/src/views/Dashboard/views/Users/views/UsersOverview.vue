@@ -44,7 +44,6 @@
                             </li>
                         </ul>
                     </row-action>
-
                 </td>
             </tr>
             </tbody>
@@ -58,7 +57,7 @@
     import Api from "@/api/Api";
     import User from "@/models/User";
     import {getRoleName} from "@/utils/Roles";
-    import RowAction from "../../../components/RowAction";
+    import RowAction from "../../../components/RowAction.vue";
 
     @Component({
         components: {RowAction}
