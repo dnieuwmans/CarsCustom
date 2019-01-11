@@ -43,5 +43,12 @@ namespace backend.Controllers
 
             return Ok(await _repository.Update(username, userForUpdateDto));
         }
+
+        [HttpPost("update/disabled")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateDisabled(UserForDisableDto userForDisableDto) 
+        {
+            return Ok(await _repository.updateDisabled(userForDisableDto.Username));
+        }
     }
 }

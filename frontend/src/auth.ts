@@ -85,7 +85,7 @@ class Auth implements IAuth {
         return axios.get('http://localhost:5000/api/auth/logged-in').then((response) => {
             // If the user is disabled we don't want him/her to login.
             if (response.data.disabled) {
-                
+
                 // We should delete the token and reset the default headers.
                 localStorage.removeItem('token');
                 Api.resetDefaultHeaders();
