@@ -4,10 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using backend.Data;
+using backend.Dtos;
 using backend.Models;
+using backend.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers 
 {
@@ -15,44 +18,47 @@ namespace backend.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+        public readonly IConfiguration _config;
+        public readonly ICarRepository _repository;
 
-        public CarsController(DataContext dataContext)
+        public CarsController(IConfiguration configuration, ICarRepository repository)
         {
-            _dataContext = dataContext;
+            _config = configuration;
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<ActionResult> getAllAvailable()
-        {
-            var values = await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).Where(c => c.Disabled == false).ToListAsync(); 
-            
-            return Ok(values);
+        {            
+            return Ok(await _repository.GetAllAvailable());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> getSingle(int id)
         {
-            var values = await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).FirstOrDefaultAsync(c => c.Id == id); 
             
-            return Ok(values);
+            return Ok(await _repository.GetSingle(id));
         }
         
         [HttpGet("total")]
         public async Task<ActionResult> getTotal()
         {
-            var values = await _dataContext.Cars.Where(c => c.Disabled == false).ToListAsync(); 
-            
-            return Ok(values.Count);
+            var values = await _repository.GetTotal();
+            return Ok(/* values.Count*/);
         }
 
         [HttpGet("all")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> getAll()
         {
-            var values = await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).ToListAsync();
+            return Ok(await _repository.GetAll());
+        }
 
-            return Ok(values);
+        [HttpPost("update/disabled")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateDisabled(CarForDisableDto carForDisableDto) 
+        {
+            return Ok(await _repository.UpdateDisabled(carForDisableDto.Id));
         }
     }
 }

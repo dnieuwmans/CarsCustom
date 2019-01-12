@@ -1,4 +1,5 @@
 import axios from "axios";
+import Car from '@/models/Car';
 
 export default class CarApi {
   private route : string;
@@ -21,5 +22,9 @@ export default class CarApi {
 
   public countAll() {
       return axios.get(`${this.route}/total`);
+  }
+
+  public updateDisabled(car: Car) {
+    return axios.post(`${this.route}/update/disabled`, { 'id': car.id });
   }
 }

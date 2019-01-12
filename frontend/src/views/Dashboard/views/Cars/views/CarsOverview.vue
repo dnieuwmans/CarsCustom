@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="car in cars" :key="car.id" :class="{ 'item-disabled' : car.disabled }">
+            <tr v-for="car in orderedCars" :key="car.id" :class="{ 'item-disabled' : car.disabled }">
                 <td>#{{ car.id }}</td>
                 <td>{{ car.brand }}</td>
                 <td>{{ car.type }}</td>
@@ -33,7 +33,7 @@
                     <row-action>
                         <ul slot="content">
                             <li>
-                                <a href="#">
+                                <a href="#" @click.prevent="toggleDisabled(car)">
                                     <i class="fal fa-fw" :class="car.disabled ? 'fa-check' : 'fa-times'"></i>
                                     <span v-text="car.disabled ? 'Enable' : 'Disable'"></span>
                                 </a>
@@ -59,12 +59,33 @@
     export default class DashboardOrdersOverview extends Vue {
         public cars: Car[] = [];
 
+        get orderedCars() {
+            return this.cars.sort((a, b) => {
+                if (a.disabled < b.disabled) {
+                    return -1;
+                }
+
+                if (a.disabled > b.disabled) {
+                    return 1;
+                }
+
+                return 0;
+            })
+        }
+
         mounted() {
             Api.car.findAll(true).then(response => {
                 this.cars = response.data.map(Car.fromJson);
             });
+        }
 
-
+        public toggleDisabled(car: Car) {
+            // Let's update the disabled property of the car.
+            Api.car.updateDisabled(car).then((response) => {
+                if (response.data) {
+                    car.disabled = !car.disabled;
+                }
+            })
         }
     }
 </script>
