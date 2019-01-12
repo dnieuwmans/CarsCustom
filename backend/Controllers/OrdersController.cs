@@ -40,6 +40,12 @@ namespace backend.Controllers
             return Ok(await _repository.Add(orderDto));
         }
 
+        [HttpPost("{id}/update-status")]
+        public async Task<IActionResult> UpdateOrderStatus(OrderDto orderDto) 
+        {
+            return Ok(await _repository.UpdateStatus(orderDto));
+        }
+
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetOrderById(int id) 

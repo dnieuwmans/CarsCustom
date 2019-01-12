@@ -1,22 +1,25 @@
 <template>
     <div class="new-user">
         <div class="alert alert-danger mb-4" v-if="showErrorMessage">{{ errorMessage }}</div>
-            <user-form :fields-validation="fieldsValidation" :user="user" v-if="fieldsValidation != null" :excluded-fields="[]" />
+        <div class="alert alert-success mb-4" v-if="message !== ''">{{ message }}</div>
+        <user-form :fields-validation="fieldsValidation" :user="user" v-if="fieldsValidation != null"
+                   :excluded-fields="excludedFields"/>
 
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-primary"
-                    @click="register()">Add user</button>
-                </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary"
+                        @click="update()">Update user
+                </button>
             </div>
         </div>
+    </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
     import MainNav from '@/components/MainNav.vue';
     import User from "@/models/User";
-    import { cloneDeep } from 'lodash';
+    import {cloneDeep} from 'lodash';
     import Validation from "@/utils/Validation";
     import Api from "@/api/Api";
     import UserForm from "@/components/UserForm.vue";
@@ -36,27 +39,46 @@
         public fieldsValidation: Validation = new Validation({});
         public errorMessage: string = '';
         public showErrorMessage: boolean = false;
+        public message: string = '';
 
-        public mounted() {
-            this.fieldsValidation = new Validation(cloneDeep(this.user));
+        get excludedFields() {
+            return [
+                userFieldsEnum.PASSWORD,
+                userFieldsEnum.CONFIRMPASSWORD,
+            ];
         }
 
-        public register() {
-            // Recheck the fields
-            this.recheckFields(this.user);
-            
-            // Don't do anything whenever we got errors...
-            if(this.fieldsValidation.hasErrors()) {
+        public mounted() {
+            // Check if we got an id
+            const id = this.$route.params.id;
+
+            if (id == null) {
+                this.$router.go(-1);
                 return;
             }
 
-            // TODO: make another route, because it won't save the role.
-            Api.auth.register(this.user)
-                .then((response) => {
-                    // TODO SJOERD, tell the user the new user has been added to the database.
+            this.fieldsValidation = new Validation(cloneDeep(this.user));
 
-                    this.emptyFields();
-                    return;
+            // TODO: load user info
+            Api.user.getUser(parseInt(id)).then((response) => {
+                this.user = User.fromJson(response.data);
+            });
+        }
+
+        public update() {
+            this.message = '';
+
+            // Recheck the fields
+            this.recheckFields(this.user);
+
+            // Don't do anything whenever we got errors...
+            if (this.fieldsValidation.hasErrors()) {
+                return;
+            }
+
+            Api.user.update(this.user, true)
+                .then((response) => {
+                    this.message = 'The user is successfully updated.'
                 })
                 .catch((error) => {
                     this.showErrorMessage = true;
@@ -67,13 +89,10 @@
         private recheckFields(user: User) {
             this.fieldsValidation.string(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME], 2, 100);
             this.fieldsValidation.userName(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME]);
-            this.fieldsValidation.string(this.fieldsEnum.PASSWORD, this.user[this.fieldsEnum.PASSWORD], 8, 100);
-            this.fieldsValidation.string(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.CONFIRMPASSWORD], 8, 100);
 
             // @ts-ignore
             // TODO: somehow the role doesn't work properly with ts
             this.fieldsValidation.role(this.fieldsEnum.ROLE, this.user[this.fieldsEnum.ROLE]);
-            this.fieldsValidation.confirmPassword(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.PASSWORD], this.user[this.fieldsEnum.CONFIRMPASSWORD]);
             this.fieldsValidation.string(this.fieldsEnum.FIRSTNAME, this.user[this.fieldsEnum.FIRSTNAME], 2, 100);
             this.fieldsValidation.string(this.fieldsEnum.LASTNAME, this.user[this.fieldsEnum.LASTNAME], 2, 100);
             this.fieldsValidation.string(this.fieldsEnum.ZIPCODE, this.user[this.fieldsEnum.ZIPCODE], 6, 6);
@@ -85,8 +104,6 @@
         private emptyFields() {
             this.user[this.fieldsEnum.USERNAME] = '';
             this.user[this.fieldsEnum.USERNAME] = '';
-            this.user[this.fieldsEnum.PASSWORD] = '';
-            this.user[this.fieldsEnum.CONFIRMPASSWORD] = '';
             this.user[this.fieldsEnum.ROLE] = 0;
             this.user[this.fieldsEnum.PASSWORD] = '';
             this.user[this.fieldsEnum.FIRSTNAME] = '';

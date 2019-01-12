@@ -12,7 +12,7 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Active</th>
-                <th>&nbsp;</th>
+                <th v-if="$auth.isAdmin()">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
@@ -27,8 +27,8 @@
                     <i v-if="user.disabled" class="fal fa-times"></i>
                     <i v-else class="fal fa-check"></i>
                 </td>
-                <td class="actions">
-                    <row-action>
+                <td class="actions" v-if="$auth.isAdmin()">
+                    <row-action v-if="user.id !== $auth.user.id">
                         <ul slot="content">
                             <li>
                                 <a href="#" @click.prevent="toggleDisabled(user)">
@@ -37,10 +37,10 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <router-link :to="{ name: 'dashboard:users:edit', params: { id: user.id }}">
                                     <i class="fal fa-fw fa-pen"></i>
                                     <span>Edit</span>
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </row-action>

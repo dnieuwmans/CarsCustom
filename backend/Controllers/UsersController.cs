@@ -29,14 +29,25 @@ namespace backend.Controllers
         } 
 
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return Ok();
+            return Ok(await _repository.GetOneById(id));
         }
+
+        [HttpPost("{id}/update")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Update(int id, UserForUpdateDto userForUpdateDto) 
+        {
+            var currentUser = await _repository.GetOneById(id);
+            var username = currentUser.Username;
+
+            return Ok(await _repository.Update(username, userForUpdateDto));
+        }
+
 
         [HttpPost("update")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Update(UserForUpdateDto userForUpdateDto) 
+        public async Task<IActionResult> UpdateOwn(UserForUpdateDto userForUpdateDto) 
         {
             ClaimsPrincipal currentUser = this.User;
             var username = currentUser.Identity.Name;

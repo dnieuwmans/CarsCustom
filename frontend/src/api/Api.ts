@@ -5,6 +5,7 @@ import AddressApi from './sections/AddressApi';
 import AuthApi from './sections/AuthApi';
 import OrderApi from './sections/OrderApi';
 import UserApi from './sections/UserApi';
+import OrderStatusesApi from "@/api/sections/OrderStatusesApi";
 
 // TODO: Maybe grab it from a config file?
 const route: string = 'http://localhost:5000/api';
@@ -27,6 +28,9 @@ export default class Api {
 
     // User related api methods.
     public static user = new UserApi(route, 'users');
+
+    // Order Statuses related api methods.
+    public static orderStatuses = new OrderStatusesApi(route, 'orderstatuses');
 
     // Sets the default headers according to the key and value.
     public static setDefaultHeader = (key: string, value: string) => {

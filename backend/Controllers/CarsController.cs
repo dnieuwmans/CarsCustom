@@ -44,7 +44,7 @@ namespace backend.Controllers
         public async Task<ActionResult> getTotal()
         {
             var values = await _repository.GetTotal();
-            return Ok(/* values.Count*/);
+            return Ok(values.Count);
         }
 
         [HttpGet("all")]

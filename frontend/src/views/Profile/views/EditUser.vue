@@ -9,7 +9,7 @@
             <div class="alert alert-success mb-4" v-if="showSuccessMessage">{{ successMessage }}</div>
 
             <div v-if="fieldsValidation != null">
-                <user-form-profile :fields-validation="fieldsValidation" :user="user"/>
+                <user-form-profile :fields-validation="fieldsValidation" :user="user" />
             </div>
         
         

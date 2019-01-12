@@ -12,6 +12,10 @@ export default class OrderApi {
     return axios.post(`${this.route}/`, order);
   }
 
+  public updateOrderStatus(order: any) {
+      return axios.post(`${this.route}/${order.id}/update-status`, order);
+  }
+
   public getOrders() {
     return axios.get(`${this.route}/`);
   }

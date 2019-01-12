@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col form-group">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.USERNAME)">
                 <label for="username">Username</label>
                 <input type="text"
                         id="username"
@@ -16,7 +16,7 @@
                         v-if="fieldsValidation.hasError(fieldsEnum.USERNAME)"
                 ></div>
             </div>
-            <div class="col form-group">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.EMAIL)">
                 <label for="email">Email</label>
                 <input type="text"
                         id="email"
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col form-group">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.PASSWORD)">
                 <label for="password">Password</label>
                 <input
                         type="password"
@@ -49,7 +49,7 @@
                         v-if="fieldsValidation.hasError(fieldsEnum.PASSWORD)"
                 ></div>
             </div>
-            <div class="col form-group">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.CONFIRMPASSWORD)">
                 <label for="confirmPassword">Confirm password</label>
                 <input
                         type="password"
@@ -67,18 +67,18 @@
             </div>    
         </div>
         <!-- if route is dashboard new user then show role dropdown -->
-        <div v-if="$route.path === '/dashboard/users/new'" class="row">
-            <div class="col form-group">
+        <div class="row">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.ROLE)">
                 <label for="role">Role</label>
                 <select class="form-control" v-model="user.role" :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.ROLE)}">
-                     <option v-for="role in roles" :key="role.key"> {{ role.value }} </option>
+                     <option v-for="role in roles" :key="role.key" :value="role.key"> {{ role.value }} </option>
                 </select>
                 <div class="invalid-feedback"
                         v-text="fieldsValidation.errors[fieldsEnum.ROLE]"
                         v-if="fieldsValidation.hasError(fieldsEnum.ROLE)"
                 ></div>
             </div>
-            <div class="col"></div>
+            <div class="col" v-if="!excludedFields.includes(fieldsEnum.ROLE)">&nbsp;</div>
         </div>
 
         <div class="row">
@@ -88,7 +88,7 @@
         </div>
 
         <div class="row">
-            <div class="col form-group">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.FIRSTNAME)">
                 <label for="first-name">First Name</label>
                 <input type="text"
                         id="first-name"
@@ -103,7 +103,7 @@
                         v-if="fieldsValidation.hasError(fieldsEnum.FIRSTNAME)"
                 ></div>
             </div>
-            <div class="col form-group">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.LASTNAME)">
                 <label for="last-name">Last Name</label>
                 <input
                         type="text"
@@ -121,7 +121,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-2 form-group">
+            <div class="col col-md-2 form-group" v-if="!excludedFields.includes(fieldsEnum.ZIPCODE)">
                 <label for="zip-code">Zip Code</label>
                 <input type="text"
                         id="zip-code"
@@ -136,7 +136,7 @@
                         v-if="fieldsValidation.hasError(fieldsEnum.ZIPCODE)"
                 ></div>
             </div>
-            <div class="col col-md-2 form-group">
+            <div class="col col-md-2 form-group" v-if="!excludedFields.includes(fieldsEnum.STREETNUMBER)">
                 <label for="number">Number</label>
                 <input type="text"
                         id="number"
@@ -151,7 +151,7 @@
                         v-if="fieldsValidation.hasError(fieldsEnum.STREETNUMBER)"
                 ></div>
             </div>
-            <div class="col">
+            <div class="col" v-if="!excludedFields.includes(fieldsEnum.zipCode) && !excludedFields.includes(fieldsEnum.STREETNUMBER)">
                 <label for="address">Address <i class="fas fa-info-circle"></i></label>
                 <p id="address" style="margin-top: 0.375rem; color: rgba(0,0,0,0.5)"> <!-- TODO: get rid of the inline style -->
                     <em v-text="`${user.street} ${user.streetNumber}, ${user.city}`" v-if="user.city !== ''"></em>
@@ -159,7 +159,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col form-group">
+            <div class="col form-group" v-if="!excludedFields.includes(fieldsEnum.PHONE)">
                 <label for="phone">Phone</label>
                 <input type="text"
                         id="phone"
@@ -174,7 +174,7 @@
                         v-if="fieldsValidation.hasError(fieldsEnum.PHONE)"
                 ></div>
             </div>
-            <div class="col" />
+            <div class="col">&nbsp;</div>
         </div>
         <div class="row">
             <div class="col">
@@ -203,6 +203,9 @@ export default class UserForm extends Vue {
 
     @Prop()
     public fieldsValidation!: Validation;
+
+    @Prop()
+    public  excludedFields: any;
 
     get roles() {
         const roles = [];
@@ -261,6 +264,8 @@ export default class UserForm extends Vue {
     }
 
     public validateUser(field: string) {
+        // TODO: don't validate excluded fields.
+
         switch(field) {
             case this.fieldsEnum.PASSWORD:
             case this.fieldsEnum.CONFIRMPASSWORD:

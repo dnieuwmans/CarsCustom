@@ -41,6 +41,18 @@ namespace backend.Repositories
                 .FirstOrDefaultAsync(o => o.Id == id && o.Username == username);
         }
 
+        public async Task<Order> UpdateStatus(OrderDto orderDto) {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderDto.Id);
+            OrderStatus orderStatus = await _context.OrderStatuses.FirstOrDefaultAsync(o => o.Id == orderDto.Status.Id);
+
+            order.Status = orderStatus;
+
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+
+            return order;
+        }
+
         public async Task<Dictionary<string, int>> Add(OrderDto orderDto)
         {
             OrderStatus orderStatus = await _context.OrderStatuses.FirstOrDefaultAsync(o => o.Value == "New");

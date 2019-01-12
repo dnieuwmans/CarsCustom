@@ -100,18 +100,25 @@ export class Order implements OrderInterface{
         }
     }
 
-    public toJson() {
+    public toJson(dashboard = false) {
         // Make sure to remove all the references...
         const order = cloneDeep(this);
 
         let selectedColor = order.selectedCar.colors[order.selectedColor as any];
 
-        return {
+        const data: any = {
             car: order.selectedCar,
             user: order.orderUser,
             selectedColor,
             selectedAccessories: order.selectedAccessories,
             username: Vue.prototype.$auth.user != null ? Vue.prototype.$auth.user.username : null,
+        };
+
+        if (dashboard) {
+            data.id = this.id;
+            data.status = this.status;
         }
+
+        return data;
     }
 }
