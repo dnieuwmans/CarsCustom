@@ -12,7 +12,7 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Active</th>
-                <th>&nbsp;</th>
+                <th v-if="$auth.isAdmin()">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
@@ -27,10 +27,10 @@
                     <i v-if="user.disabled" class="fal fa-times"></i>
                     <i v-else class="fal fa-check"></i>
                 </td>
-                <td class="actions">
-                    <row-action>
+                <td class="actions" v-if="$auth.isAdmin()">
+                    <row-action v-if="user.id !== $auth.user.id">
                         <ul slot="content">
-                            <li v-if="user.id !== $auth.user.id">
+                            <li>
                                 <a href="#" @click.prevent="toggleDisabled(user)">
                                     <i class="fal fa-fw" :class="user.disabled ? 'fa-check' : 'fa-times'"></i>
                                     <span v-text="user.disabled ? 'Enable' : 'Disable'"></span>
