@@ -24,4 +24,8 @@ export default class UserApi {
       phone: user.phone,
     });
   }
+
+  public updateDisabled(user: User) {
+      return axios.post(`${this.route}/update/disabled`, { 'username': user.username });
+  }
 }

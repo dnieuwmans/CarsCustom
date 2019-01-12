@@ -30,18 +30,30 @@ namespace backend.Repositories
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<bool> Update(string username, UserForUpdateDto userForUpdateDto) 
+        public async Task<bool> Update(string username, UserForUpdateDto userForUpdateDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             user.FirstName = userForUpdateDto.FirstName;
-//            user.LastName = userForUpdateDto.LastName;
-//            user.Street = userForUpdateDto.Street;
-//            user.StreetNumber = userForUpdateDto.StreetNumber;
-//            user.ZipCode = userForUpdateDto.ZipCode;
-//            user.City = userForUpdateDto.City;
-//            user.Phone = userForUpdateDto.Phone;
-//            user.Email = userForUpdateDto.Email;
+            user.LastName = userForUpdateDto.LastName;
+            user.Street = userForUpdateDto.Street;
+            user.StreetNumber = userForUpdateDto.StreetNumber;
+            user.ZipCode = userForUpdateDto.ZipCode;
+            user.City = userForUpdateDto.City;
+            user.Phone = userForUpdateDto.Phone;
+            user.Email = userForUpdateDto.Email;
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<bool> updateDisabled(string username) 
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+            user.disabled = !user.disabled;
 
             _context.Users.Update(user);
             _context.SaveChanges();

@@ -30,7 +30,6 @@
                                     v-for="(color, key) in order.selectedCar.colors"
                                     :key="color.id"
                                     :title="color.name"
-                                    :class="{'car-colors__item--active': key === selectedColor}"
                                     class="car-colors__item"
                             >
                                 <span :style="{ background: color.hex }"></span>
@@ -39,7 +38,16 @@
                     </td>
                     <td v-text="order.totalPrice"></td>
                     <td class="actions">
-                        <a href="#"><i class="far fa-ellipsis-h"></i></a>
+                        <row-action>
+                            <ul slot="content">
+                                <li>
+                                    <a href="#">
+                                        <i class="fal fa-fw fa-pen"></i>
+                                        <span>Update Status</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </row-action>
                     </td>
                 </tr>
             </tbody>
@@ -53,8 +61,11 @@ import Api from "@/api/Api";
 import Car from "@/models/Car";
 import { Order } from "@/models/Order";
 import { formatDate } from '@/utils/Date';
+import RowAction from "../../../components/RowAction.vue";
 
-@Component({})
+@Component({
+    components: {RowAction}
+})
 export default class DashboardOrdersOverview extends Vue {
   public orders: Order[] = [];
     public formatDate = formatDate;

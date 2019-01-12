@@ -71,8 +71,6 @@ class Auth implements IAuth {
             // Sets the token in the local storage so we can keep the user loggedin even after a page refresh.
             localStorage.setItem('token', response.data.token);
             Api.setDefaultHeader('Authorization', 'Bearer ' + response.data.token);
-
-            this.refresh();
         });
     }
 
@@ -85,9 +83,17 @@ class Auth implements IAuth {
     refresh() {
         // TODO: place in the api service
         return axios.get('http://localhost:5000/api/auth/logged-in').then((response) => {
-            this._user = User.fromJson(response.data);
+            // If the user is disabled we don't want him/her to login.
+            if (response.data.disabled) {
 
-            // TODO: check if the user is enabled.
+                // We should delete the token and reset the default headers.
+                localStorage.removeItem('token');
+                Api.resetDefaultHeaders();
+
+                return null;
+            }
+
+            this._user = User.fromJson(response.data);
 
             return this._user;
         }).catch((error) => {
