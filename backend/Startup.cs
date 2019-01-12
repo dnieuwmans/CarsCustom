@@ -32,6 +32,7 @@ namespace backend
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>(); 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
