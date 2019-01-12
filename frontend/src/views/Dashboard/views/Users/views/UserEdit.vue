@@ -1,12 +1,15 @@
 <template>
     <div class="new-user">
         <div class="alert alert-danger mb-4" v-if="showErrorMessage">{{ errorMessage }}</div>
-        <user-form :fields-validation="fieldsValidation" :user="user" v-if="fieldsValidation != null" />
+        <div class="alert alert-success mb-4" v-if="message !== ''">{{ message }}</div>
+        <user-form :fields-validation="fieldsValidation" :user="user" v-if="fieldsValidation != null"
+                   :excluded-fields="excludedFields"/>
 
         <div class="row">
             <div class="col">
                 <button class="btn btn-primary"
-                        @click="">Update user</button>
+                        @click="update()">Update user
+                </button>
             </div>
         </div>
     </div>
@@ -16,7 +19,7 @@
     import {Component, Vue} from 'vue-property-decorator';
     import MainNav from '@/components/MainNav.vue';
     import User from "@/models/User";
-    import { cloneDeep } from 'lodash';
+    import {cloneDeep} from 'lodash';
     import Validation from "@/utils/Validation";
     import Api from "@/api/Api";
     import UserForm from "@/components/UserForm.vue";
@@ -36,6 +39,14 @@
         public fieldsValidation: Validation = new Validation({});
         public errorMessage: string = '';
         public showErrorMessage: boolean = false;
+        public message: string = '';
+
+        get excludedFields() {
+            return [
+                userFieldsEnum.PASSWORD,
+                userFieldsEnum.CONFIRMPASSWORD,
+            ];
+        }
 
         public mounted() {
             // Check if we got an id
@@ -55,37 +66,33 @@
         }
 
         public update() {
-            // // Recheck the fields
-            // this.recheckFields(this.user);
-            //
-            // // Don't do anything whenever we got errors...
-            // if(this.fieldsValidation.hasErrors()) {
-            //     return;
-            // }
-            //
-            // Api.auth.register(this.user)
-            //     .then((response) => {
-            //         // TODO SJOERD, tell the user the new user has been added to the database.
-            //
-            //         this.emptyFields();
-            //         return;
-            //     })
-            //     .catch((error) => {
-            //         this.showErrorMessage = true;
-            //         this.errorMessage = error.response.data;
-            //     })
+            this.message = '';
+
+            // Recheck the fields
+            this.recheckFields(this.user);
+
+            // Don't do anything whenever we got errors...
+            if (this.fieldsValidation.hasErrors()) {
+                return;
+            }
+
+            Api.user.update(this.user, true)
+                .then((response) => {
+                    this.message = 'The user is successfully updated.'
+                })
+                .catch((error) => {
+                    this.showErrorMessage = true;
+                    this.errorMessage = error.response.data;
+                })
         }
 
         private recheckFields(user: User) {
             this.fieldsValidation.string(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME], 2, 100);
             this.fieldsValidation.userName(this.fieldsEnum.USERNAME, this.user[this.fieldsEnum.USERNAME]);
-            this.fieldsValidation.string(this.fieldsEnum.PASSWORD, this.user[this.fieldsEnum.PASSWORD], 8, 100);
-            this.fieldsValidation.string(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.CONFIRMPASSWORD], 8, 100);
 
             // @ts-ignore
             // TODO: somehow the role doesn't work properly with ts
             this.fieldsValidation.role(this.fieldsEnum.ROLE, this.user[this.fieldsEnum.ROLE]);
-            this.fieldsValidation.confirmPassword(this.fieldsEnum.CONFIRMPASSWORD, this.user[this.fieldsEnum.PASSWORD], this.user[this.fieldsEnum.CONFIRMPASSWORD]);
             this.fieldsValidation.string(this.fieldsEnum.FIRSTNAME, this.user[this.fieldsEnum.FIRSTNAME], 2, 100);
             this.fieldsValidation.string(this.fieldsEnum.LASTNAME, this.user[this.fieldsEnum.LASTNAME], 2, 100);
             this.fieldsValidation.string(this.fieldsEnum.ZIPCODE, this.user[this.fieldsEnum.ZIPCODE], 6, 6);
@@ -97,8 +104,6 @@
         private emptyFields() {
             this.user[this.fieldsEnum.USERNAME] = '';
             this.user[this.fieldsEnum.USERNAME] = '';
-            this.user[this.fieldsEnum.PASSWORD] = '';
-            this.user[this.fieldsEnum.CONFIRMPASSWORD] = '';
             this.user[this.fieldsEnum.ROLE] = 0;
             this.user[this.fieldsEnum.PASSWORD] = '';
             this.user[this.fieldsEnum.FIRSTNAME] = '';

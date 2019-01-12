@@ -10,7 +10,7 @@ namespace backend.Repositories
          Task<ICollection<User>> GetAll();
          Task<User> GetOneByUsername(string username);
          Task<User> GetOneById(int id);
-         Task<bool> Update(string username, UserForUpdateDto userForUpdateDto);
+         Task<User> Update(string username, UserForUpdateDto userForUpdateDto);
          Task<bool> updateDisabled(string username);
     }
 }

@@ -16,7 +16,11 @@ export default class UserApi {
         return axios.get(`${this.route}/${id}`);
     }
 
-    public update(user: User) {
+    public update(user: User, dashboard = false) {
+        if (dashboard) {
+            return axios.post(`${this.route}/${user.id}/update`, user);
+        }
+
         return axios.post(`${this.route}/update`, {
             firstName: user.firstName,
             lastName: user.lastName,

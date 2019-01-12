@@ -35,7 +35,7 @@ namespace backend.Repositories
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<bool> Update(string username, UserForUpdateDto userForUpdateDto)
+        public async Task<User> Update(string username, UserForUpdateDto userForUpdateDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
@@ -48,10 +48,15 @@ namespace backend.Repositories
             user.Phone = userForUpdateDto.Phone;
             user.Email = userForUpdateDto.Email;
 
+            if (userForUpdateDto.Role != 0)
+            {
+                user.Role = (Enums.RoleEnum)userForUpdateDto.Role;
+            }
+
             _context.Users.Update(user);
             _context.SaveChanges();
 
-            return true;
+            return user;
         }
 
         public async Task<bool> updateDisabled(string username) 

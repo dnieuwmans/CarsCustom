@@ -1,7 +1,7 @@
 <template>
     <div class="new-user">
         <div class="alert alert-danger mb-4" v-if="showErrorMessage">{{ errorMessage }}</div>
-            <user-form :fields-validation="fieldsValidation" :user="user" v-if="fieldsValidation != null" />
+            <user-form :fields-validation="fieldsValidation" :user="user" v-if="fieldsValidation != null" :excluded-fields="[]" />
 
             <div class="row">
                 <div class="col">
@@ -49,7 +49,8 @@
             if(this.fieldsValidation.hasErrors()) {
                 return;
             }
-            
+
+            // TODO: make another route, because it won't save the role.
             Api.auth.register(this.user)
                 .then((response) => {
                     // TODO SJOERD, tell the user the new user has been added to the database.

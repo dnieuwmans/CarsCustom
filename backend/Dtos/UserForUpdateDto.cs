@@ -7,6 +7,7 @@ namespace backend.Dtos
         public string Username { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+        public int Role { get; set; }
 
         [Required]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "You must specify a first name between 2 and 100 characters")]

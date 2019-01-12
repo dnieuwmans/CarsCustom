@@ -79,7 +79,7 @@ export default class Validation {
         }
     }
 
-    public role(field: string, value: string) {
+    public role(field: string, value: number) {
         this.errors[field] = '';
 
         if (!isValidRole(value)) {

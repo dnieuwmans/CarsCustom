@@ -6,7 +6,7 @@
             <!-- Main -->
             <h2>Register</h2>
             <div v-if="fieldsValidation != null">
-                <user-form :fields-validation="fieldsValidation" :user="user" />
+                <user-form :fields-validation="fieldsValidation" :user="user" :excluded-fields="excludedFields" />
             </div>
 
             <div class="row">
@@ -41,7 +41,18 @@
         public user = User.init(); // Because we are lazy ;)
         public fieldsValidation: Validation = new Validation({});
 
+        get excludedFields() {
+            return [
+                userFieldsEnum.ROLE,
+            ]
+        }
+
         public mounted() {
+            if (this.$auth.user !== null) {
+                this.$router.push({name: 'home'});
+                return;
+            }
+
             this.fieldsValidation = new Validation(cloneDeep(this.user));
         }
 
