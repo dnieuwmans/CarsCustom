@@ -29,9 +29,9 @@ namespace backend.Controllers
         } 
 
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return Ok();
+            return Ok(await _repository.GetOneById(id));
         }
 
         [HttpPost("update")]

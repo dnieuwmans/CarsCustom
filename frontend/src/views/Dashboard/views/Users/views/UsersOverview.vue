@@ -30,17 +30,17 @@
                 <td class="actions">
                     <row-action>
                         <ul slot="content">
-                            <li>
+                            <li v-if="user.id !== $auth.user.id">
                                 <a href="#" @click.prevent="toggleDisabled(user)">
                                     <i class="fal fa-fw" :class="user.disabled ? 'fa-check' : 'fa-times'"></i>
                                     <span v-text="user.disabled ? 'Enable' : 'Disable'"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <router-link :to="{ name: 'dashboard:users:edit', params: { id: user.id }}">
                                     <i class="fal fa-fw fa-pen"></i>
                                     <span>Edit</span>
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </row-action>

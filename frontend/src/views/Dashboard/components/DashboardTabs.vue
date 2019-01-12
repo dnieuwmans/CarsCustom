@@ -1,6 +1,6 @@
 <template>
     <ul class="dashboard-tabs">
-            <li v-for="route in routes" :key="route.title" :class="{'active' : isActive(route) }">
+            <li v-for="route in routes" :key="route.title" :class="{'active' : isActive(route) }" v-if="isVisible(route)">
                 <router-link :to="{ name: route.name }">
                     <span v-text="route.title"></span>
                 </router-link>
@@ -20,8 +20,20 @@
         }
     })
     export default class DashboardTabs extends Vue {
-        isActive(route: any) {
+        public isActive(route: any) {
             return route.name === this.$route.name;
+        }
+
+        public isVisible(route: any) {
+            if (!('onlyAtRoute' in route)) {
+                return true;
+            }
+
+            if (route.onlyAtRoute) {
+                return this.$route.name === route.name;
+            }
+
+            return true;
         }
     }
 </script>

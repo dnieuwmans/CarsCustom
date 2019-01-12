@@ -3,4 +3,5 @@ export default interface RouteInterface {
   title: string;
   icon?: string;
   parent?: string;
+  onlyAtRoute?: boolean;
 }

@@ -134,6 +134,14 @@ const router = new Router({
                                 requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
                             }
                         },
+                        {
+                            path: 'edit/:id',
+                            name: 'dashboard:users:edit',
+                            component: () => import(/* webpackChunckName: "dashboard-users-edit" */ '@/views/Dashboard/views/Users/views/UserEdit.vue'),
+                            meta: {
+                                requiredRoles: [roleEnum.ADMIN, roleEnum.EMPLOYEE],
+                            }
+                        },
                     ]
                 },
             ],

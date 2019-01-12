@@ -9,6 +9,7 @@ namespace backend.Repositories
     {
         Task<ICollection<Order>> GetAll();
         Task<Dictionary<string, int>> Add(OrderDto orderDto);
+        Task<Order> UpdateStatus(OrderDto orderDto);
         Task<Order> GetByIdAndUsername(int id, string username);
         Task<ICollection<Order>> getByUsername(string username);
     }

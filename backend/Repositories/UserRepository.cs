@@ -25,6 +25,11 @@ namespace backend.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
+        public async Task<User> GetOneById(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
         public async Task<ICollection<User>> GetAll()
         {
             return await _context.Users.ToListAsync();

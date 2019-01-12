@@ -67,11 +67,11 @@
             </div>    
         </div>
         <!-- if route is dashboard new user then show role dropdown -->
-        <div v-if="$route.path === '/dashboard/users/new'" class="row">
+        <div v-if="mayChangeRoles" class="row">
             <div class="col form-group">
                 <label for="role">Role</label>
                 <select class="form-control" v-model="user.role" :class="{'is-invalid': fieldsValidation.hasError(fieldsEnum.ROLE)}">
-                     <option v-for="role in roles" :key="role.key"> {{ role.value }} </option>
+                     <option v-for="role in roles" :key="role.key" :value="role.key"> {{ role.value }} </option>
                 </select>
                 <div class="invalid-feedback"
                         v-text="fieldsValidation.errors[fieldsEnum.ROLE]"
@@ -223,6 +223,15 @@ export default class UserForm extends Vue {
         }
 
         return roles;
+    }
+
+    // TODO: this can be done in a smarter way to exclude fields, if we got time we should do it
+    get mayChangeRoles() {
+        return this.$route.name === 'dashboard:users:new' || this.$route.name === 'dashboard:users:edit';
+    }
+
+    get mayChangePassword() {
+        return this.$route.name === 'dashboard:users:new';
     }
 
     public updateAddress() {
