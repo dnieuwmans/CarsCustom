@@ -16,7 +16,7 @@ export default class User implements UserInterface {
             username: '',
             password: '',
             confirmPassword: '',
-            role: 1,
+            role: -1,
             street: '',
             streetNumber: '',
             city: '',

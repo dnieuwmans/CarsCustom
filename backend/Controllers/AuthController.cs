@@ -48,7 +48,15 @@ namespace DotNetApp.API.Controllers
 
             var userToCreate = new User();
             Utils.CopyPropertiesTo(userForRegisterDto, userToCreate);
-            userToCreate.Role = RoleEnum.CUSTOMER;
+
+            if (userForRegisterDto.Role == -1)
+            {
+                userToCreate.Role = RoleEnum.CUSTOMER;
+            }
+            else
+            {
+                userToCreate.Role = (RoleEnum)userForRegisterDto.Role;
+            }
 
             var createdUser = await _repository.Register(userToCreate, userForRegisterDto.Password);
 

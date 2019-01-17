@@ -46,5 +46,7 @@ namespace backend.Dtos
         [Required]
         [StringLength(13, MinimumLength = 10, ErrorMessage = "You must specify a phone number between 10 and 13 characters")]        
         public string Phone { get; set; }
+
+        public int? Role { get; set; }
     }
 }
