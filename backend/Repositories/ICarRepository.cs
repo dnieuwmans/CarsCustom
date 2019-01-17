@@ -10,7 +10,7 @@ namespace backend.Repositories
         Task<ICollection<Car>> GetAll();
         Task<ICollection<Car>> GetAllAvailable();
         Task<Car> GetSingle(int id);
-        Task<ICollection<Car>> GetTotal();
+        Task<int> GetTotal();
         Task<bool> UpdateDisabled(int id);
     }
 }

@@ -87,18 +87,11 @@ namespace backend.Repositories
             };
 
             // Accessories
-            // TODO: this can be done in an easier way, I imagine?
-            ICollection<OrderAccessory> orderAccessories = new List<OrderAccessory>();
-
-            foreach (var orderAccessoryDto in orderDto.selectedAccessories)
+            ICollection<OrderAccessory> orderAccessories = orderDto.selectedAccessories.Select(x => new OrderAccessory()
             {
-                var newAccessory = new OrderAccessory(){
-                    Description = orderAccessoryDto.Description,
-                    Cost = orderAccessoryDto.Cost,
-                };
-
-                orderAccessories.Add(newAccessory);
-            }
+                Description = x.Description,
+                Cost = x.Cost,
+            }).ToList();
 
             // Now put it all togeter in the order 
             Order order = new Order(){
@@ -111,7 +104,6 @@ namespace backend.Repositories
                 CreatedAt = DateTime.Now,
                 ModifiedAt = DateTime.Now
             };
-
 
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();

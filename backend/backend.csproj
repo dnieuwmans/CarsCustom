@@ -7,6 +7,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="postcodeapi.net" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\css\app.b96f0522.css">

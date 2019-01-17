@@ -14,6 +14,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class OrderStatusesController : ControllerBase
     {
         public readonly IConfiguration _config;
@@ -26,7 +27,6 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAll() 
         {
             return Ok(await _repository.GetAll());

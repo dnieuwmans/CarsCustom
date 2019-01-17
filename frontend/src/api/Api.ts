@@ -17,8 +17,7 @@ export default class Api {
     public static car = new CarApi(route, 'cars');
 
     // Address related api methods.
-    // Note: this api section doesn't talk to our own api.
-    public static address = new AddressApi();
+    public static address = new AddressApi(route, 'address');
 
     // Authenticate related api methods.
     public static auth = new AuthApi(route, 'auth');

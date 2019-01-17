@@ -22,6 +22,7 @@ namespace DotNetApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class AuthController : ControllerBase
     {
         public readonly IAuthRepository _repository;
@@ -35,6 +36,7 @@ namespace DotNetApp.API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
@@ -54,6 +56,7 @@ namespace DotNetApp.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
             var userFromRepo = await _repository.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
@@ -90,14 +93,9 @@ namespace DotNetApp.API.Controllers
         }
 
         [HttpGet("logged-in")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetLoggedInUser()
         {
-            // THIS IS BAD PRACTICE, we may need to figure out another way
-
-            ClaimsPrincipal currentUser = this.User;
-            var username = currentUser.Identity.Name;
-
+            var username = User.Identity.Name;
             var user = await _userRepo.GetOneByUsername(username);
 
             // TODO: we may want to map it to another model or serialize it.

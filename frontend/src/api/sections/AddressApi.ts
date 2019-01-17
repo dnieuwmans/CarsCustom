@@ -1,8 +1,4 @@
 import axios from 'axios';
-import _apiKey from './../../ApiKey';
-
-const apiKey = _apiKey;
-const route = 'https://api.postcodeapi.nu/v2/addresses/';
 
 const stub = {
     data: {
@@ -32,19 +28,17 @@ const stub = {
 
 
 export default class AddressApi {
-    public getAddress(zipCode: string, streetNumber: number, debug = true): Promise<any> {
+    private route: string;
+
+    constructor(route: string, subRoute: string) {
+        this.route = `${route}/${subRoute}`;
+    }
+
+    public getAddress(zipCode: string, streetNumber: number, debug = false): Promise<any> {
         if (debug) {
             return Promise.resolve(stub);
         }
 
-        return axios.get(route, {
-            params: {
-                postcode: zipCode,
-                number: streetNumber,
-            },
-            headers: {
-                'X-Api-Key': apiKey,
-            }
-        });
+        return axios.get(`${this.route}/${zipCode}/${streetNumber}`);
     }
 }

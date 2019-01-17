@@ -16,6 +16,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class CarsController : ControllerBase
     {
         public readonly IConfiguration _config;
@@ -28,12 +29,14 @@ namespace backend.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> getAllAvailable()
         {            
             return Ok(await _repository.GetAllAvailable());
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult> getSingle(int id)
         {
             
@@ -41,21 +44,20 @@ namespace backend.Controllers
         }
         
         [HttpGet("total")]
+        [AllowAnonymous]
         public async Task<ActionResult> getTotal()
         {
-            var values = await _repository.GetTotal();
-            return Ok(values.Count);
+            var count = await _repository.GetTotal();
+            return Ok(count);
         }
 
         [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> getAll()
         {
             return Ok(await _repository.GetAll());
         }
 
         [HttpPost("update/disabled")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateDisabled(CarForDisableDto carForDisableDto) 
         {
             return Ok(await _repository.UpdateDisabled(carForDisableDto.Id));

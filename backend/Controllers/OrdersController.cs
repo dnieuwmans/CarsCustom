@@ -14,6 +14,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class OrdersController : ControllerBase
     {
         public readonly IConfiguration _config;
@@ -28,44 +29,37 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetOrders() 
         {
             return Ok(await _repository.GetAll());
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> AddOrder(OrderDto orderDto) 
         {
             return Ok(await _repository.Add(orderDto));
         }
 
         [HttpPost("{id}/update-status")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateOrderStatus(OrderDto orderDto) 
         {
             return Ok(await _repository.UpdateStatus(orderDto));
         }
 
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetOrderById(int id) 
         {
-            // THIS IS BAD PRACTICE, we may need to figure out another way
-
-            ClaimsPrincipal currentUser = this.User;
-            var username = currentUser.Identity.Name;
+            var username = User.Identity.Name;
 
             return Ok(await _repository.GetByIdAndUsername(id, username));
         } 
 
         [HttpGet("my-orders")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> getMyOrders()
         {
-            // THIS IS BAD PRACTICE, we may need to figure out another way
-
-            ClaimsPrincipal currentUser = this.User;
-            var username = currentUser.Identity.Name;
+            var username = User.Identity.Name;
 
             return Ok(await _repository.getByUsername(username));
         }

@@ -35,9 +35,9 @@ namespace backend.Repositories
             return await _dataContext.Cars.Include(c => c.Colors).Include(c => c.Accessories).FirstOrDefaultAsync(c => c.Id == id); 
         }
 
-        public async Task<ICollection<Car>> GetTotal() 
+        public async Task<int> GetTotal() 
         {
-            return await _dataContext.Cars.Where(c => c.Disabled == false).ToListAsync(); 
+            return await _dataContext.Cars.Where(c => c.Disabled == false).CountAsync(); 
         }
 
 
