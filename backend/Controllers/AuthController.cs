@@ -43,7 +43,13 @@ namespace DotNetApp.API.Controllers
 
             if (await _repository.UserExists(userForRegisterDto.Username))
             {
-                return BadRequest("Username already exists.");
+               string[] error = new string[] { "Username already exists." };
+
+                var response = new Dictionary<string, string[]> {
+                    {"Username", error},
+                };
+                
+                return BadRequest(response);
             }
 
             var userToCreate = new User();
@@ -69,7 +75,8 @@ namespace DotNetApp.API.Controllers
         {
             var userFromRepo = await _repository.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
-            if (userFromRepo == null) {
+            if (userFromRepo == null)
+            {
                 return Unauthorized();
             }
 
@@ -95,7 +102,8 @@ namespace DotNetApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new {
+            return Ok(new
+            {
                 token = tokenHandler.WriteToken(token),
             });
         }
@@ -111,5 +119,5 @@ namespace DotNetApp.API.Controllers
             return Ok(user);
         }
 
-    } 
+    }
 }

@@ -6,13 +6,14 @@
             <!-- Main -->
             <h2>Register</h2>
             <div v-if="fieldsValidation != null">
-                <user-form :fields-validation="fieldsValidation" :user="user" :excluded-fields="excludedFields" />
+                <user-form :fields-validation="fieldsValidation" :user="user" :excluded-fields="excludedFields"/>
             </div>
 
             <div class="row">
                 <div class="col">
                     <button class="btn btn-primary"
-                    @click="register()">Register</button>
+                            @click="register()">Register
+                    </button>
                 </div>
             </div>
         </div>
@@ -23,7 +24,7 @@
     import {Component, Vue} from 'vue-property-decorator';
     import MainNav from '../../components/MainNav.vue';
     import User from "../../models/User";
-    import { cloneDeep } from 'lodash';
+    import {cloneDeep} from 'lodash';
     import Validation from "../../utils/Validation";
     import Api from "../../api/Api";
     import UserForm from "@/components/UserForm.vue";
@@ -58,19 +59,17 @@
 
         public register() {
             // Recheck the fields
-            this.recheckFields(this.user)
-            
+            this.recheckFields(this.user);
+
             // Don't do anything whenever we got errors...
-            if(this.fieldsValidation.hasErrors()) {
+            if (this.fieldsValidation.hasErrors()) {
                 return;
             }
-            
-            Api.auth.register(this.user)
-            .then((response) => {
-                 this.$router.push({ name: 'registration-complete'});
-                 return;
-            })
-            .catch((error) => {
+
+            Api.auth.register(this.user).then((response) => {
+                this.$router.push({name: 'registration-complete'});
+                return;
+            }).catch((error) => {
                 this.fieldsValidation.showErrors(error);
             })
         }

@@ -192,6 +192,8 @@
                 const clonedOrderUser = cloneDeep(this.orderUser);
 
                 this.$store.commit('Order/updateOrderUser', clonedOrderUser);
+            }).catch((error) => {
+                this.fieldsValidation.errors[fieldsEnum.STREETNUMBER] = 'The ZipCode or number is invalid.';
             });
         }
 

@@ -66,7 +66,7 @@
                 </div>
 
                 <small>
-                    <em>Did we get invalid information? Let us know! <a href="#">Contact us</a>.</em>
+                    <em>Did we get invalid information? Let us know! <a href="mailto:info@cars-customs.local">Contact us</a>.</em>
                 </small>
             </div>
 

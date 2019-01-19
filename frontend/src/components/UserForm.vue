@@ -260,6 +260,8 @@ export default class UserForm extends Vue {
 
             this.user.street = data.street;
             this.user.city = data.city.label;
+        }).catch((error) => {
+            this.fieldsValidation.errors[this.fieldsEnum.STREETNUMBER] = 'The ZipCode or number is invalid.';
         });
     }
 
